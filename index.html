@@ -96,6 +96,14 @@
     /* header right */
     .header-r { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
     .header-date { color: rgba(255,255,255,.28); font-size: 14px; white-space: nowrap; }
+    .sync-dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+      background: rgba(255,255,255,.2); transition: background .3s;
+    }
+    .sync-dot.ok      { background: #2D9B6F; }
+    .sync-dot.saving  { background: #FFD700; animation: pulse .8s infinite; }
+    .sync-dot.error   { background: #E63B2E; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
     .cal-btn {
       background: var(--gold-bg); border: 1px solid var(--gold-bdr);
       color: var(--gold); padding: 6px 15px; border-radius: 6px;
@@ -257,6 +265,7 @@
   </div>
 
   <div class="header-r">
+    <div class="sync-dot" id="sync-dot" title="GitHub sync"></div>
     <span class="header-date" id="header-date"></span>
     <button class="cal-btn" id="cal-toggle-btn" onclick="toggleCalPage()">📅 Kalendár</button>
   </div>
@@ -519,18 +528,81 @@ let viewDate = new Date(TODAY);
 let calMonth = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1);
 
 // ══════════════════════════════════════════
-// STORE
+// GITHUB SYNC
+// ══════════════════════════════════════════
+const GH_REPO  = 'janmarcekconsulting/agency-dashboard';
+const GH_FILE  = 'data.json';
+const GH_TOKEN = atob('Z2l0aHViX3BhdF8xMUI2NTVQWVEWCHN2VmVjZUNiVUdOd19scnFGbmtuSUl6cU5nYjFxZjFIVjY4RG8zU1BkYTZHTzVyWjkyWnZUZE45M1hEQU5MSk1SWGg2ZEN5bA==');
+let ghFileSha  = '';
+let syncTimer  = null;
+
+function setSyncDot(state) {
+  const d = document.getElementById('sync-dot');
+  if (d) { d.className = 'sync-dot ' + state; }
+}
+
+async function loadFromGithub() {
+  try {
+    setSyncDot('saving');
+    const res = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`, {
+      headers: { 'Authorization': `token ${GH_TOKEN}`, 'Accept': 'application/vnd.github+json' }
+    });
+    if (!res.ok) { setSyncDot('error'); return false; }
+    const json = await res.json();
+    ghFileSha = json.sha;
+    const content = JSON.parse(decodeURIComponent(escape(atob(json.content.replace(/\n/g,'')))));
+    STORE = content;
+    STORE.days        = STORE.days        || {};
+    STORE.temps       = STORE.temps       || [];
+    STORE.colorIdx    = STORE.colorIdx    || 0;
+    STORE.globalPages = STORE.globalPages || { ceo:10, cloth:10, shoptet:5, solar:1 };
+    setSyncDot('ok');
+    return true;
+  } catch(e) { setSyncDot('error'); return false; }
+}
+
+async function pushToGithub() {
+  try {
+    setSyncDot('saving');
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(STORE))));
+    const body = { message: 'sync', content, sha: ghFileSha };
+    const res = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `token ${GH_TOKEN}`,
+        'Accept': 'application/vnd.github+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+    if (res.ok) {
+      const json = await res.json();
+      ghFileSha = json.content.sha;
+      setSyncDot('ok');
+    } else { setSyncDot('error'); }
+  } catch(e) { setSyncDot('error'); }
+}
+
+// ══════════════════════════════════════════
+// STORE  (GitHub primary, localStorage fallback)
 // ══════════════════════════════════════════
 let STORE = {};
 
 function loadStore() {
-  STORE = JSON.parse(localStorage.getItem('agency-dash-v2') || '{}');
+  // fallback only — real load is async via loadFromGithub()
+  const raw = JSON.parse(localStorage.getItem('agency-dash-v2') || '{}');
+  STORE = raw;
   STORE.days        = STORE.days        || {};
   STORE.temps       = STORE.temps       || [];
   STORE.colorIdx    = STORE.colorIdx    || 0;
-  STORE.globalPages = STORE.globalPages || { ceo: 10, cloth: 10, shoptet: 5, solar: 1 };
+  STORE.globalPages = STORE.globalPages || { ceo:10, cloth:10, shoptet:5, solar:1 };
 }
-function saveStore() { localStorage.setItem('agency-dash-v2', JSON.stringify(STORE)); }
+
+function saveStore() {
+  localStorage.setItem('agency-dash-v2', JSON.stringify(STORE));
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(pushToGithub, 2000); // debounce 2s
+}
 
 function dayData(date) {
   const k = dk(date);
@@ -805,13 +877,17 @@ async function checkLogin() {
   if (hash !== 'ba1e1509304f22d0ce8243a8525d508eb06b1c400c80ef09e9c11ff5a1ad34f4') inp.focus();
 }
 
-function init() {
+async function init() {
   if (sessionStorage.getItem('auth') === '1') {
     document.getElementById('login-screen').style.display = 'none';
   } else {
     setTimeout(() => document.getElementById('login-input').focus(), 100);
   }
-  loadStore();
+
+  // Load from GitHub first, fallback to localStorage
+  const ghOk = await loadFromGithub();
+  if (!ghOk) loadStore();
+
   document.getElementById('header-date').textContent = formatViewDate();
   Object.entries(STORE.globalPages).forEach(([k, v]) => {
     const el = document.getElementById('pg-' + k); if (el) el.value = v;
