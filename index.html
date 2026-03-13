@@ -786,19 +786,21 @@ function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replac
 // INIT
 // ══════════════════════════════════════════
 // ── LOGIN ──
-function checkLogin() {
-  const inp = document.getElementById('login-input');
-  if (inp.value === 'kokosino1') {
+async function checkLogin() {
+  const inp  = document.getElementById('login-input');
+  const val  = inp.value;
+  const buf  = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(val));
+  const hash = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+  if (hash === 'ba1e1509304f22d0ce8243a8525d508eb06b1c400c80ef09e9c11ff5a1ad34f4') {
     sessionStorage.setItem('auth', '1');
     document.getElementById('login-screen').style.display = 'none';
-    inp.value = '';
   } else {
     inp.classList.remove('error');
-    void inp.offsetWidth; // retrigger animation
+    void inp.offsetWidth;
     inp.classList.add('error');
-    inp.value = '';
-    inp.focus();
   }
+  inp.value = '';
+  if (hash !== 'ba1e1509304f22d0ce8243a8525d508eb06b1c400c80ef09e9c11ff5a1ad34f4') inp.focus();
 }
 
 function init() {
