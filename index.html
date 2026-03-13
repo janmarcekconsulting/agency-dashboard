@@ -8,285 +8,192 @@
     :root {
       --bg:        #0E0E0E;
       --card:      #1A1A1A;
-      --card-temp: #111D2B;
+      --card-temp: #101B2A;
       --card-pitch:#1C1610;
       --border:    rgba(255,255,255,.08);
       --text:      #EBEBEB;
-      --mid:       rgba(235,235,235,.4);
+      --mid:       rgba(235,235,235,.38);
       --signal:    #E63B2E;
       --green:     #2D9B6F;
       --task-bg:   rgba(255,255,255,.04);
       --task-hov:  rgba(255,255,255,.08);
       --task-done: rgba(255,255,255,.02);
-      --input-bg:  rgba(255,255,255,.07);
+      --inp:       rgba(255,255,255,.07);
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
     /* ── HEADER ── */
     header {
-      background: #111;
-      border-bottom: 1px solid var(--border);
-      padding: 13px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky; top: 0; z-index: 100;
+      background: #111; border-bottom: 1px solid var(--border);
+      padding: 0 20px; height: 52px;
+      display: grid; grid-template-columns: 1fr auto 1fr;
+      align-items: center; position: sticky; top: 0; z-index: 100;
     }
-    .logo { color: var(--signal); font-size: 17px; font-weight: 800; letter-spacing: -.4px; }
-    .header-r { display: flex; align-items: center; gap: 12px; }
-    .header-date { color: rgba(255,255,255,.35); font-size: 12px; }
-    .reset-btn {
-      background: rgba(255,255,255,.07);
-      border: 1px solid rgba(255,255,255,.12);
-      color: rgba(255,255,255,.55);
-      padding: 5px 13px; border-radius: 6px;
-      cursor: pointer; font-size: 12px;
-    }
-    .reset-btn:hover { background: rgba(255,255,255,.12); }
+    .logo { color: var(--signal); font-size: 16px; font-weight: 800; letter-spacing: -.4px; }
 
-    /* ── GRID ── */
-    main {
-      max-width: 1300px;
-      margin: 0 auto;
-      padding: 20px 18px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: auto auto;
-      gap: 14px;
+    /* Day nav */
+    .day-nav { display: flex; align-items: center; gap: 4px; }
+    .day-arrow {
+      background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1);
+      color: var(--mid); width: 26px; height: 26px; border-radius: 6px;
+      cursor: pointer; font-size: 13px; display: flex; align-items: center; justify-content: center;
+      transition: all .15s; flex-shrink: 0;
     }
+    .day-arrow:hover { background: rgba(255,255,255,.14); color: var(--text); }
+    .day-pill {
+      padding: 4px 10px; border-radius: 6px; cursor: pointer;
+      font-size: 11px; font-weight: 600; color: var(--mid);
+      border: 1px solid transparent; transition: all .15s; white-space: nowrap;
+    }
+    .day-pill:hover { background: rgba(255,255,255,.06); color: var(--text); }
+    .day-pill.active { background: rgba(230,59,46,.15); border-color: rgba(230,59,46,.3); color: var(--text); }
+    .day-pill.today-marker { position: relative; }
+    .day-pill.today-marker::after {
+      content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%);
+      width: 4px; height: 4px; border-radius: 50%; background: var(--signal);
+    }
+
+    .header-r { display: flex; justify-content: flex-end; }
+    .header-date { color: rgba(255,255,255,.3); font-size: 11px; }
+
+    /* ── LAYOUT ── */
+    main { max-width: 1320px; margin: 0 auto; padding: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .full-row { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 
     /* ── CARD ── */
-    .card {
-      background: var(--card);
-      border-radius: 11px;
-      padding: 16px;
-      border: 1px solid var(--border);
-    }
-    .card.temp-card  { background: var(--card-temp);  border-color: rgba(59,130,246,.15); }
-    .card.pitch-card { background: var(--card-pitch); border-color: rgba(230,180,59,.1); }
+    .card { background: var(--card); border-radius: 11px; padding: 16px; border: 1px solid var(--border); }
+    .card.temp-card  { background: var(--card-temp);  border-color: rgba(59,130,246,.14); }
+    .card.pitch-card { background: var(--card-pitch); border-color: rgba(245,166,35,.1); }
+    .card.cal-card   { background: #131313; border-color: var(--border); }
 
-    .card-title {
-      font-size: 10px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 1.1px;
-      color: var(--mid); margin-bottom: 13px;
-      display: flex; align-items: center; gap: 7px;
-    }
+    .card-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.1px; color: var(--mid); margin-bottom: 13px; display: flex; align-items: center; gap: 7px; }
     .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--signal); flex-shrink: 0; }
 
+    /* past-day dim */
+    .past-dim { opacity: .6; pointer-events: none; }
+
     /* ── TASK ── */
-    .task-item {
-      display: flex; align-items: center; gap: 10px;
-      padding: 8px 10px; border-radius: 7px;
-      margin-bottom: 4px;
-      background: var(--task-bg);
-      border: 1px solid var(--border);
-      cursor: pointer; user-select: none;
-      transition: background .15s;
-    }
+    .task-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 7px; margin-bottom: 4px; background: var(--task-bg); border: 1px solid var(--border); cursor: pointer; user-select: none; transition: background .15s; }
     .task-item:hover { background: var(--task-hov); }
     .task-item.done { background: var(--task-done); border-color: transparent; }
     .task-item.done .task-label { text-decoration: line-through; color: var(--mid); }
-
-    .task-check {
-      width: 16px; height: 16px;
-      border: 2px solid rgba(255,255,255,.2);
-      border-radius: 4px; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      background: transparent; transition: all .15s;
-    }
+    .task-check { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,.18); border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: transparent; transition: all .15s; }
     .task-item.done .task-check { background: var(--signal); border-color: var(--signal); }
     .task-item.done .task-check::after { content: '✓'; color: #fff; font-size: 10px; font-weight: 800; }
+    .task-label { flex: 1; font-size: 13px; font-weight: 500; line-height: 1.3; }
+    .count-pill { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); border-radius: 20px; padding: 2px 8px; font-size: 10px; font-weight: 700; color: var(--mid); }
 
-    .task-label { flex: 1; font-size: 13px; font-weight: 500; line-height: 1.3; color: var(--text); }
-    .count-pill {
-      background: rgba(255,255,255,.07);
-      border: 1px solid rgba(255,255,255,.1);
-      border-radius: 20px; padding: 2px 8px;
-      font-size: 10px; font-weight: 700; color: var(--mid);
-    }
-
-    /* ── SUB-ROW ── */
-    .sub-row {
-      display: flex; align-items: center; gap: 6px;
-      padding: 2px 10px 8px 36px; flex-wrap: wrap;
-    }
+    .sub-row { display: flex; align-items: center; gap: 6px; padding: 2px 10px 8px 36px; flex-wrap: wrap; }
     .page-label { font-size: 10px; color: var(--mid); }
-    .page-input {
-      width: 44px; padding: 3px 5px;
-      border: 1px solid rgba(255,255,255,.15);
-      border-radius: 5px; font-size: 12px;
-      text-align: center;
-      background: var(--input-bg); color: var(--text);
-      font-weight: 600; outline: none;
-    }
+    .page-input { width: 44px; padding: 3px 5px; border: 1px solid rgba(255,255,255,.14); border-radius: 5px; font-size: 12px; text-align: center; background: var(--inp); color: var(--text); font-weight: 600; outline: none; }
     .page-input:focus { border-color: var(--signal); }
 
-    /* email input in sub-row */
-    .email-input {
-      flex: 1; min-width: 140px; max-width: 220px;
-      padding: 3px 8px;
-      border: 1px solid rgba(255,255,255,.15);
-      border-radius: 5px; font-size: 12px;
-      background: var(--input-bg); color: var(--text);
-      outline: none;
-    }
-    .email-input:focus { border-color: var(--signal); }
-    .email-input::placeholder { color: rgba(255,255,255,.25); }
-
     /* ── BUTTONS ── */
-    .btn {
-      padding: 4px 11px; border-radius: 5px; border: none;
-      cursor: pointer; font-size: 11px; font-weight: 700;
-      transition: all .15s; white-space: nowrap;
-    }
-    .btn-dark { background: rgba(255,255,255,.1); color: var(--text); }
-    .btn-dark:hover { background: rgba(255,255,255,.18); }
+    .btn { padding: 4px 11px; border-radius: 5px; border: none; cursor: pointer; font-size: 11px; font-weight: 700; transition: all .15s; white-space: nowrap; }
+    .btn-dark { background: rgba(255,255,255,.09); color: var(--text); }
+    .btn-dark:hover { background: rgba(255,255,255,.16); }
     .btn-red  { background: var(--signal); color: #fff; }
     .btn-red:hover  { background: #c9302a; }
     .btn-red.ok     { background: var(--green); }
-    .btn-mail { background: #1a6fc4; color: #fff; }
-    .btn-mail:hover { background: #1558a0; }
 
     /* ── PROGRESS ── */
-    .progress-row {
-      margin-top: 10px; padding: 7px 10px;
-      background: rgba(255,255,255,.03);
-      border-radius: 7px; display: flex; align-items: center; gap: 10px;
-      font-size: 11px; color: var(--mid);
-    }
+    .progress-row { margin-top: 10px; padding: 7px 10px; background: rgba(255,255,255,.03); border-radius: 7px; display: flex; align-items: center; gap: 10px; font-size: 11px; color: var(--mid); }
     .pbar-wrap { flex: 1; height: 3px; background: rgba(255,255,255,.08); border-radius: 2px; overflow: hidden; }
     .pbar-fill { height: 100%; background: var(--signal); border-radius: 2px; transition: width .35s ease; }
 
     /* ── PITCHES ── */
     .pitch-list { display: flex; flex-direction: column; gap: 8px; }
-
-    .pitch-card {
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 9px; overflow: hidden;
-    }
-    .pitch-head {
-      padding: 10px 13px; display: flex;
-      justify-content: space-between; align-items: center;
-      cursor: pointer; transition: background .15s;
-    }
+    .pitch-card { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: 9px; overflow: hidden; }
+    .pitch-head { padding: 10px 13px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: background .15s; }
     .pitch-head:hover { background: rgba(255,255,255,.04); }
-    .pitch-name { font-size: 12px; font-weight: 700; color: var(--text); }
+    .pitch-name { font-size: 12px; font-weight: 700; }
     .pitch-arrow { font-size: 10px; color: var(--mid); }
-
     .pitch-body { display: none; padding: 0 13px 13px; border-top: 1px solid rgba(255,255,255,.06); }
     .pitch-body.open { display: block; }
-    .pitch-text {
-      font-size: 12px; line-height: 1.65;
-      white-space: pre-wrap;
-      background: rgba(0,0,0,.3); padding: 10px;
-      border-radius: 6px; margin: 10px 0 8px;
-      border: 1px solid rgba(255,255,255,.06);
-      color: rgba(235,235,235,.85);
-    }
-    .pitch-copy {
-      width: 100%; padding: 7px; border: none;
-      background: var(--signal); color: #fff;
-      border-radius: 6px; cursor: pointer;
-      font-size: 12px; font-weight: 700; transition: all .15s;
-    }
+    .pitch-text { font-size: 12px; line-height: 1.65; white-space: pre-wrap; background: rgba(0,0,0,.3); padding: 10px; border-radius: 6px; margin: 10px 0 8px; border: 1px solid rgba(255,255,255,.06); color: rgba(235,235,235,.8); }
+    .pitch-copy { width: 100%; padding: 7px; border: none; background: var(--signal); color: #fff; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 700; transition: all .15s; }
     .pitch-copy:hover { background: #c9302a; }
     .pitch-copy.ok { background: var(--green); }
 
     /* ── TEMP TASKS ── */
     .temp-add-row { display: flex; gap: 8px; margin-bottom: 11px; }
-    .temp-input {
-      flex: 1; padding: 7px 11px;
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 7px; font-size: 13px;
-      background: rgba(255,255,255,.06); color: var(--text); outline: none;
-    }
+    .temp-input { flex: 1; padding: 7px 11px; border: 1px solid rgba(255,255,255,.12); border-radius: 7px; font-size: 13px; background: rgba(255,255,255,.06); color: var(--text); outline: none; }
     .temp-input:focus { border-color: var(--signal); }
-    .temp-input::placeholder { color: rgba(255,255,255,.25); }
-    .btn-add {
-      padding: 7px 15px; background: var(--signal); color: #fff;
-      border: none; border-radius: 7px; cursor: pointer;
-      font-size: 14px; font-weight: 800;
-    }
+    .temp-input::placeholder { color: rgba(255,255,255,.22); }
+    .btn-add { padding: 7px 15px; background: var(--signal); color: #fff; border: none; border-radius: 7px; cursor: pointer; font-size: 14px; font-weight: 800; }
     .btn-add:hover { background: #c9302a; }
-
     .temp-list { display: flex; flex-direction: column; gap: 6px; }
     .temp-empty { font-size: 12px; color: var(--mid); text-align: center; padding: 16px 0; }
-
-    .temp-task {
-      display: flex; align-items: center; gap: 10px;
-      padding: 9px 12px; border-radius: 7px;
-      font-size: 13px; font-weight: 500;
-      border: 1px solid transparent;
-    }
+    .temp-task { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 7px; font-size: 13px; font-weight: 500; border: 1px solid transparent; }
     .temp-label { flex: 1; }
     .btn-del { background: none; border: none; cursor: pointer; color: var(--mid); font-size: 17px; line-height: 1; padding: 0 2px; transition: color .15s; }
     .btn-del:hover { color: var(--signal); }
+    .tc-0 { background: rgba(230,59,46,.11);  border-color: rgba(230,59,46,.22); }
+    .tc-1 { background: rgba(59,130,246,.09); border-color: rgba(59,130,246,.2); }
+    .tc-2 { background: rgba(45,155,111,.09); border-color: rgba(45,155,111,.2); }
+    .tc-3 { background: rgba(245,158,11,.09); border-color: rgba(245,158,11,.2); }
+    .tc-4 { background: rgba(139,92,246,.09); border-color: rgba(139,92,246,.2); }
 
-    .tc-0 { background: rgba(230,59,46,.12);  border-color: rgba(230,59,46,.25); }
-    .tc-1 { background: rgba(59,130,246,.1);  border-color: rgba(59,130,246,.22); }
-    .tc-2 { background: rgba(45,155,111,.1);  border-color: rgba(45,155,111,.22); }
-    .tc-3 { background: rgba(245,158,11,.1);  border-color: rgba(245,158,11,.22); }
-    .tc-4 { background: rgba(139,92,246,.1);  border-color: rgba(139,92,246,.22); }
+    /* ── CALENDAR ── */
+    .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .cal-month { font-size: 13px; font-weight: 700; }
+    .cal-nav { display: flex; gap: 6px; }
+    .cal-nav-btn { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); color: var(--mid); width: 24px; height: 24px; border-radius: 5px; cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+    .cal-nav-btn:hover { background: rgba(255,255,255,.13); color: var(--text); }
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+    .cal-dow { font-size: 9px; font-weight: 700; text-align: center; color: var(--mid); padding-bottom: 4px; text-transform: uppercase; letter-spacing: .6px; }
+    .cal-day {
+      aspect-ratio: 1; border-radius: 6px; border: 1px solid transparent;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      cursor: pointer; transition: all .15s; position: relative; padding: 2px;
+    }
+    .cal-day:hover { background: rgba(255,255,255,.06); }
+    .cal-day.empty { cursor: default; }
+    .cal-day.has-data { border-color: rgba(255,255,255,.08); background: rgba(255,255,255,.03); }
+    .cal-day.is-today { border-color: rgba(230,59,46,.4) !important; }
+    .cal-day.is-viewing { background: rgba(230,59,46,.12); border-color: rgba(230,59,46,.35); }
+    .cal-day-num { font-size: 10px; font-weight: 600; color: var(--mid); line-height: 1; }
+    .cal-day.has-data .cal-day-num { color: var(--text); }
+    .cal-scores { display: flex; gap: 2px; margin-top: 2px; }
+    .cal-score {
+      font-size: 8px; font-weight: 700; padding: 1px 3px; border-radius: 3px;
+      line-height: 1.4;
+    }
+    .cal-score.zd  { background: rgba(230,59,46,.2);  color: #ff7a6e; }
+    .cal-score.jmc { background: rgba(59,130,246,.2); color: #7eb8ff; }
+    .cal-score.full { opacity: 1; }
   </style>
 </head>
 <body>
 
 <header>
-  <span class="logo">Agency Dashboard</span>
+  <span class="logo">Dashboard</span>
+
+  <div class="day-nav" id="day-nav">
+    <button class="day-arrow" onclick="shiftView(-1)">‹</button>
+    <!-- pills rendered by JS -->
+    <button class="day-arrow" onclick="shiftView(1)">›</button>
+  </div>
+
   <div class="header-r">
     <span class="header-date" id="header-date"></span>
-    <button class="reset-btn" onclick="resetDay()">↺ Reset dňa</button>
   </div>
 </header>
 
 <main>
 
-  <!-- ══ AGENCY DAILY ══ -->
-  <div class="card">
-    <div class="card-title"><span class="dot"></span>Agency — Denné úlohy</div>
+  <!-- ══ ZÍSKAJ DOPYT ══ -->
+  <div class="card" id="col-zd">
+    <div class="card-title"><span class="dot"></span>Získaj Dopyt — Denné úlohy</div>
 
-    <div class="task-item" id="t-calls" onclick="toggle('t-calls')">
-      <div class="task-check"></div>
-      <span class="task-label">Cold calls</span>
-      <span class="count-pill">150</span>
-    </div>
+    <div class="task-item" id="t-calls" onclick="toggle('t-calls')"><div class="task-check"></div><span class="task-label">Cold calls</span><span class="count-pill">150</span></div>
+    <div class="task-item" id="t-call-fu" onclick="toggle('t-call-fu')"><div class="task-check"></div><span class="task-label">Call followup</span></div>
+    <div class="task-item" id="t-email" onclick="toggle('t-email')"><div class="task-check"></div><span class="task-label">Email send</span><span class="count-pill">400</span></div>
+    <div class="task-item" id="t-email-fu" onclick="toggle('t-email-fu')"><div class="task-check"></div><span class="task-label">Email followup</span></div>
+    <div class="task-item" id="t-li-fu" onclick="toggle('t-li-fu')"><div class="task-check"></div><span class="task-label">LinkedIn Followups</span></div>
 
-    <div class="task-item" id="t-call-fu" onclick="toggle('t-call-fu')">
-      <div class="task-check"></div>
-      <span class="task-label">Call followup</span>
-    </div>
-
-    <div class="task-item" id="t-email" onclick="toggle('t-email')">
-      <div class="task-check"></div>
-      <span class="task-label">Email send</span>
-      <span class="count-pill">400</span>
-    </div>
-
-    <div class="task-item" id="t-email-fu" onclick="toggle('t-email-fu')">
-      <div class="task-check"></div>
-      <span class="task-label">Email followup</span>
-    </div>
-
-    <div class="task-item" id="t-li-fu" onclick="toggle('t-li-fu')">
-      <div class="task-check"></div>
-      <span class="task-label">LinkedIn Followups</span>
-    </div>
-
-    <div class="task-item" id="t-ceo" onclick="toggle('t-ceo')">
-      <div class="task-check"></div>
-      <span class="task-label">LinkedIn CEO connects</span>
-      <span class="count-pill">15</span>
-    </div>
+    <div class="task-item" id="t-ceo" onclick="toggle('t-ceo')"><div class="task-check"></div><span class="task-label">LinkedIn CEO connects</span><span class="count-pill">15</span></div>
     <div class="sub-row">
       <span class="page-label">Strana:</span>
       <input class="page-input" type="number" id="pg-ceo" value="10" min="1" onchange="savePage('ceo',this.value)">
@@ -294,11 +201,7 @@
       <button class="btn btn-red" id="cp-ceo" onclick="doCopy('ceo-connect','cp-ceo')">Kopírovať pitch</button>
     </div>
 
-    <div class="task-item" id="t-blog" onclick="toggle('t-blog')">
-      <div class="task-check"></div>
-      <span class="task-label">3 Blog posts — ziskajdopyt.sk</span>
-      <span class="count-pill">3</span>
-    </div>
+    <div class="task-item" id="t-blog" onclick="toggle('t-blog')"><div class="task-check"></div><span class="task-label">3 Blog posts — ziskajdopyt.sk</span><span class="count-pill">3</span></div>
 
     <div class="progress-row">
       <span id="ag-txt">0 / 7</span>
@@ -306,15 +209,11 @@
     </div>
   </div>
 
-  <!-- ══ CLIENT DELIVERY ══ -->
-  <div class="card">
-    <div class="card-title"><span class="dot"></span>Client Delivery</div>
+  <!-- ══ JÁN MARČEK CONSULTING ══ -->
+  <div class="card" id="col-jmc">
+    <div class="card-title"><span class="dot" style="background:#3b82f6"></span>Ján Marček Consulting</div>
 
-    <div class="task-item" id="t-cloth" onclick="toggle('t-cloth')">
-      <div class="task-check"></div>
-      <span class="task-label">LinkedIn Clothing Brands CEO</span>
-      <span class="count-pill">10</span>
-    </div>
+    <div class="task-item" id="t-cloth" onclick="toggle('t-cloth')"><div class="task-check"></div><span class="task-label">LinkedIn Clothing Brands CEO</span><span class="count-pill">10</span></div>
     <div class="sub-row">
       <span class="page-label">Strana:</span>
       <input class="page-input" type="number" id="pg-cloth" value="10" min="1" onchange="savePage('cloth',this.value)">
@@ -322,81 +221,56 @@
       <button class="btn btn-red" id="cp-cloth" onclick="doCopy('clothing-brands','cp-cloth')">Kopírovať pitch</button>
     </div>
 
-    <div class="task-item" id="t-shoptet" onclick="toggle('t-shoptet')">
-      <div class="task-check"></div>
-      <span class="task-label">Email Chatbot — Shoptet pitch</span>
-      <span class="count-pill">10</span>
-    </div>
+    <div class="task-item" id="t-shoptet" onclick="toggle('t-shoptet')"><div class="task-check"></div><span class="task-label">Email Chatbot — Shoptet pitch</span><span class="count-pill">10</span></div>
     <div class="sub-row">
       <span class="page-label">Strana:</span>
       <input class="page-input" type="number" id="pg-shoptet" value="5" min="1" onchange="savePage('shoptet',this.value)">
       <button class="btn btn-dark" onclick="openLink('shoptet')">Otvoriť</button>
       <button class="btn btn-red" id="cp-shoptet" onclick="doCopy('shoptet','cp-shoptet')">Kopírovať pitch</button>
     </div>
-    <div class="sub-row">
-      <input class="email-input" type="email" id="mail-shoptet" placeholder="email@firma.sk">
-      <button class="btn btn-mail" onclick="sendMail('shoptet')">Poslať email</button>
-    </div>
 
-    <div class="task-item" id="t-solar" onclick="toggle('t-solar')">
-      <div class="task-check"></div>
-      <span class="task-label">Solárne panely — scrape</span>
-    </div>
+    <div class="task-item" id="t-solar" onclick="toggle('t-solar')"><div class="task-check"></div><span class="task-label">Solárne panely — scrape</span></div>
     <div class="sub-row">
       <span class="page-label">Strana:</span>
       <input class="page-input" type="number" id="pg-solar" value="1" min="1" onchange="savePage('solar',this.value)">
       <button class="btn btn-dark" onclick="openLink('solar')">Otvoriť</button>
       <button class="btn btn-red" id="cp-solar" onclick="doCopy('solar','cp-solar')">Kopírovať pitch</button>
     </div>
-    <div class="sub-row">
-      <input class="email-input" type="email" id="mail-solar" placeholder="email@firma.sk">
-      <button class="btn btn-mail" onclick="sendMail('solar')">Poslať email</button>
-    </div>
 
-    <div class="task-item" id="t-li-post" onclick="toggle('t-li-post')">
-      <div class="task-check"></div>
-      <span class="task-label">LinkedIn Post — vytvoriť</span>
-    </div>
+    <div class="task-item" id="t-li-post" onclick="toggle('t-li-post')"><div class="task-check"></div><span class="task-label">LinkedIn Post — vytvoriť</span></div>
     <div class="sub-row">
       <button class="btn btn-red" id="cp-li" onclick="doCopy('linkedin-prompt','cp-li')">Kopírovať prompt pre Claude</button>
     </div>
 
-    <div class="task-item" id="t-jmc" onclick="toggle('t-jmc')">
-      <div class="task-check"></div>
-      <span class="task-label">Jan Marcek Consulting — followups</span>
-    </div>
+    <div class="task-item" id="t-jmc" onclick="toggle('t-jmc')"><div class="task-check"></div><span class="task-label">Jan Marcek Consulting — followups</span></div>
 
     <div class="progress-row">
       <span id="cl-txt">0 / 5</span>
       <div class="pbar-wrap"><div class="pbar-fill" id="cl-bar" style="width:0%"></div></div>
     </div>
 
-    <!-- TikTok — last, not counted -->
-    <div style="height:1px; background:rgba(255,255,255,.06); margin:10px 0;"></div>
+    <div style="height:1px;background:rgba(255,255,255,.06);margin:10px 0;"></div>
     <div class="task-item" id="t-tiktok" onclick="toggle('t-tiktok')">
       <div class="task-check"></div>
-      <span class="task-label" style="color:var(--mid);">TikTok Clothing Brand — video make</span>
+      <span class="task-label" style="color:var(--mid)">TikTok Clothing Brand — video make</span>
     </div>
     <div class="sub-row">
       <button class="btn btn-dark" onclick="window.open('https://janmarcekconsulting.github.io/fashion-daily/','_blank')">Otvoriť fashion-daily</button>
     </div>
   </div>
 
-  <!-- ══ BOTTOM ROW: TEMP + PITCHES ══ -->
+  <!-- ══ BOTTOM ROW ══ -->
   <div class="full-row">
 
-    <!-- TEMP TASKS -->
     <div class="card temp-card">
       <div class="card-title"><span class="dot" style="background:#3b82f6"></span>Dočasné úlohy</div>
       <div class="temp-add-row">
-        <input class="temp-input" id="temp-input" type="text" placeholder="Pridať úlohu..."
-          onkeydown="if(event.key==='Enter') addTemp()">
+        <input class="temp-input" id="temp-input" type="text" placeholder="Pridať úlohu..." onkeydown="if(event.key==='Enter')addTemp()">
         <button class="btn-add" onclick="addTemp()">+</button>
       </div>
       <div class="temp-list" id="temp-list"></div>
     </div>
 
-    <!-- PITCHES -->
     <div class="card pitch-card">
       <div class="card-title"><span class="dot" style="background:#f5a623"></span>Pitche &amp; Prompty</div>
       <div class="pitch-list" id="pitch-list"></div>
@@ -404,12 +278,28 @@
 
   </div>
 
+  <!-- ══ CALENDAR ══ -->
+  <div class="card cal-card full-row" style="grid-template-columns:1fr;">
+    <div class="cal-header">
+      <span class="cal-month" id="cal-month"></span>
+      <div class="cal-nav">
+        <button class="cal-nav-btn" onclick="shiftCalMonth(-1)">‹</button>
+        <button class="cal-nav-btn" onclick="shiftCalMonth(1)">›</button>
+      </div>
+    </div>
+    <div class="cal-grid" id="cal-grid"></div>
+    <div style="display:flex;gap:14px;margin-top:10px;">
+      <span style="font-size:10px;color:var(--mid);display:flex;align-items:center;gap:5px;"><span style="background:rgba(230,59,46,.2);color:#ff7a6e;padding:1px 5px;border-radius:3px;font-weight:700;font-size:9px;">ZD</span>Získaj Dopyt</span>
+      <span style="font-size:10px;color:var(--mid);display:flex;align-items:center;gap:5px;"><span style="background:rgba(59,130,246,.2);color:#7eb8ff;padding:1px 5px;border-radius:3px;font-weight:700;font-size:9px;">JMC</span>Ján Marček Consulting</span>
+    </div>
+  </div>
+
 </main>
 
 <script>
-// ─────────────────────────────────────
+// ══════════════════════════════════════════
 // PITCHES
-// ─────────────────────────────────────
+// ══════════════════════════════════════════
 const PITCHES = {
   'ceo-connect': {
     title: 'LinkedIn CEO Connect',
@@ -427,13 +317,12 @@ Pozeral som na [FIRMA / MENO], vyzerá to veľmi profesionálne. Môžem sa ťa 
 
 I was looking at your profile and noticed that you are the owner of [BRAND NAME]. I would like to learn more about your clothing brand. Don't worry, I am not trying to pitch you anything — I am just doing research in the clothing brands niche.
 
-Would you be down for a short 20-minute online meeting where I could ask a few questions about your brand? Also, if you are interested, I can turn the call into a short video that you can post on your social media. I would do it for free, of course, because I value your time.
+Would you be down for a short 20-minute online meeting where I could ask a few questions about your brand? Also, if you are interested, I can turn the call into a short video that you can post on your social media. I would do it for free of course, because I value your time.
 
 Please let me know if you are down for an online call. Thanks!`
   },
   'shoptet': {
     title: 'Shoptet — AI Chatbot Pitch',
-    subject: 'AI customer support chatbot — zadarmo testovanie',
     text:
 `Váš e-shop ako prvý na Českom a Slovenskom trhu s AI asistentom — zadarmo
 
@@ -462,7 +351,6 @@ Marček`
   },
   'solar': {
     title: 'Solárne panely — AI Chatbot Pitch',
-    subject: 'AI zákaznícka podpora zadarmo — buďte prví na česko-slovensku',
     text:
 `AI zákaznícka podpora zadarmo — buďte prví na česko-slovensku
 
@@ -489,124 +377,246 @@ Marček`
   'linkedin-prompt': {
     title: 'LinkedIn Post — Prompt pre Claude',
     text:
-`Write a LinkedIn PDF carousel post (5–7 slides) for a marketing and automation agency founder.
+`Write a LinkedIn PDF carousel post (5–7 slides) for the founder of an online growth systems agency.
 
-Topic: [ADD TOPIC]
+Topic ideas (pick one or suggest your own):
+- Why most businesses don't need more ads — they need a system first
+- What an agentic workflow actually is (and what it can do for your business)
+- How AI shopping assistants increase e-commerce conversion without extra ad spend
+- The real reason your funnel isn't converting (and it's not the traffic)
+- Automation vs. delegation — when each one makes sense
+- How to build a growth system that runs without you
+- Why founders should fix what's broken before scaling ad spend
+- The difference between a vendor and a strategic growth partner
 
-Voice & persona: ENTJ 8w7 — direct, strategic, confident but not arrogant. Speaks from real experience, not theory. No hype, no guru energy, no corporate fluff.
+Voice & persona: ENTJ 8w7 — direct, strategic, confident but not arrogant. Speaks from real experience. No hype, no guru energy, no corporate fluff.
 
 Rules:
 - Each slide = max 3 short lines
-- Slide 1: strong hook — bold statement or a question that stops scrolling
-- Slides 2–6: practical, actionable advice — what the reader can do TODAY
+- Slide 1: strong hook — bold statement or question that stops scrolling
+- Slides 2–6: practical, actionable points — what the reader can do or understand TODAY
 - Last slide: open question for the audience (drives comments)
 - NEVER mention specific tools by name (Claude, ChatGPT, Make, n8n, Zapier, etc.)
 - Focus on WHAT IS POSSIBLE, not which tool to use
-- Topics: automation, agentic workflows, marketing, sales, growth
 - Language: English
 - Tone: direct, grounded, zero fluff
 
-Output format: each slide numbered, with a short headline + body text.`
+Output: each slide numbered with short headline + body text.`
   }
 };
 
-// ─────────────────────────────────────
+// ══════════════════════════════════════════
 // LINKS
-// ─────────────────────────────────────
+// ══════════════════════════════════════════
 function openLink(type) {
   const pg = parseInt(document.getElementById('pg-' + type)?.value) || 1;
-  let url = '';
-  if (type === 'ceo')
-    url = `https://www.linkedin.com/search/results/people/?keywords=a.s.&origin=GLOBAL_SEARCH_HEADER&spellCorrectionEnabled=true&page=${pg}`;
-  else if (type === 'cloth')
-    url = `https://www.linkedin.com/search/results/people/?keywords=clothing%20brand&origin=FACETED_SEARCH&network=%5B%22F%22%2C%22S%22%2C%22O%22%5D&title=%22Clothing%20brand%22&page=${pg}`;
-  else if (type === 'shoptet')
-    url = `https://myip.ms/browse/sites/${pg}/own/1300457`;
-  else if (type === 'solar')
-    url = `https://www.google.com/search?q=solarne+panely&start=${(pg - 1) * 10}`;
-  if (url) window.open(url, '_blank');
+  const urls = {
+    ceo:     `https://www.linkedin.com/search/results/people/?keywords=a.s.&origin=GLOBAL_SEARCH_HEADER&spellCorrectionEnabled=true&page=${pg}`,
+    cloth:   `https://www.linkedin.com/search/results/people/?keywords=clothing%20brand&origin=FACETED_SEARCH&network=%5B%22F%22%2C%22S%22%2C%22O%22%5D&title=%22Clothing%20brand%22&page=${pg}`,
+    shoptet: `https://myip.ms/browse/sites/${pg}/own/1300457`,
+    solar:   `https://www.google.com/search?q=solarne+panely&start=${(pg - 1) * 10}`
+  };
+  if (urls[type]) window.open(urls[type], '_blank');
 }
 
-// ─────────────────────────────────────
-// EMAIL — mailto
-// ─────────────────────────────────────
-function sendMail(pitchKey) {
-  const emailEl = document.getElementById('mail-' + pitchKey);
-  const to = emailEl?.value?.trim();
-  if (!to) { emailEl.focus(); emailEl.style.borderColor = 'var(--signal)'; return; }
-  emailEl.style.borderColor = '';
-  const p = PITCHES[pitchKey];
-  const subject = encodeURIComponent(p.subject || p.title);
-  const body    = encodeURIComponent(p.text);
-  window.open(`mailto:${to}?subject=${subject}&body=${body}`, '_blank');
+// ══════════════════════════════════════════
+// DATE UTILS
+// ══════════════════════════════════════════
+function dk(date) { return date.toDateString(); }           // "Thu Mar 13 2026"
+function addDays(date, n) { const d = new Date(date); d.setDate(d.getDate() + n); return d; }
+function isSameDay(a, b) { return dk(a) === dk(b); }
+
+const TODAY  = new Date();
+let viewDate = new Date(TODAY);   // currently displayed day
+let calMonth = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1);
+
+// ══════════════════════════════════════════
+// STORE  (localStorage key: agency-dash-v2)
+// ══════════════════════════════════════════
+let STORE = {};
+
+function loadStore() {
+  STORE = JSON.parse(localStorage.getItem('agency-dash-v2') || '{}');
+  STORE.days        = STORE.days        || {};
+  STORE.temps       = STORE.temps       || [];
+  STORE.colorIdx    = STORE.colorIdx    || 0;
+  STORE.globalPages = STORE.globalPages || { ceo: 10, cloth: 10, shoptet: 5, solar: 1 };
 }
+function saveStore() { localStorage.setItem('agency-dash-v2', JSON.stringify(STORE)); }
 
-// ─────────────────────────────────────
-// STATE
-// ─────────────────────────────────────
-const AGENCY = ['t-calls','t-call-fu','t-email','t-email-fu','t-li-fu','t-ceo','t-blog'];
-const CLIENT = ['t-cloth','t-shoptet','t-solar','t-li-post','t-jmc']; // t-tiktok excluded from score
-
-let S = {};
-
-function loadState() {
-  const today = new Date().toDateString();
-  const raw = JSON.parse(localStorage.getItem('agency-dash') || '{}');
-  if (raw.date !== today) {
-    // New day: reset tasks only, keep pages + temps
-    S = {
-      date:     today,
-      tasks:    {},
-      pages:    raw.pages    || { ceo: 10, cloth: 10, shoptet: 5, solar: 1 },
-      temps:    raw.temps    || [],
-      colorIdx: raw.colorIdx || 0
-    };
-  } else {
-    S = raw;
-    S.tasks    = S.tasks    || {};
-    S.pages    = S.pages    || { ceo: 10, cloth: 10, shoptet: 5, solar: 1 };
-    S.temps    = S.temps    || [];
-    S.colorIdx = S.colorIdx || 0;
-  }
+function dayData(date) {
+  const k = dk(date);
+  if (!STORE.days[k]) STORE.days[k] = { tasks: {} };
+  return STORE.days[k];
 }
-
-function save() { localStorage.setItem('agency-dash', JSON.stringify(S)); }
 
 function savePage(key, val) {
-  S.pages[key] = parseInt(val) || 1;
-  save();
+  STORE.globalPages[key] = parseInt(val) || 1;
+  saveStore();
 }
 
-// ─────────────────────────────────────
+// ══════════════════════════════════════════
 // TASKS
-// ─────────────────────────────────────
+// ══════════════════════════════════════════
+const AGENCY = ['t-calls','t-call-fu','t-email','t-email-fu','t-li-fu','t-ceo','t-blog'];
+const CLIENT = ['t-cloth','t-shoptet','t-solar','t-li-post','t-jmc'];
+const ALL_TASKS = [...AGENCY, ...CLIENT, 't-tiktok'];
+
 function toggle(id) {
   const el = document.getElementById(id);
-  S.tasks[id] = el.classList.toggle('done');
-  save();
+  const d  = dayData(viewDate);
+  d.tasks[id] = el.classList.toggle('done');
+  saveStore();
+  updateProgress();
+  renderCal();
+}
+
+function applyDayState() {
+  const d = dayData(viewDate);
+  ALL_TASKS.forEach(id => {
+    document.getElementById(id)?.classList.toggle('done', !!d.tasks[id]);
+  });
   updateProgress();
 }
 
 function updateProgress() {
-  const ad = AGENCY.filter(id => S.tasks[id]).length;
-  const cd = CLIENT.filter(id => S.tasks[id]).length;
+  const d  = dayData(viewDate);
+  const ad = AGENCY.filter(id => d.tasks[id]).length;
+  const cd = CLIENT.filter(id => d.tasks[id]).length;
   document.getElementById('ag-txt').textContent = `${ad} / ${AGENCY.length}`;
   document.getElementById('ag-bar').style.width  = `${ad / AGENCY.length * 100}%`;
   document.getElementById('cl-txt').textContent = `${cd} / ${CLIENT.length}`;
   document.getElementById('cl-bar').style.width  = `${cd / CLIENT.length * 100}%`;
 }
 
-function resetDay() {
-  if (!confirm('Resetovať všetky checkboxy?')) return;
-  S.tasks = {};
-  [...AGENCY, ...CLIENT, 't-tiktok'].forEach(id => document.getElementById(id)?.classList.remove('done'));
-  save();
-  updateProgress();
+// ══════════════════════════════════════════
+// DAY NAV
+// ══════════════════════════════════════════
+let pillOffset = 0; // offset from today for center pill
+
+function shiftView(n) {
+  viewDate = addDays(viewDate, n);
+  pillOffset += n;
+  renderDayNav();
+  applyDayState();
+  document.getElementById('header-date').textContent = formatViewDate();
 }
 
-// ─────────────────────────────────────
+function goToDay(date) {
+  viewDate   = new Date(date);
+  pillOffset = Math.round((viewDate - TODAY) / 86400000);
+  renderDayNav();
+  applyDayState();
+  document.getElementById('header-date').textContent = formatViewDate();
+}
+
+function formatViewDate() {
+  return viewDate.toLocaleDateString('sk-SK', { weekday:'long', day:'numeric', month:'long' });
+}
+
+function renderDayNav() {
+  const nav = document.getElementById('day-nav');
+  // keep arrows, replace pills
+  const arrows = nav.querySelectorAll('.day-arrow');
+  // remove old pills
+  nav.querySelectorAll('.day-pill').forEach(p => p.remove());
+  // insert 3 pills: viewDate-1, viewDate, viewDate+1
+  const container = document.createDocumentFragment();
+  [-1, 0, 1].forEach(offset => {
+    const d    = addDays(viewDate, offset);
+    const pill = document.createElement('button');
+    pill.className = 'day-pill';
+    if (offset === 0)          pill.classList.add('active');
+    if (isSameDay(d, TODAY))   pill.classList.add('today-marker');
+
+    const label = d.toLocaleDateString('sk-SK', { weekday:'short', day:'numeric', month:'numeric' });
+    pill.textContent = label;
+    pill.onclick = () => goToDay(d);
+    container.appendChild(pill);
+  });
+  // insert before last arrow
+  arrows[1].before(container);
+}
+
+// ══════════════════════════════════════════
+// CALENDAR
+// ══════════════════════════════════════════
+function shiftCalMonth(n) {
+  calMonth = new Date(calMonth.getFullYear(), calMonth.getMonth() + n, 1);
+  renderCal();
+}
+
+function renderCal() {
+  const grid = document.getElementById('cal-grid');
+  const monthLabel = document.getElementById('cal-month');
+  grid.innerHTML = '';
+
+  const year  = calMonth.getFullYear();
+  const month = calMonth.getMonth();
+  monthLabel.textContent = calMonth.toLocaleDateString('sk-SK', { month:'long', year:'numeric' });
+
+  const DOW = ['Po','Ut','St','Št','Pi','So','Ne'];
+  DOW.forEach(d => {
+    const el = document.createElement('div');
+    el.className = 'cal-dow'; el.textContent = d;
+    grid.appendChild(el);
+  });
+
+  const firstDay = new Date(year, month, 1);
+  let startDow = firstDay.getDay(); // 0=Sun
+  startDow = startDow === 0 ? 6 : startDow - 1; // Mon=0
+
+  for (let i = 0; i < startDow; i++) {
+    const el = document.createElement('div'); el.className = 'cal-day empty'; grid.appendChild(el);
+  }
+
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  for (let day = 1; day <= daysInMonth; day++) {
+    const date = new Date(year, month, day);
+    const key  = dk(date);
+    const data = STORE.days[key];
+
+    const el = document.createElement('div');
+    el.className = 'cal-day';
+    if (data && Object.keys(data.tasks || {}).length > 0) el.classList.add('has-data');
+    if (isSameDay(date, TODAY))    el.classList.add('is-today');
+    if (isSameDay(date, viewDate)) el.classList.add('is-viewing');
+
+    const numEl = document.createElement('div');
+    numEl.className = 'cal-day-num';
+    numEl.textContent = day;
+    el.appendChild(numEl);
+
+    if (data && data.tasks) {
+      const zd  = AGENCY.filter(id => data.tasks[id]).length;
+      const jmc = CLIENT.filter(id => data.tasks[id]).length;
+      if (zd > 0 || jmc > 0) {
+        const scores = document.createElement('div');
+        scores.className = 'cal-scores';
+        if (zd > 0) {
+          const s = document.createElement('span');
+          s.className = 'cal-score zd' + (zd === AGENCY.length ? ' full' : '');
+          s.textContent = `${zd}/${AGENCY.length}`;
+          scores.appendChild(s);
+        }
+        if (jmc > 0) {
+          const s = document.createElement('span');
+          s.className = 'cal-score jmc' + (jmc === CLIENT.length ? ' full' : '');
+          s.textContent = `${jmc}/${CLIENT.length}`;
+          scores.appendChild(s);
+        }
+        el.appendChild(scores);
+      }
+    }
+
+    el.onclick = () => goToDay(date);
+    grid.appendChild(el);
+  }
+}
+
+// ══════════════════════════════════════════
 // PITCHES
-// ─────────────────────────────────────
+// ══════════════════════════════════════════
 function renderPitches() {
   const list = document.getElementById('pitch-list');
   list.innerHTML = '';
@@ -643,66 +653,60 @@ function doCopy(key, btnId) {
   });
 }
 
-// ─────────────────────────────────────
-// TEMP TASKS
-// ─────────────────────────────────────
+// ══════════════════════════════════════════
+// TEMP TASKS  (global — never reset)
+// ══════════════════════════════════════════
 function addTemp() {
-  const inp = document.getElementById('temp-input');
+  const inp  = document.getElementById('temp-input');
   const text = inp.value.trim();
   if (!text) return;
-  S.temps.push({ id: Date.now(), text, color: S.colorIdx % 5 });
-  S.colorIdx++;
+  STORE.temps.push({ id: Date.now(), text, color: STORE.colorIdx % 5 });
+  STORE.colorIdx++;
   inp.value = '';
-  save();
+  saveStore();
   renderTemps();
 }
 
 function delTemp(id) {
-  S.temps = S.temps.filter(t => t.id !== id);
-  save();
+  STORE.temps = STORE.temps.filter(t => t.id !== id);
+  saveStore();
   renderTemps();
 }
 
 function renderTemps() {
   const list = document.getElementById('temp-list');
-  if (!S.temps.length) {
+  if (!STORE.temps.length) {
     list.innerHTML = '<div class="temp-empty">Žiadne dočasné úlohy</div>';
     return;
   }
-  list.innerHTML = S.temps.map(t => `
+  list.innerHTML = STORE.temps.map(t => `
     <div class="temp-task tc-${t.color}">
       <span class="temp-label">${escHtml(t.text)}</span>
       <button class="btn-del" onclick="delTemp(${t.id})">×</button>
     </div>`).join('');
 }
 
-function escHtml(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
+function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-// ─────────────────────────────────────
+// ══════════════════════════════════════════
 // INIT
-// ─────────────────────────────────────
+// ══════════════════════════════════════════
 function init() {
-  document.getElementById('header-date').textContent =
-    new Date().toLocaleDateString('sk-SK', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+  loadStore();
 
-  loadState();
-
-  // Restore checkboxes
-  Object.keys(S.tasks).forEach(id => {
-    if (S.tasks[id]) document.getElementById(id)?.classList.add('done');
-  });
+  document.getElementById('header-date').textContent = formatViewDate();
 
   // Restore page numbers
-  Object.entries(S.pages).forEach(([key, val]) => {
+  Object.entries(STORE.globalPages).forEach(([key, val]) => {
     const el = document.getElementById('pg-' + key);
     if (el) el.value = val;
   });
 
+  renderDayNav();
+  applyDayState();
   renderPitches();
   renderTemps();
-  updateProgress();
+  renderCal();
 }
 
 init();
