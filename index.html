@@ -327,6 +327,8 @@
 
     <div class="task-item" id="t-jmc" onclick="toggle('t-jmc')"><div class="task-check"></div><span class="task-label">Jan Marcek Consulting — followups</span></div>
 
+    <div class="task-item" id="t-read" onclick="toggle('t-read')"><div class="task-check"></div><span class="task-label">Read Transcendence</span></div>
+
     <div class="progress-row">
       <span id="cl-txt">0 / 5</span>
       <div class="pbar-wrap"><div class="pbar-fill" id="cl-bar" style="width:0%"></div></div>
@@ -544,7 +546,7 @@ function savePage(key, val) {
 // TASKS
 // ══════════════════════════════════════════
 const AGENCY = ['t-calls','t-call-fu','t-email','t-email-fu','t-li-fu','t-ceo','t-blog'];
-const CLIENT = ['t-cloth','t-shoptet','t-solar','t-li-post','t-jmc'];
+const CLIENT = ['t-cloth','t-shoptet','t-solar','t-li-post','t-jmc','t-read'];
 const ALL_T  = [...AGENCY, ...CLIENT, 't-tiktok'];
 
 function toggle(id) {
