@@ -6,14 +6,19 @@
   <title>Agency Dashboard</title>
   <style>
     :root {
-      --bg: #F5F3EE;
-      --paper: #E8E4DD;
-      --signal: #E63B2E;
-      --black: #111111;
-      --mid: rgba(17,17,17,.55);
-      --border: rgba(17,17,17,.12);
-      --green: #2D9B6F;
-      --done-bg: rgba(17,17,17,.06);
+      --bg:        #0E0E0E;
+      --card:      #1A1A1A;
+      --card-temp: #111D2B;
+      --card-pitch:#1C1610;
+      --border:    rgba(255,255,255,.08);
+      --text:      #EBEBEB;
+      --mid:       rgba(235,235,235,.4);
+      --signal:    #E63B2E;
+      --green:     #2D9B6F;
+      --task-bg:   rgba(255,255,255,.04);
+      --task-hov:  rgba(255,255,255,.08);
+      --task-done: rgba(255,255,255,.02);
+      --input-bg:  rgba(255,255,255,.07);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -21,307 +26,224 @@
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: var(--bg);
-      color: var(--black);
+      color: var(--text);
       min-height: 100vh;
     }
 
-    /* HEADER */
+    /* ── HEADER ── */
     header {
-      background: var(--black);
-      padding: 14px 28px;
+      background: #111;
+      border-bottom: 1px solid var(--border);
+      padding: 13px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      position: sticky; top: 0; z-index: 100;
     }
-    .logo { color: var(--signal); font-size: 18px; font-weight: 800; letter-spacing: -0.5px; }
-    .header-right { display: flex; align-items: center; gap: 14px; }
-    .header-date { color: rgba(255,255,255,.45); font-size: 13px; }
+    .logo { color: var(--signal); font-size: 17px; font-weight: 800; letter-spacing: -.4px; }
+    .header-r { display: flex; align-items: center; gap: 12px; }
+    .header-date { color: rgba(255,255,255,.35); font-size: 12px; }
     .reset-btn {
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.15);
-      color: rgba(255,255,255,.65);
-      padding: 5px 13px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 12px;
-      transition: all 0.2s;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.55);
+      padding: 5px 13px; border-radius: 6px;
+      cursor: pointer; font-size: 12px;
     }
-    .reset-btn:hover { background: rgba(255,255,255,.15); }
+    .reset-btn:hover { background: rgba(255,255,255,.12); }
 
-    /* LAYOUT */
+    /* ── GRID ── */
     main {
-      max-width: 1280px;
+      max-width: 1300px;
       margin: 0 auto;
-      padding: 24px 20px;
+      padding: 20px 18px;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      grid-template-rows: auto auto;
+      gap: 14px;
     }
+    .full-row { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 
-    /* CARDS */
+    /* ── CARD ── */
     .card {
-      background: var(--paper);
-      border-radius: 12px;
-      padding: 18px;
+      background: var(--card);
+      border-radius: 11px;
+      padding: 16px;
       border: 1px solid var(--border);
     }
+    .card.temp-card  { background: var(--card-temp);  border-color: rgba(59,130,246,.15); }
+    .card.pitch-card { background: var(--card-pitch); border-color: rgba(230,180,59,.1); }
+
     .card-title {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--mid);
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 7px;
+      font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1.1px;
+      color: var(--mid); margin-bottom: 13px;
+      display: flex; align-items: center; gap: 7px;
     }
-    .card-title .dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--signal);
-      flex-shrink: 0;
-    }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--signal); flex-shrink: 0; }
 
-    /* TASK */
+    /* ── TASK ── */
     .task-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 9px 11px;
-      border-radius: 8px;
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 10px; border-radius: 7px;
       margin-bottom: 4px;
-      background: rgba(255,255,255,.55);
+      background: var(--task-bg);
       border: 1px solid var(--border);
-      cursor: pointer;
-      user-select: none;
-      transition: background 0.15s;
+      cursor: pointer; user-select: none;
+      transition: background .15s;
     }
-    .task-item:hover { background: rgba(255,255,255,.85); }
-    .task-item.done {
-      background: var(--done-bg);
-      border-color: transparent;
-    }
-    .task-item.done .task-label {
-      text-decoration: line-through;
-      color: var(--mid);
-    }
+    .task-item:hover { background: var(--task-hov); }
+    .task-item.done { background: var(--task-done); border-color: transparent; }
+    .task-item.done .task-label { text-decoration: line-through; color: var(--mid); }
+
     .task-check {
-      width: 17px; height: 17px;
-      border: 2px solid rgba(17,17,17,.2);
-      border-radius: 4px;
-      flex-shrink: 0;
+      width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,.2);
+      border-radius: 4px; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      background: white;
-      transition: all 0.15s;
+      background: transparent; transition: all .15s;
     }
-    .task-item.done .task-check {
-      background: var(--signal);
-      border-color: var(--signal);
-    }
-    .task-item.done .task-check::after {
-      content: '✓';
-      color: white;
-      font-size: 10px;
-      font-weight: 800;
-    }
-    .task-label { flex: 1; font-size: 14px; font-weight: 500; line-height: 1.3; }
+    .task-item.done .task-check { background: var(--signal); border-color: var(--signal); }
+    .task-item.done .task-check::after { content: '✓'; color: #fff; font-size: 10px; font-weight: 800; }
+
+    .task-label { flex: 1; font-size: 13px; font-weight: 500; line-height: 1.3; color: var(--text); }
     .count-pill {
-      background: rgba(17,17,17,.08);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 2px 9px;
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--mid);
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 20px; padding: 2px 8px;
+      font-size: 10px; font-weight: 700; color: var(--mid);
     }
 
-    /* SUB-ROW (under task) */
+    /* ── SUB-ROW ── */
     .sub-row {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      padding: 3px 11px 9px 38px;
-      flex-wrap: wrap;
+      display: flex; align-items: center; gap: 6px;
+      padding: 2px 10px 8px 36px; flex-wrap: wrap;
     }
-    .page-label { font-size: 11px; color: var(--mid); }
+    .page-label { font-size: 10px; color: var(--mid); }
     .page-input {
-      width: 46px;
-      padding: 3px 6px;
-      border: 1px solid var(--border);
-      border-radius: 5px;
-      font-size: 12px;
+      width: 44px; padding: 3px 5px;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 5px; font-size: 12px;
       text-align: center;
-      background: white;
-      font-weight: 600;
-      outline: none;
+      background: var(--input-bg); color: var(--text);
+      font-weight: 600; outline: none;
     }
     .page-input:focus { border-color: var(--signal); }
 
-    /* BUTTONS */
+    /* email input in sub-row */
+    .email-input {
+      flex: 1; min-width: 140px; max-width: 220px;
+      padding: 3px 8px;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 5px; font-size: 12px;
+      background: var(--input-bg); color: var(--text);
+      outline: none;
+    }
+    .email-input:focus { border-color: var(--signal); }
+    .email-input::placeholder { color: rgba(255,255,255,.25); }
+
+    /* ── BUTTONS ── */
     .btn {
-      padding: 4px 11px;
-      border-radius: 5px;
-      border: none;
-      cursor: pointer;
-      font-size: 12px;
-      font-weight: 600;
-      transition: all 0.15s;
-      white-space: nowrap;
+      padding: 4px 11px; border-radius: 5px; border: none;
+      cursor: pointer; font-size: 11px; font-weight: 700;
+      transition: all .15s; white-space: nowrap;
     }
-    .btn-dark { background: var(--black); color: white; }
-    .btn-dark:hover { background: #333; }
-    .btn-red { background: var(--signal); color: white; }
-    .btn-red:hover { background: #c9302a; }
-    .btn-red.copied, .btn-red.ok { background: var(--green); }
+    .btn-dark { background: rgba(255,255,255,.1); color: var(--text); }
+    .btn-dark:hover { background: rgba(255,255,255,.18); }
+    .btn-red  { background: var(--signal); color: #fff; }
+    .btn-red:hover  { background: #c9302a; }
+    .btn-red.ok     { background: var(--green); }
+    .btn-mail { background: #1a6fc4; color: #fff; }
+    .btn-mail:hover { background: #1558a0; }
 
-    /* PROGRESS */
+    /* ── PROGRESS ── */
     .progress-row {
-      margin-top: 10px;
-      padding: 8px 10px;
-      background: rgba(255,255,255,.4);
-      border-radius: 7px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 12px;
-      color: var(--mid);
+      margin-top: 10px; padding: 7px 10px;
+      background: rgba(255,255,255,.03);
+      border-radius: 7px; display: flex; align-items: center; gap: 10px;
+      font-size: 11px; color: var(--mid);
     }
-    .pbar-wrap {
-      flex: 1;
-      height: 4px;
-      background: rgba(17,17,17,.1);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-    .pbar-fill {
-      height: 100%;
-      background: var(--signal);
-      border-radius: 2px;
-      transition: width 0.35s ease;
-    }
+    .pbar-wrap { flex: 1; height: 3px; background: rgba(255,255,255,.08); border-radius: 2px; overflow: hidden; }
+    .pbar-fill { height: 100%; background: var(--signal); border-radius: 2px; transition: width .35s ease; }
 
-    /* PITCHES */
-    .pitches-section, .temp-section { grid-column: 1 / -1; }
+    /* ── PITCHES ── */
+    .pitch-list { display: flex; flex-direction: column; gap: 8px; }
 
-    .pitch-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-      gap: 10px;
-    }
     .pitch-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 9px; overflow: hidden;
     }
     .pitch-head {
-      padding: 11px 14px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: pointer;
-      transition: background 0.15s;
+      padding: 10px 13px; display: flex;
+      justify-content: space-between; align-items: center;
+      cursor: pointer; transition: background .15s;
     }
-    .pitch-head:hover { background: var(--bg); }
-    .pitch-name { font-size: 13px; font-weight: 700; }
-    .pitch-arrow { font-size: 11px; color: var(--mid); }
-    .pitch-body {
-      display: none;
-      padding: 0 14px 14px;
-      border-top: 1px solid var(--border);
-    }
+    .pitch-head:hover { background: rgba(255,255,255,.04); }
+    .pitch-name { font-size: 12px; font-weight: 700; color: var(--text); }
+    .pitch-arrow { font-size: 10px; color: var(--mid); }
+
+    .pitch-body { display: none; padding: 0 13px 13px; border-top: 1px solid rgba(255,255,255,.06); }
     .pitch-body.open { display: block; }
     .pitch-text {
-      font-size: 12px;
-      line-height: 1.65;
+      font-size: 12px; line-height: 1.65;
       white-space: pre-wrap;
-      background: var(--bg);
-      padding: 10px;
-      border-radius: 6px;
-      margin: 10px 0 8px;
-      border: 1px solid var(--border);
-      color: var(--black);
+      background: rgba(0,0,0,.3); padding: 10px;
+      border-radius: 6px; margin: 10px 0 8px;
+      border: 1px solid rgba(255,255,255,.06);
+      color: rgba(235,235,235,.85);
     }
     .pitch-copy {
-      width: 100%;
-      padding: 8px;
-      border: none;
-      background: var(--signal);
-      color: white;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 600;
-      transition: all 0.15s;
+      width: 100%; padding: 7px; border: none;
+      background: var(--signal); color: #fff;
+      border-radius: 6px; cursor: pointer;
+      font-size: 12px; font-weight: 700; transition: all .15s;
     }
     .pitch-copy:hover { background: #c9302a; }
     .pitch-copy.ok { background: var(--green); }
 
-    /* TEMP TASKS */
-    .temp-add-row { display: flex; gap: 8px; margin-bottom: 12px; }
+    /* ── TEMP TASKS ── */
+    .temp-add-row { display: flex; gap: 8px; margin-bottom: 11px; }
     .temp-input {
-      flex: 1;
-      padding: 8px 12px;
-      border: 1px solid var(--border);
-      border-radius: 7px;
-      font-size: 14px;
-      background: white;
-      outline: none;
+      flex: 1; padding: 7px 11px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 7px; font-size: 13px;
+      background: rgba(255,255,255,.06); color: var(--text); outline: none;
     }
     .temp-input:focus { border-color: var(--signal); }
+    .temp-input::placeholder { color: rgba(255,255,255,.25); }
     .btn-add {
-      padding: 8px 16px;
-      background: var(--signal);
-      color: white;
-      border: none;
-      border-radius: 7px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 700;
+      padding: 7px 15px; background: var(--signal); color: #fff;
+      border: none; border-radius: 7px; cursor: pointer;
+      font-size: 14px; font-weight: 800;
     }
     .btn-add:hover { background: #c9302a; }
 
     .temp-list { display: flex; flex-direction: column; gap: 6px; }
-    .temp-empty { font-size: 13px; color: var(--mid); text-align: center; padding: 16px 0; }
+    .temp-empty { font-size: 12px; color: var(--mid); text-align: center; padding: 16px 0; }
 
     .temp-task {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 13px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 500;
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 12px; border-radius: 7px;
+      font-size: 13px; font-weight: 500;
       border: 1px solid transparent;
     }
     .temp-label { flex: 1; }
-    .btn-del {
-      background: none; border: none;
-      cursor: pointer; color: var(--mid);
-      font-size: 18px; line-height: 1;
-      padding: 0 2px;
-      transition: color 0.15s;
-    }
+    .btn-del { background: none; border: none; cursor: pointer; color: var(--mid); font-size: 17px; line-height: 1; padding: 0 2px; transition: color .15s; }
     .btn-del:hover { color: var(--signal); }
 
-    .tc-0 { background: #FFF3F2; border-color: rgba(230,59,46,.25); }
-    .tc-1 { background: #EFF6FF; border-color: rgba(59,130,246,.25); }
-    .tc-2 { background: #F0FFF7; border-color: rgba(45,155,111,.25); }
-    .tc-3 { background: #FFFBEB; border-color: rgba(245,158,11,.25); }
-    .tc-4 { background: #F5F3FF; border-color: rgba(139,92,246,.25); }
-
-    .divider { height: 1px; background: var(--border); margin: 8px 0; }
+    .tc-0 { background: rgba(230,59,46,.12);  border-color: rgba(230,59,46,.25); }
+    .tc-1 { background: rgba(59,130,246,.1);  border-color: rgba(59,130,246,.22); }
+    .tc-2 { background: rgba(45,155,111,.1);  border-color: rgba(45,155,111,.22); }
+    .tc-3 { background: rgba(245,158,11,.1);  border-color: rgba(245,158,11,.22); }
+    .tc-4 { background: rgba(139,92,246,.1);  border-color: rgba(139,92,246,.22); }
   </style>
 </head>
 <body>
 
 <header>
   <span class="logo">Agency Dashboard</span>
-  <div class="header-right">
+  <div class="header-r">
     <span class="header-date" id="header-date"></span>
     <button class="reset-btn" onclick="resetDay()">↺ Reset dňa</button>
   </div>
@@ -329,7 +251,7 @@
 
 <main>
 
-  <!-- ===== AGENCY DAILY ===== -->
+  <!-- ══ AGENCY DAILY ══ -->
   <div class="card">
     <div class="card-title"><span class="dot"></span>Agency — Denné úlohy</div>
 
@@ -384,7 +306,7 @@
     </div>
   </div>
 
-  <!-- ===== CLIENT DELIVERY ===== -->
+  <!-- ══ CLIENT DELIVERY ══ -->
   <div class="card">
     <div class="card-title"><span class="dot"></span>Client Delivery</div>
 
@@ -411,6 +333,10 @@
       <button class="btn btn-dark" onclick="openLink('shoptet')">Otvoriť</button>
       <button class="btn btn-red" id="cp-shoptet" onclick="doCopy('shoptet','cp-shoptet')">Kopírovať pitch</button>
     </div>
+    <div class="sub-row">
+      <input class="email-input" type="email" id="mail-shoptet" placeholder="email@firma.sk">
+      <button class="btn btn-mail" onclick="sendMail('shoptet')">Poslať email</button>
+    </div>
 
     <div class="task-item" id="t-solar" onclick="toggle('t-solar')">
       <div class="task-check"></div>
@@ -422,6 +348,10 @@
       <button class="btn btn-dark" onclick="openLink('solar')">Otvoriť</button>
       <button class="btn btn-red" id="cp-solar" onclick="doCopy('solar','cp-solar')">Kopírovať pitch</button>
     </div>
+    <div class="sub-row">
+      <input class="email-input" type="email" id="mail-solar" placeholder="email@firma.sk">
+      <button class="btn btn-mail" onclick="sendMail('solar')">Poslať email</button>
+    </div>
 
     <div class="task-item" id="t-li-post" onclick="toggle('t-li-post')">
       <div class="task-check"></div>
@@ -429,14 +359,6 @@
     </div>
     <div class="sub-row">
       <button class="btn btn-red" id="cp-li" onclick="doCopy('linkedin-prompt','cp-li')">Kopírovať prompt pre Claude</button>
-    </div>
-
-    <div class="task-item" id="t-tiktok" onclick="toggle('t-tiktok')">
-      <div class="task-check"></div>
-      <span class="task-label">TikTok Clothing Brand — video make</span>
-    </div>
-    <div class="sub-row">
-      <button class="btn btn-dark" onclick="window.open('https://janmarcekconsulting.github.io/fashion-daily/','_blank')">Otvoriť fashion-daily</button>
     </div>
 
     <div class="task-item" id="t-jmc" onclick="toggle('t-jmc')">
@@ -448,31 +370,46 @@
       <span id="cl-txt">0 / 5</span>
       <div class="pbar-wrap"><div class="pbar-fill" id="cl-bar" style="width:0%"></div></div>
     </div>
-  </div>
 
-  <!-- ===== PITCHES ===== -->
-  <div class="card pitches-section">
-    <div class="card-title"><span class="dot"></span>Pitche &amp; Prompty</div>
-    <div class="pitch-grid" id="pitch-grid"></div>
-  </div>
-
-  <!-- ===== TEMP TASKS ===== -->
-  <div class="card temp-section">
-    <div class="card-title"><span class="dot"></span>Dočasné úlohy</div>
-    <div class="temp-add-row">
-      <input class="temp-input" id="temp-input" type="text" placeholder="Pridať úlohu..."
-        onkeydown="if(event.key==='Enter') addTemp()">
-      <button class="btn-add" onclick="addTemp()">+ Pridať</button>
+    <!-- TikTok — last, not counted -->
+    <div style="height:1px; background:rgba(255,255,255,.06); margin:10px 0;"></div>
+    <div class="task-item" id="t-tiktok" onclick="toggle('t-tiktok')">
+      <div class="task-check"></div>
+      <span class="task-label" style="color:var(--mid);">TikTok Clothing Brand — video make</span>
     </div>
-    <div class="temp-list" id="temp-list"></div>
+    <div class="sub-row">
+      <button class="btn btn-dark" onclick="window.open('https://janmarcekconsulting.github.io/fashion-daily/','_blank')">Otvoriť fashion-daily</button>
+    </div>
+  </div>
+
+  <!-- ══ BOTTOM ROW: TEMP + PITCHES ══ -->
+  <div class="full-row">
+
+    <!-- TEMP TASKS -->
+    <div class="card temp-card">
+      <div class="card-title"><span class="dot" style="background:#3b82f6"></span>Dočasné úlohy</div>
+      <div class="temp-add-row">
+        <input class="temp-input" id="temp-input" type="text" placeholder="Pridať úlohu..."
+          onkeydown="if(event.key==='Enter') addTemp()">
+        <button class="btn-add" onclick="addTemp()">+</button>
+      </div>
+      <div class="temp-list" id="temp-list"></div>
+    </div>
+
+    <!-- PITCHES -->
+    <div class="card pitch-card">
+      <div class="card-title"><span class="dot" style="background:#f5a623"></span>Pitche &amp; Prompty</div>
+      <div class="pitch-list" id="pitch-list"></div>
+    </div>
+
   </div>
 
 </main>
 
 <script>
-// ─────────────────────────────────────────
-// PITCHES DATA
-// ─────────────────────────────────────────
+// ─────────────────────────────────────
+// PITCHES
+// ─────────────────────────────────────
 const PITCHES = {
   'ceo-connect': {
     title: 'LinkedIn CEO Connect',
@@ -486,17 +423,17 @@ Pozeral som na [FIRMA / MENO], vyzerá to veľmi profesionálne. Môžem sa ťa 
   'clothing-brands': {
     title: 'LinkedIn Clothing Brands — Interview',
     text:
-`Ahoj [MENO], vďaka za connect!
+`Hello [NAME], thanks for connecting!
 
-Robím sériu krátkych YouTube rozhovorov s CEO módnych značiek — zadarmo, žiadne promo produktov.
+I was looking at your profile and noticed that you are the owner of [BRAND NAME]. I would like to learn more about your clothing brand. Don't worry, I am not trying to pitch you anything — I am just doing research in the clothing brands niche.
 
-Len 20 minút online — rozprávame sa o vašej značke, vízii a čo vás odlišuje.
-Vy získate viditeľnosť a nový obsah zadarmo, ja získam obsah na YouTube.
+Would you be down for a short 20-minute online meeting where I could ask a few questions about your brand? Also, if you are interested, I can turn the call into a short video that you can post on your social media. I would do it for free, of course, because I value your time.
 
-Mal/a by si záujem?`
+Please let me know if you are down for an online call. Thanks!`
   },
   'shoptet': {
     title: 'Shoptet — AI Chatbot Pitch',
+    subject: 'AI customer support chatbot — zadarmo testovanie',
     text:
 `Váš e-shop ako prvý na Českom a Slovenskom trhu s AI asistentom — zadarmo
 
@@ -525,6 +462,7 @@ Marček`
   },
   'solar': {
     title: 'Solárne panely — AI Chatbot Pitch',
+    subject: 'AI zákaznícka podpora zadarmo — buďte prví na česko-slovensku',
     text:
 `AI zákaznícka podpora zadarmo — buďte prví na česko-slovensku
 
@@ -551,44 +489,63 @@ Marček`
   'linkedin-prompt': {
     title: 'LinkedIn Post — Prompt pre Claude',
     text:
-`Vytvor LinkedIn post vo formáte PDF carousel (5–7 slides).
+`Write a LinkedIn PDF carousel post (5–7 slides) for a marketing and automation agency founder.
 
-Téma: [DOPLŇ TÉMU]
+Topic: [ADD TOPIC]
 
-Pravidlá:
-- Každý slide = max 3 krátke riadky
-- Slide 1: silný hook — otázka alebo prekvapivé tvrdenie ktoré zastaví scrollovanie
-- Slide 2–6: praktické, použiteľné rady — čo môže čitateľ urobiť DNES
-- Posledný slide: otázka pre publikum (na zvýšenie komentárov)
-- NIKDY nepromuješ žiadne nástroje (Claude, ChatGPT, Make, n8n atď.)
-- Hovoríš čo je MOŽNÉ, nie čo použiť
-- Témy: automatizácia, agentic workflows, marketing, sales, growth
-- Jazyk: slovenčina
-- Tón: priamy, konkrétny, nie corporátny ani "guru"
+Voice & persona: ENTJ 8w7 — direct, strategic, confident but not arrogant. Speaks from real experience, not theory. No hype, no guru energy, no corporate fluff.
 
-Formát výstupu: každý slide ako nadpis + text, číslovaný.`
+Rules:
+- Each slide = max 3 short lines
+- Slide 1: strong hook — bold statement or a question that stops scrolling
+- Slides 2–6: practical, actionable advice — what the reader can do TODAY
+- Last slide: open question for the audience (drives comments)
+- NEVER mention specific tools by name (Claude, ChatGPT, Make, n8n, Zapier, etc.)
+- Focus on WHAT IS POSSIBLE, not which tool to use
+- Topics: automation, agentic workflows, marketing, sales, growth
+- Language: English
+- Tone: direct, grounded, zero fluff
+
+Output format: each slide numbered, with a short headline + body text.`
   }
 };
 
-// ─────────────────────────────────────────
+// ─────────────────────────────────────
 // LINKS
-// ─────────────────────────────────────────
+// ─────────────────────────────────────
 function openLink(type) {
   const pg = parseInt(document.getElementById('pg-' + type)?.value) || 1;
-  const urls = {
-    ceo:     `https://www.linkedin.com/search/results/people/?keywords=a.s.&origin=GLOBAL_SEARCH_HEADER&spellCorrectionEnabled=true&page=${pg}`,
-    cloth:   `https://www.linkedin.com/search/results/people/?keywords=clothing%20brand&origin=FACETED_SEARCH&network=%5B%22F%22%2C%22S%22%2C%22O%22%5D&title=%22Clothing%20brand%22&page=${pg}`,
-    shoptet: `https://myip.ms/browse/sites/${pg}/own/`,
-    solar:   `https://www.google.com/search?q=sol%C3%A1rne+panel+firma+kontakt&start=${(pg - 1) * 10}`
-  };
-  if (urls[type]) window.open(urls[type], '_blank');
+  let url = '';
+  if (type === 'ceo')
+    url = `https://www.linkedin.com/search/results/people/?keywords=a.s.&origin=GLOBAL_SEARCH_HEADER&spellCorrectionEnabled=true&page=${pg}`;
+  else if (type === 'cloth')
+    url = `https://www.linkedin.com/search/results/people/?keywords=clothing%20brand&origin=FACETED_SEARCH&network=%5B%22F%22%2C%22S%22%2C%22O%22%5D&title=%22Clothing%20brand%22&page=${pg}`;
+  else if (type === 'shoptet')
+    url = `https://myip.ms/browse/sites/${pg}/own/1300457`;
+  else if (type === 'solar')
+    url = `https://www.google.com/search?q=solarne+panely&start=${(pg - 1) * 10}`;
+  if (url) window.open(url, '_blank');
 }
 
-// ─────────────────────────────────────────
+// ─────────────────────────────────────
+// EMAIL — mailto
+// ─────────────────────────────────────
+function sendMail(pitchKey) {
+  const emailEl = document.getElementById('mail-' + pitchKey);
+  const to = emailEl?.value?.trim();
+  if (!to) { emailEl.focus(); emailEl.style.borderColor = 'var(--signal)'; return; }
+  emailEl.style.borderColor = '';
+  const p = PITCHES[pitchKey];
+  const subject = encodeURIComponent(p.subject || p.title);
+  const body    = encodeURIComponent(p.text);
+  window.open(`mailto:${to}?subject=${subject}&body=${body}`, '_blank');
+}
+
+// ─────────────────────────────────────
 // STATE
-// ─────────────────────────────────────────
+// ─────────────────────────────────────
 const AGENCY = ['t-calls','t-call-fu','t-email','t-email-fu','t-li-fu','t-ceo','t-blog'];
-const CLIENT = ['t-cloth','t-shoptet','t-solar','t-li-post','t-tiktok','t-jmc'];
+const CLIENT = ['t-cloth','t-shoptet','t-solar','t-li-post','t-jmc']; // t-tiktok excluded from score
 
 let S = {};
 
@@ -596,18 +553,19 @@ function loadState() {
   const today = new Date().toDateString();
   const raw = JSON.parse(localStorage.getItem('agency-dash') || '{}');
   if (raw.date !== today) {
+    // New day: reset tasks only, keep pages + temps
     S = {
-      date: today,
-      tasks: {},
-      pages: raw.pages || { ceo: 10, cloth: 10, shoptet: 5, solar: 1 },
-      temps: raw.temps || [],
+      date:     today,
+      tasks:    {},
+      pages:    raw.pages    || { ceo: 10, cloth: 10, shoptet: 5, solar: 1 },
+      temps:    raw.temps    || [],
       colorIdx: raw.colorIdx || 0
     };
   } else {
     S = raw;
-    S.tasks  = S.tasks  || {};
-    S.pages  = S.pages  || { ceo: 10, cloth: 10, shoptet: 5, solar: 1 };
-    S.temps  = S.temps  || [];
+    S.tasks    = S.tasks    || {};
+    S.pages    = S.pages    || { ceo: 10, cloth: 10, shoptet: 5, solar: 1 };
+    S.temps    = S.temps    || [];
     S.colorIdx = S.colorIdx || 0;
   }
 }
@@ -619,9 +577,9 @@ function savePage(key, val) {
   save();
 }
 
-// ─────────────────────────────────────────
+// ─────────────────────────────────────
 // TASKS
-// ─────────────────────────────────────────
+// ─────────────────────────────────────
 function toggle(id) {
   const el = document.getElementById(id);
   S.tasks[id] = el.classList.toggle('done');
@@ -641,17 +599,17 @@ function updateProgress() {
 function resetDay() {
   if (!confirm('Resetovať všetky checkboxy?')) return;
   S.tasks = {};
-  [...AGENCY, ...CLIENT].forEach(id => document.getElementById(id)?.classList.remove('done'));
+  [...AGENCY, ...CLIENT, 't-tiktok'].forEach(id => document.getElementById(id)?.classList.remove('done'));
   save();
   updateProgress();
 }
 
-// ─────────────────────────────────────────
+// ─────────────────────────────────────
 // PITCHES
-// ─────────────────────────────────────────
+// ─────────────────────────────────────
 function renderPitches() {
-  const grid = document.getElementById('pitch-grid');
-  grid.innerHTML = '';
+  const list = document.getElementById('pitch-list');
+  list.innerHTML = '';
   Object.entries(PITCHES).forEach(([key, p]) => {
     const div = document.createElement('div');
     div.className = 'pitch-card';
@@ -664,7 +622,7 @@ function renderPitches() {
         <div class="pitch-text">${escHtml(p.text)}</div>
         <button class="pitch-copy" id="pcp-${key}" onclick="doCopy('${key}','pcp-${key}')">Kopírovať</button>
       </div>`;
-    grid.appendChild(div);
+    list.appendChild(div);
   });
 }
 
@@ -685,15 +643,14 @@ function doCopy(key, btnId) {
   });
 }
 
-// ─────────────────────────────────────────
+// ─────────────────────────────────────
 // TEMP TASKS
-// ─────────────────────────────────────────
+// ─────────────────────────────────────
 function addTemp() {
   const inp = document.getElementById('temp-input');
   const text = inp.value.trim();
   if (!text) return;
-  const color = S.colorIdx % 5;
-  S.temps.push({ id: Date.now(), text, color });
+  S.temps.push({ id: Date.now(), text, color: S.colorIdx % 5 });
   S.colorIdx++;
   inp.value = '';
   save();
@@ -715,7 +672,7 @@ function renderTemps() {
   list.innerHTML = S.temps.map(t => `
     <div class="temp-task tc-${t.color}">
       <span class="temp-label">${escHtml(t.text)}</span>
-      <button class="btn-del" onclick="delTemp(${t.id})" title="Zmazať">×</button>
+      <button class="btn-del" onclick="delTemp(${t.id})">×</button>
     </div>`).join('');
 }
 
@@ -723,9 +680,9 @@ function escHtml(s) {
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-// ─────────────────────────────────────────
+// ─────────────────────────────────────
 // INIT
-// ─────────────────────────────────────────
+// ─────────────────────────────────────
 function init() {
   document.getElementById('header-date').textContent =
     new Date().toLocaleDateString('sk-SK', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
@@ -738,9 +695,9 @@ function init() {
   });
 
   // Restore page numbers
-  Object.keys(S.pages).forEach(key => {
+  Object.entries(S.pages).forEach(([key, val]) => {
     const el = document.getElementById('pg-' + key);
-    if (el) el.value = S.pages[key];
+    if (el) el.value = val;
   });
 
   renderPitches();
