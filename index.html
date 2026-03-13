@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agency Dashboard</title>
+  <style>
+    :root {
+      --bg: #F5F3EE;
+      --paper: #E8E4DD;
+      --signal: #E63B2E;
+      --black: #111111;
+      --mid: rgba(17,17,17,.55);
+      --border: rgba(17,17,17,.12);
+      --green: #2D9B6F;
+      --done-bg: rgba(17,17,17,.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--black);
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    header {
+      background: var(--black);
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo { color: var(--signal); font-size: 18px; font-weight: 800; letter-spacing: -0.5px; }
+    .header-right { display: flex; align-items: center; gap: 14px; }
+    .header-date { color: rgba(255,255,255,.45); font-size: 13px; }
+    .reset-btn {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.15);
+      color: rgba(255,255,255,.65);
+      padding: 5px 13px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+    .reset-btn:hover { background: rgba(255,255,255,.15); }
+
+    /* LAYOUT */
+    main {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 24px 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* CARDS */
+    .card {
+      background: var(--paper);
+      border-radius: 12px;
+      padding: 18px;
+      border: 1px solid var(--border);
+    }
+    .card-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--mid);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .card-title .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--signal);
+      flex-shrink: 0;
+    }
+
+    /* TASK */
+    .task-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 11px;
+      border-radius: 8px;
+      margin-bottom: 4px;
+      background: rgba(255,255,255,.55);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s;
+    }
+    .task-item:hover { background: rgba(255,255,255,.85); }
+    .task-item.done {
+      background: var(--done-bg);
+      border-color: transparent;
+    }
+    .task-item.done .task-label {
+      text-decoration: line-through;
+      color: var(--mid);
+    }
+    .task-check {
+      width: 17px; height: 17px;
+      border: 2px solid rgba(17,17,17,.2);
+      border-radius: 4px;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: white;
+      transition: all 0.15s;
+    }
+    .task-item.done .task-check {
+      background: var(--signal);
+      border-color: var(--signal);
+    }
+    .task-item.done .task-check::after {
+      content: '✓';
+      color: white;
+      font-size: 10px;
+      font-weight: 800;
+    }
+    .task-label { flex: 1; font-size: 14px; font-weight: 500; line-height: 1.3; }
+    .count-pill {
+      background: rgba(17,17,17,.08);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2px 9px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--mid);
+    }
+
+    /* SUB-ROW (under task) */
+    .sub-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 3px 11px 9px 38px;
+      flex-wrap: wrap;
+    }
+    .page-label { font-size: 11px; color: var(--mid); }
+    .page-input {
+      width: 46px;
+      padding: 3px 6px;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      font-size: 12px;
+      text-align: center;
+      background: white;
+      font-weight: 600;
+      outline: none;
+    }
+    .page-input:focus { border-color: var(--signal); }
+
+    /* BUTTONS */
+    .btn {
+      padding: 4px 11px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .btn-dark { background: var(--black); color: white; }
+    .btn-dark:hover { background: #333; }
+    .btn-red { background: var(--signal); color: white; }
+    .btn-red:hover { background: #c9302a; }
+    .btn-red.copied, .btn-red.ok { background: var(--green); }
+
+    /* PROGRESS */
+    .progress-row {
+      margin-top: 10px;
+      padding: 8px 10px;
+      background: rgba(255,255,255,.4);
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--mid);
+    }
+    .pbar-wrap {
+      flex: 1;
+      height: 4px;
+      background: rgba(17,17,17,.1);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .pbar-fill {
+      height: 100%;
+      background: var(--signal);
+      border-radius: 2px;
+      transition: width 0.35s ease;
+    }
+
+    /* PITCHES */
+    .pitches-section, .temp-section { grid-column: 1 / -1; }
+
+    .pitch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 10px;
+    }
+    .pitch-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .pitch-head {
+      padding: 11px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .pitch-head:hover { background: var(--bg); }
+    .pitch-name { font-size: 13px; font-weight: 700; }
+    .pitch-arrow { font-size: 11px; color: var(--mid); }
+    .pitch-body {
+      display: none;
+      padding: 0 14px 14px;
+      border-top: 1px solid var(--border);
+    }
+    .pitch-body.open { display: block; }
+    .pitch-text {
+      font-size: 12px;
+      line-height: 1.65;
+      white-space: pre-wrap;
+      background: var(--bg);
+      padding: 10px;
+      border-radius: 6px;
+      margin: 10px 0 8px;
+      border: 1px solid var(--border);
+      color: var(--black);
+    }
+    .pitch-copy {
+      width: 100%;
+      padding: 8px;
+      border: none;
+      background: var(--signal);
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.15s;
+    }
+    .pitch-copy:hover { background: #c9302a; }
+    .pitch-copy.ok { background: var(--green); }
+
+    /* TEMP TASKS */
+    .temp-add-row { display: flex; gap: 8px; margin-bottom: 12px; }
+    .temp-input {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      font-size: 14px;
+      background: white;
+      outline: none;
+    }
+    .temp-input:focus { border-color: var(--signal); }
+    .btn-add {
+      padding: 8px 16px;
+      background: var(--signal);
+      color: white;
+      border: none;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .btn-add:hover { background: #c9302a; }
+
+    .temp-list { display: flex; flex-direction: column; gap: 6px; }
+    .temp-empty { font-size: 13px; color: var(--mid); text-align: center; padding: 16px 0; }
+
+    .temp-task {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 13px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      border: 1px solid transparent;
+    }
+    .temp-label { flex: 1; }
+    .btn-del {
+      background: none; border: none;
+      cursor: pointer; color: var(--mid);
+      font-size: 18px; line-height: 1;
+      padding: 0 2px;
+      transition: color 0.15s;
+    }
+    .btn-del:hover { color: var(--signal); }
+
+    .tc-0 { background: #FFF3F2; border-color: rgba(230,59,46,.25); }
+    .tc-1 { background: #EFF6FF; border-color: rgba(59,130,246,.25); }
+    .tc-2 { background: #F0FFF7; border-color: rgba(45,155,111,.25); }
+    .tc-3 { background: #FFFBEB; border-color: rgba(245,158,11,.25); }
+    .tc-4 { background: #F5F3FF; border-color: rgba(139,92,246,.25); }
+
+    .divider { height: 1px; background: var(--border); margin: 8px 0; }
+  </style>
+</head>
+<body>
+
+<header>
+  <span class="logo">Agency Dashboard</span>
+  <div class="header-right">
+    <span class="header-date" id="header-date"></span>
+    <button class="reset-btn" onclick="resetDay()">↺ Reset dňa</button>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===== AGENCY DAILY ===== -->
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>Agency — Denné úlohy</div>
+
+    <div class="task-item" id="t-calls" onclick="toggle('t-calls')">
+      <div class="task-check"></div>
+      <span class="task-label">Cold calls</span>
+      <span class="count-pill">150</span>
+    </div>
+
+    <div class="task-item" id="t-call-fu" onclick="toggle('t-call-fu')">
+      <div class="task-check"></div>
+      <span class="task-label">Call followup</span>
+    </div>
+
+    <div class="task-item" id="t-email" onclick="toggle('t-email')">
+      <div class="task-check"></div>
+      <span class="task-label">Email send</span>
+      <span class="count-pill">400</span>
+    </div>
+
+    <div class="task-item" id="t-email-fu" onclick="toggle('t-email-fu')">
+      <div class="task-check"></div>
+      <span class="task-label">Email followup</span>
+    </div>
+
+    <div class="task-item" id="t-li-fu" onclick="toggle('t-li-fu')">
+      <div class="task-check"></div>
+      <span class="task-label">LinkedIn Followups</span>
+    </div>
+
+    <div class="task-item" id="t-ceo" onclick="toggle('t-ceo')">
+      <div class="task-check"></div>
+      <span class="task-label">LinkedIn CEO connects</span>
+      <span class="count-pill">15</span>
+    </div>
+    <div class="sub-row">
+      <span class="page-label">Strana:</span>
+      <input class="page-input" type="number" id="pg-ceo" value="10" min="1" onchange="savePage('ceo',this.value)">
+      <button class="btn btn-dark" onclick="openLink('ceo')">Otvoriť</button>
+      <button class="btn btn-red" id="cp-ceo" onclick="doCopy('ceo-connect','cp-ceo')">Kopírovať pitch</button>
+    </div>
+
+    <div class="task-item" id="t-blog" onclick="toggle('t-blog')">
+      <div class="task-check"></div>
+      <span class="task-label">3 Blog posts — ziskajdopyt.sk</span>
+      <span class="count-pill">3</span>
+    </div>
+
+    <div class="progress-row">
+      <span id="ag-txt">0 / 7</span>
+      <div class="pbar-wrap"><div class="pbar-fill" id="ag-bar" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <!-- ===== CLIENT DELIVERY ===== -->
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>Client Delivery</div>
+
+    <div class="task-item" id="t-cloth" onclick="toggle('t-cloth')">
+      <div class="task-check"></div>
+      <span class="task-label">LinkedIn Clothing Brands CEO</span>
+      <span class="count-pill">10</span>
+    </div>
+    <div class="sub-row">
+      <span class="page-label">Strana:</span>
+      <input class="page-input" type="number" id="pg-cloth" value="10" min="1" onchange="savePage('cloth',this.value)">
+      <button class="btn btn-dark" onclick="openLink('cloth')">Otvoriť</button>
+      <button class="btn btn-red" id="cp-cloth" onclick="doCopy('clothing-brands','cp-cloth')">Kopírovať pitch</button>
+    </div>
+
+    <div class="task-item" id="t-shoptet" onclick="toggle('t-shoptet')">
+      <div class="task-check"></div>
+      <span class="task-label">Email Chatbot — Shoptet pitch</span>
+      <span class="count-pill">10</span>
+    </div>
+    <div class="sub-row">
+      <span class="page-label">Strana:</span>
+      <input class="page-input" type="number" id="pg-shoptet" value="5" min="1" onchange="savePage('shoptet',this.value)">
+      <button class="btn btn-dark" onclick="openLink('shoptet')">Otvoriť</button>
+      <button class="btn btn-red" id="cp-shoptet" onclick="doCopy('shoptet','cp-shoptet')">Kopírovať pitch</button>
+    </div>
+
+    <div class="task-item" id="t-solar" onclick="toggle('t-solar')">
+      <div class="task-check"></div>
+      <span class="task-label">Solárne panely — scrape</span>
+    </div>
+    <div class="sub-row">
+      <span class="page-label">Strana:</span>
+      <input class="page-input" type="number" id="pg-solar" value="1" min="1" onchange="savePage('solar',this.value)">
+      <button class="btn btn-dark" onclick="openLink('solar')">Otvoriť</button>
+      <button class="btn btn-red" id="cp-solar" onclick="doCopy('solar','cp-solar')">Kopírovať pitch</button>
+    </div>
+
+    <div class="task-item" id="t-li-post" onclick="toggle('t-li-post')">
+      <div class="task-check"></div>
+      <span class="task-label">LinkedIn Post — vytvoriť</span>
+    </div>
+    <div class="sub-row">
+      <button class="btn btn-red" id="cp-li" onclick="doCopy('linkedin-prompt','cp-li')">Kopírovať prompt pre Claude</button>
+    </div>
+
+    <div class="task-item" id="t-tiktok" onclick="toggle('t-tiktok')">
+      <div class="task-check"></div>
+      <span class="task-label">TikTok Clothing Brand — video make</span>
+    </div>
+    <div class="sub-row">
+      <button class="btn btn-dark" onclick="window.open('https://janmarcekconsulting.github.io/fashion-daily/','_blank')">Otvoriť fashion-daily</button>
+    </div>
+
+    <div class="task-item" id="t-jmc" onclick="toggle('t-jmc')">
+      <div class="task-check"></div>
+      <span class="task-label">Jan Marcek Consulting — followups</span>
+    </div>
+
+    <div class="progress-row">
+      <span id="cl-txt">0 / 5</span>
+      <div class="pbar-wrap"><div class="pbar-fill" id="cl-bar" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <!-- ===== PITCHES ===== -->
+  <div class="card pitches-section">
+    <div class="card-title"><span class="dot"></span>Pitche &amp; Prompty</div>
+    <div class="pitch-grid" id="pitch-grid"></div>
+  </div>
+
+  <!-- ===== TEMP TASKS ===== -->
+  <div class="card temp-section">
+    <div class="card-title"><span class="dot"></span>Dočasné úlohy</div>
+    <div class="temp-add-row">
+      <input class="temp-input" id="temp-input" type="text" placeholder="Pridať úlohu..."
+        onkeydown="if(event.key==='Enter') addTemp()">
+      <button class="btn-add" onclick="addTemp()">+ Pridať</button>
+    </div>
+    <div class="temp-list" id="temp-list"></div>
+  </div>
+
+</main>
+
+<script>
+// ─────────────────────────────────────────
+// PITCHES DATA
+// ─────────────────────────────────────────
+const PITCHES = {
+  'ceo-connect': {
+    title: 'LinkedIn CEO Connect',
+    text:
+`Ahoj [MENO], diky za connect.
+
+Pozeral som na [FIRMA / MENO], vyzerá to veľmi profesionálne. Môžem sa ťa spýtať akým spôsobom získavaš zákazníkov? Je to organicky z webu alebo púštaš aj ads?
+
+Ďakujem`
+  },
+  'clothing-brands': {
+    title: 'LinkedIn Clothing Brands — Interview',
+    text:
+`Ahoj [MENO], vďaka za connect!
+
+Robím sériu krátkych YouTube rozhovorov s CEO módnych značiek — zadarmo, žiadne promo produktov.
+
+Len 20 minút online — rozprávame sa o vašej značke, vízii a čo vás odlišuje.
+Vy získate viditeľnosť a nový obsah zadarmo, ja získam obsah na YouTube.
+
+Mal/a by si záujem?`
+  },
+  'shoptet': {
+    title: 'Shoptet — AI Chatbot Pitch',
+    text:
+`Váš e-shop ako prvý na Českom a Slovenskom trhu s AI asistentom — zadarmo
+
+Dobrý deň,
+
+hľadáme jeden e-shop, ktorý by bol ochotný otestovať technológiu, ktorú sme vyvinuli — AI customer support chatbot pre e-commerce.
+
+Implementácia je zámerene jednoduchá: jeden riadok kódu na web stránku a link na váš produktový feed. Nič viac. Celý proces zaberie menej ako 10 minút.
+
+Čo chatbot robí:
+• Odpovedá zákazníkom v reálnom čase, 24/7
+• Filtruje produkty podľa rozpočtu a preferencií
+• Porovnáva produkty vedľa seba
+• Prevedie zákazníka výberom krok za krokom
+• Navrhne doplnkové produkty (príslušenstvo, darčeky)
+• Pamätá si históriu konverzácií
+
+Všetky náklady sú na našej strane — hľadáme partnera na reálne testovanie, nie platiacich zákazníkov.
+
+Táto technológia je na česko-slovenskom trhu nová a vy by ste boli medzi prvými, kto ju má.
+
+Ak vás to zaujíma, rád odpoviem na akékoľvek otázky.
+
+S pozdravom,
+Marček`
+  },
+  'solar': {
+    title: 'Solárne panely — AI Chatbot Pitch',
+    text:
+`AI zákaznícka podpora zadarmo — buďte prví na česko-slovensku
+
+Dobrý deň,
+
+keď zákazník položí otázku a nedostane odpoveď, odíde tam, kde ju dostane hneď. Preto sme vyvinuli automatizovanú zákaznícku podporu 24/7 — a hľadáme partnera, ktorý ju bude prvý na česko-slovenskom trhu testovať zadarmo.
+
+Čo chatbot robí:
+• Odpovedá zákazníkom okamžite, 24/7
+• Odporúča produkty na základe rozpočtu a preferencií zákazníka
+• Filtruje a porovnáva možnosti krok za krokom
+• Navrhuje doplnkové produkty a príslušenstvo
+• Pamätá si históriu konverzácií — zákazník nemusí vysvetľovať dvakrát
+
+Implementácia: jeden riadok kódu na web stránku. Celý proces zaberie menej ako 10 minút.
+
+Všetky náklady sú na našej strane — hľadáme partnera na reálne testovanie, nie platiacich zákazníkov.
+
+Ak vás to zaujíma, rád odpoviem na akékoľvek otázky.
+
+S pozdravom,
+Marček`
+  },
+  'linkedin-prompt': {
+    title: 'LinkedIn Post — Prompt pre Claude',
+    text:
+`Vytvor LinkedIn post vo formáte PDF carousel (5–7 slides).
+
+Téma: [DOPLŇ TÉMU]
+
+Pravidlá:
+- Každý slide = max 3 krátke riadky
+- Slide 1: silný hook — otázka alebo prekvapivé tvrdenie ktoré zastaví scrollovanie
+- Slide 2–6: praktické, použiteľné rady — čo môže čitateľ urobiť DNES
+- Posledný slide: otázka pre publikum (na zvýšenie komentárov)
+- NIKDY nepromuješ žiadne nástroje (Claude, ChatGPT, Make, n8n atď.)
+- Hovoríš čo je MOŽNÉ, nie čo použiť
+- Témy: automatizácia, agentic workflows, marketing, sales, growth
+- Jazyk: slovenčina
+- Tón: priamy, konkrétny, nie corporátny ani "guru"
+
+Formát výstupu: každý slide ako nadpis + text, číslovaný.`
+  }
+};
+
+// ─────────────────────────────────────────
+// LINKS
+// ─────────────────────────────────────────
+function openLink(type) {
+  const pg = parseInt(document.getElementById('pg-' + type)?.value) || 1;
+  const urls = {
+    ceo:     `https://www.linkedin.com/search/results/people/?keywords=a.s.&origin=GLOBAL_SEARCH_HEADER&spellCorrectionEnabled=true&page=${pg}`,
+    cloth:   `https://www.linkedin.com/search/results/people/?keywords=clothing%20brand&origin=FACETED_SEARCH&network=%5B%22F%22%2C%22S%22%2C%22O%22%5D&title=%22Clothing%20brand%22&page=${pg}`,
+    shoptet: `https://myip.ms/browse/sites/${pg}/own/`,
+    solar:   `https://www.google.com/search?q=sol%C3%A1rne+panel+firma+kontakt&start=${(pg - 1) * 10}`
+  };
+  if (urls[type]) window.open(urls[type], '_blank');
+}
+
+// ─────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────
+const AGENCY = ['t-calls','t-call-fu','t-email','t-email-fu','t-li-fu','t-ceo','t-blog'];
+const CLIENT = ['t-cloth','t-shoptet','t-solar','t-li-post','t-tiktok','t-jmc'];
+
+let S = {};
+
+function loadState() {
+  const today = new Date().toDateString();
+  const raw = JSON.parse(localStorage.getItem('agency-dash') || '{}');
+  if (raw.date !== today) {
+    S = {
+      date: today,
+      tasks: {},
+      pages: raw.pages || { ceo: 10, cloth: 10, shoptet: 5, solar: 1 },
+      temps: raw.temps || [],
+      colorIdx: raw.colorIdx || 0
+    };
+  } else {
+    S = raw;
+    S.tasks  = S.tasks  || {};
+    S.pages  = S.pages  || { ceo: 10, cloth: 10, shoptet: 5, solar: 1 };
+    S.temps  = S.temps  || [];
+    S.colorIdx = S.colorIdx || 0;
+  }
+}
+
+function save() { localStorage.setItem('agency-dash', JSON.stringify(S)); }
+
+function savePage(key, val) {
+  S.pages[key] = parseInt(val) || 1;
+  save();
+}
+
+// ─────────────────────────────────────────
+// TASKS
+// ─────────────────────────────────────────
+function toggle(id) {
+  const el = document.getElementById(id);
+  S.tasks[id] = el.classList.toggle('done');
+  save();
+  updateProgress();
+}
+
+function updateProgress() {
+  const ad = AGENCY.filter(id => S.tasks[id]).length;
+  const cd = CLIENT.filter(id => S.tasks[id]).length;
+  document.getElementById('ag-txt').textContent = `${ad} / ${AGENCY.length}`;
+  document.getElementById('ag-bar').style.width  = `${ad / AGENCY.length * 100}%`;
+  document.getElementById('cl-txt').textContent = `${cd} / ${CLIENT.length}`;
+  document.getElementById('cl-bar').style.width  = `${cd / CLIENT.length * 100}%`;
+}
+
+function resetDay() {
+  if (!confirm('Resetovať všetky checkboxy?')) return;
+  S.tasks = {};
+  [...AGENCY, ...CLIENT].forEach(id => document.getElementById(id)?.classList.remove('done'));
+  save();
+  updateProgress();
+}
+
+// ─────────────────────────────────────────
+// PITCHES
+// ─────────────────────────────────────────
+function renderPitches() {
+  const grid = document.getElementById('pitch-grid');
+  grid.innerHTML = '';
+  Object.entries(PITCHES).forEach(([key, p]) => {
+    const div = document.createElement('div');
+    div.className = 'pitch-card';
+    div.innerHTML = `
+      <div class="pitch-head" onclick="togglePitch('pb-${key}','pa-${key}')">
+        <span class="pitch-name">${p.title}</span>
+        <span class="pitch-arrow" id="pa-${key}">▼</span>
+      </div>
+      <div class="pitch-body" id="pb-${key}">
+        <div class="pitch-text">${escHtml(p.text)}</div>
+        <button class="pitch-copy" id="pcp-${key}" onclick="doCopy('${key}','pcp-${key}')">Kopírovať</button>
+      </div>`;
+    grid.appendChild(div);
+  });
+}
+
+function togglePitch(bodyId, arrowId) {
+  const open = document.getElementById(bodyId).classList.toggle('open');
+  document.getElementById(arrowId).textContent = open ? '▲' : '▼';
+}
+
+function doCopy(key, btnId) {
+  const text = PITCHES[key]?.text;
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById(btnId);
+    const orig = btn.textContent;
+    btn.textContent = '✓ Skopírované';
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove('ok'); }, 2000);
+  });
+}
+
+// ─────────────────────────────────────────
+// TEMP TASKS
+// ─────────────────────────────────────────
+function addTemp() {
+  const inp = document.getElementById('temp-input');
+  const text = inp.value.trim();
+  if (!text) return;
+  const color = S.colorIdx % 5;
+  S.temps.push({ id: Date.now(), text, color });
+  S.colorIdx++;
+  inp.value = '';
+  save();
+  renderTemps();
+}
+
+function delTemp(id) {
+  S.temps = S.temps.filter(t => t.id !== id);
+  save();
+  renderTemps();
+}
+
+function renderTemps() {
+  const list = document.getElementById('temp-list');
+  if (!S.temps.length) {
+    list.innerHTML = '<div class="temp-empty">Žiadne dočasné úlohy</div>';
+    return;
+  }
+  list.innerHTML = S.temps.map(t => `
+    <div class="temp-task tc-${t.color}">
+      <span class="temp-label">${escHtml(t.text)}</span>
+      <button class="btn-del" onclick="delTemp(${t.id})" title="Zmazať">×</button>
+    </div>`).join('');
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ─────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────
+function init() {
+  document.getElementById('header-date').textContent =
+    new Date().toLocaleDateString('sk-SK', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+
+  loadState();
+
+  // Restore checkboxes
+  Object.keys(S.tasks).forEach(id => {
+    if (S.tasks[id]) document.getElementById(id)?.classList.add('done');
+  });
+
+  // Restore page numbers
+  Object.keys(S.pages).forEach(key => {
+    const el = document.getElementById('pg-' + key);
+    if (el) el.value = S.pages[key];
+  });
+
+  renderPitches();
+  renderTemps();
+  updateProgress();
+}
+
+init();
+</script>
+</body>
+</html>
