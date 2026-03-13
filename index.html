@@ -15,10 +15,12 @@
       --mid:       rgba(235,235,235,.38);
       --signal:    #E63B2E;
       --green:     #2D9B6F;
+      --gold:      #FFD700;
+      --gold-bg:   rgba(255,215,0,.12);
+      --gold-bdr:  rgba(255,215,0,.32);
       --task-bg:   rgba(255,255,255,.04);
-      --task-hov:  rgba(255,255,255,.08);
+      --task-hov:  rgba(255,255,255,.07);
       --task-done: rgba(255,255,255,.02);
-      --inp:       rgba(255,255,255,.07);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
@@ -27,35 +29,51 @@
     header {
       background: #111; border-bottom: 1px solid var(--border);
       padding: 0 20px; height: 52px;
-      display: grid; grid-template-columns: 1fr auto 1fr;
-      align-items: center; position: sticky; top: 0; z-index: 100;
+      display: grid; grid-template-columns: auto 1fr auto;
+      align-items: center; gap: 12px;
+      position: sticky; top: 0; z-index: 100;
     }
-    .logo { color: var(--signal); font-size: 16px; font-weight: 800; letter-spacing: -.4px; }
+    .logo { color: var(--signal); font-size: 16px; font-weight: 800; letter-spacing: -.4px; white-space: nowrap; }
 
     /* Day nav */
-    .day-nav { display: flex; align-items: center; gap: 4px; }
+    .day-nav { display: flex; align-items: center; justify-content: center; gap: 4px; }
     .day-arrow {
-      background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1);
-      color: var(--mid); width: 26px; height: 26px; border-radius: 6px;
-      cursor: pointer; font-size: 13px; display: flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+      color: rgba(255,255,255,.35); width: 26px; height: 26px; border-radius: 6px;
+      cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center;
       transition: all .15s; flex-shrink: 0;
     }
-    .day-arrow:hover { background: rgba(255,255,255,.14); color: var(--text); }
+    .day-arrow:hover { background: var(--gold-bg); border-color: var(--gold-bdr); color: var(--gold); }
     .day-pill {
       padding: 4px 10px; border-radius: 6px; cursor: pointer;
-      font-size: 11px; font-weight: 600; color: var(--mid);
-      border: 1px solid transparent; transition: all .15s; white-space: nowrap;
+      font-size: 11px; font-weight: 600;
+      color: rgba(255,255,255,.3);
+      border: 1px solid transparent;
+      background: transparent;
+      transition: all .15s; white-space: nowrap;
     }
-    .day-pill:hover { background: rgba(255,255,255,.06); color: var(--text); }
-    .day-pill.active { background: rgba(230,59,46,.15); border-color: rgba(230,59,46,.3); color: var(--text); }
+    .day-pill:hover { color: rgba(255,255,255,.7); background: rgba(255,255,255,.05); }
+    .day-pill.active { background: var(--gold-bg); border-color: var(--gold-bdr); color: var(--gold); }
     .day-pill.today-marker { position: relative; }
     .day-pill.today-marker::after {
       content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%);
-      width: 4px; height: 4px; border-radius: 50%; background: var(--signal);
+      width: 4px; height: 4px; border-radius: 50%; background: var(--gold);
     }
 
-    .header-r { display: flex; justify-content: flex-end; }
-    .header-date { color: rgba(255,255,255,.3); font-size: 11px; }
+    /* header right */
+    .header-r { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
+    .header-date { color: rgba(255,255,255,.28); font-size: 11px; white-space: nowrap; }
+    .cal-btn {
+      background: var(--gold-bg); border: 1px solid var(--gold-bdr);
+      color: var(--gold); padding: 5px 12px; border-radius: 6px;
+      cursor: pointer; font-size: 11px; font-weight: 700; transition: all .15s;
+    }
+    .cal-btn:hover { background: rgba(255,215,0,.2); }
+    .cal-btn.active { background: rgba(255,215,0,.25); }
+
+    /* ── PAGES ── */
+    #page-main { display: block; }
+    #page-cal  { display: none;  }
 
     /* ── LAYOUT ── */
     main { max-width: 1320px; margin: 0 auto; padding: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
@@ -65,13 +83,9 @@
     .card { background: var(--card); border-radius: 11px; padding: 16px; border: 1px solid var(--border); }
     .card.temp-card  { background: var(--card-temp);  border-color: rgba(59,130,246,.14); }
     .card.pitch-card { background: var(--card-pitch); border-color: rgba(245,166,35,.1); }
-    .card.cal-card   { background: #131313; border-color: var(--border); }
 
     .card-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.1px; color: var(--mid); margin-bottom: 13px; display: flex; align-items: center; gap: 7px; }
     .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--signal); flex-shrink: 0; }
-
-    /* past-day dim */
-    .past-dim { opacity: .6; pointer-events: none; }
 
     /* ── TASK ── */
     .task-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 7px; margin-bottom: 4px; background: var(--task-bg); border: 1px solid var(--border); cursor: pointer; user-select: none; transition: background .15s; }
@@ -82,25 +96,32 @@
     .task-item.done .task-check { background: var(--signal); border-color: var(--signal); }
     .task-item.done .task-check::after { content: '✓'; color: #fff; font-size: 10px; font-weight: 800; }
     .task-label { flex: 1; font-size: 13px; font-weight: 500; line-height: 1.3; }
-    .count-pill { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); border-radius: 20px; padding: 2px 8px; font-size: 10px; font-weight: 700; color: var(--mid); }
+
+    /* count pill — gold */
+    .count-pill {
+      background: var(--gold-bg);
+      border: 1px solid var(--gold-bdr);
+      border-radius: 20px; padding: 2px 8px;
+      font-size: 10px; font-weight: 800; color: var(--gold);
+    }
 
     .sub-row { display: flex; align-items: center; gap: 6px; padding: 2px 10px 8px 36px; flex-wrap: wrap; }
     .page-label { font-size: 10px; color: var(--mid); }
-    .page-input { width: 44px; padding: 3px 5px; border: 1px solid rgba(255,255,255,.14); border-radius: 5px; font-size: 12px; text-align: center; background: var(--inp); color: var(--text); font-weight: 600; outline: none; }
-    .page-input:focus { border-color: var(--signal); }
+    .page-input { width: 44px; padding: 3px 5px; border: 1px solid rgba(255,255,255,.14); border-radius: 5px; font-size: 12px; text-align: center; background: rgba(255,255,255,.07); color: var(--text); font-weight: 600; outline: none; }
+    .page-input:focus { border-color: var(--gold); }
 
-    /* ── BUTTONS ── */
+    /* ── BUTTONS — gold ── */
     .btn { padding: 4px 11px; border-radius: 5px; border: none; cursor: pointer; font-size: 11px; font-weight: 700; transition: all .15s; white-space: nowrap; }
-    .btn-dark { background: rgba(255,255,255,.09); color: var(--text); }
-    .btn-dark:hover { background: rgba(255,255,255,.16); }
-    .btn-red  { background: var(--signal); color: #fff; }
-    .btn-red:hover  { background: #c9302a; }
-    .btn-red.ok     { background: var(--green); }
+    .btn-dark { background: rgba(255,255,255,.09); color: var(--text); border: 1px solid rgba(255,255,255,.1); }
+    .btn-dark:hover { background: rgba(255,255,255,.15); }
+    .btn-gold { background: var(--gold); color: #111; }
+    .btn-gold:hover { background: #ffe033; }
+    .btn-gold.ok { background: var(--green); color: #fff; }
 
     /* ── PROGRESS ── */
     .progress-row { margin-top: 10px; padding: 7px 10px; background: rgba(255,255,255,.03); border-radius: 7px; display: flex; align-items: center; gap: 10px; font-size: 11px; color: var(--mid); }
     .pbar-wrap { flex: 1; height: 3px; background: rgba(255,255,255,.08); border-radius: 2px; overflow: hidden; }
-    .pbar-fill { height: 100%; background: var(--signal); border-radius: 2px; transition: width .35s ease; }
+    .pbar-fill { height: 100%; background: var(--gold); border-radius: 2px; transition: width .35s ease; }
 
     /* ── PITCHES ── */
     .pitch-list { display: flex; flex-direction: column; gap: 8px; }
@@ -112,57 +133,74 @@
     .pitch-body { display: none; padding: 0 13px 13px; border-top: 1px solid rgba(255,255,255,.06); }
     .pitch-body.open { display: block; }
     .pitch-text { font-size: 12px; line-height: 1.65; white-space: pre-wrap; background: rgba(0,0,0,.3); padding: 10px; border-radius: 6px; margin: 10px 0 8px; border: 1px solid rgba(255,255,255,.06); color: rgba(235,235,235,.8); }
-    .pitch-copy { width: 100%; padding: 7px; border: none; background: var(--signal); color: #fff; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 700; transition: all .15s; }
-    .pitch-copy:hover { background: #c9302a; }
-    .pitch-copy.ok { background: var(--green); }
+    .pitch-copy { width: 100%; padding: 7px; border: none; background: var(--gold); color: #111; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 700; transition: all .15s; }
+    .pitch-copy:hover { background: #ffe033; }
+    .pitch-copy.ok { background: var(--green); color: #fff; }
 
     /* ── TEMP TASKS ── */
     .temp-add-row { display: flex; gap: 8px; margin-bottom: 11px; }
     .temp-input { flex: 1; padding: 7px 11px; border: 1px solid rgba(255,255,255,.12); border-radius: 7px; font-size: 13px; background: rgba(255,255,255,.06); color: var(--text); outline: none; }
-    .temp-input:focus { border-color: var(--signal); }
+    .temp-input:focus { border-color: var(--gold); }
     .temp-input::placeholder { color: rgba(255,255,255,.22); }
-    .btn-add { padding: 7px 15px; background: var(--signal); color: #fff; border: none; border-radius: 7px; cursor: pointer; font-size: 14px; font-weight: 800; }
-    .btn-add:hover { background: #c9302a; }
+    .btn-add { padding: 7px 15px; background: var(--gold); color: #111; border: none; border-radius: 7px; cursor: pointer; font-size: 14px; font-weight: 800; }
+    .btn-add:hover { background: #ffe033; }
     .temp-list { display: flex; flex-direction: column; gap: 6px; }
     .temp-empty { font-size: 12px; color: var(--mid); text-align: center; padding: 16px 0; }
     .temp-task { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 7px; font-size: 13px; font-weight: 500; border: 1px solid transparent; }
     .temp-label { flex: 1; }
     .btn-del { background: none; border: none; cursor: pointer; color: var(--mid); font-size: 17px; line-height: 1; padding: 0 2px; transition: color .15s; }
     .btn-del:hover { color: var(--signal); }
-    .tc-0 { background: rgba(230,59,46,.11);  border-color: rgba(230,59,46,.22); }
+    .tc-0 { background: rgba(255,215,0,.08);  border-color: rgba(255,215,0,.2); }
     .tc-1 { background: rgba(59,130,246,.09); border-color: rgba(59,130,246,.2); }
     .tc-2 { background: rgba(45,155,111,.09); border-color: rgba(45,155,111,.2); }
-    .tc-3 { background: rgba(245,158,11,.09); border-color: rgba(245,158,11,.2); }
+    .tc-3 { background: rgba(230,59,46,.09);  border-color: rgba(230,59,46,.2); }
     .tc-4 { background: rgba(139,92,246,.09); border-color: rgba(139,92,246,.2); }
 
-    /* ── CALENDAR ── */
-    .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-    .cal-month { font-size: 13px; font-weight: 700; }
-    .cal-nav { display: flex; gap: 6px; }
-    .cal-nav-btn { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); color: var(--mid); width: 24px; height: 24px; border-radius: 5px; cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center; }
-    .cal-nav-btn:hover { background: rgba(255,255,255,.13); color: var(--text); }
-    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
-    .cal-dow { font-size: 9px; font-weight: 700; text-align: center; color: var(--mid); padding-bottom: 4px; text-transform: uppercase; letter-spacing: .6px; }
+    /* ══ CALENDAR PAGE ══ */
+    #page-cal { padding: 24px 20px; max-width: 1000px; margin: 0 auto; }
+    .cal-page-title { font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 20px; }
+
+    .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+    .cal-month { font-size: 15px; font-weight: 700; color: var(--text); }
+    .cal-nav { display: flex; gap: 8px; }
+    .cal-nav-btn { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); color: var(--mid); width: 28px; height: 28px; border-radius: 6px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+    .cal-nav-btn:hover { background: var(--gold-bg); border-color: var(--gold-bdr); color: var(--gold); }
+
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+    .cal-dow { font-size: 10px; font-weight: 700; text-align: center; color: var(--mid); padding-bottom: 6px; text-transform: uppercase; letter-spacing: .6px; }
+
     .cal-day {
-      aspect-ratio: 1; border-radius: 6px; border: 1px solid transparent;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      cursor: pointer; transition: all .15s; position: relative; padding: 2px;
+      min-height: 80px; border-radius: 8px; border: 1px solid transparent;
+      display: flex; flex-direction: column;
+      cursor: pointer; transition: all .15s; padding: 8px 7px 7px; gap: 4px;
+      background: rgba(255,255,255,.02);
     }
-    .cal-day:hover { background: rgba(255,255,255,.06); }
-    .cal-day.empty { cursor: default; }
-    .cal-day.has-data { border-color: rgba(255,255,255,.08); background: rgba(255,255,255,.03); }
-    .cal-day.is-today { border-color: rgba(230,59,46,.4) !important; }
-    .cal-day.is-viewing { background: rgba(230,59,46,.12); border-color: rgba(230,59,46,.35); }
-    .cal-day-num { font-size: 10px; font-weight: 600; color: var(--mid); line-height: 1; }
-    .cal-day.has-data .cal-day-num { color: var(--text); }
-    .cal-scores { display: flex; gap: 2px; margin-top: 2px; }
-    .cal-score {
-      font-size: 8px; font-weight: 700; padding: 1px 3px; border-radius: 3px;
-      line-height: 1.4;
+    .cal-day:hover { background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.1); }
+    .cal-day.empty { cursor: default; background: transparent; }
+    .cal-day.empty:hover { background: transparent; border-color: transparent; }
+    .cal-day.has-data { border-color: rgba(255,255,255,.08); background: rgba(255,255,255,.04); }
+    .cal-day.is-today { border-color: var(--gold-bdr) !important; }
+    .cal-day.is-viewing { background: var(--gold-bg); border-color: var(--gold-bdr); }
+
+    .cal-day-num { font-size: 16px; font-weight: 800; color: rgba(255,255,255,.25); line-height: 1; }
+    .cal-day.has-data .cal-day-num,
+    .cal-day.is-today .cal-day-num { color: var(--text); }
+
+    .cal-score-block { display: flex; flex-direction: column; gap: 3px; margin-top: 2px; }
+    .cal-score-row {
+      display: flex; align-items: center; gap: 4px;
     }
-    .cal-score.zd  { background: rgba(230,59,46,.2);  color: #ff7a6e; }
-    .cal-score.jmc { background: rgba(59,130,246,.2); color: #7eb8ff; }
-    .cal-score.full { opacity: 1; }
+    .cal-score-badge {
+      font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 3px; line-height: 1.5; flex-shrink: 0;
+    }
+    .cal-score-badge.zd  { background: rgba(230,59,46,.2);  color: #ff7a6e; }
+    .cal-score-badge.jmc { background: rgba(59,130,246,.2); color: #7eb8ff; }
+    .cal-score-badge.full-zd  { background: rgba(255,215,0,.2); color: var(--gold); }
+    .cal-score-badge.full-jmc { background: rgba(45,155,111,.2); color: #5ddba5; }
+    .cal-score-label { font-size: 9px; color: var(--mid); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .cal-legend { display: flex; gap: 16px; margin-top: 16px; flex-wrap: wrap; }
+    .cal-legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--mid); }
   </style>
 </head>
 <body>
@@ -172,19 +210,21 @@
 
   <div class="day-nav" id="day-nav">
     <button class="day-arrow" onclick="shiftView(-1)">‹</button>
-    <!-- pills rendered by JS -->
     <button class="day-arrow" onclick="shiftView(1)">›</button>
   </div>
 
   <div class="header-r">
     <span class="header-date" id="header-date"></span>
+    <button class="cal-btn" id="cal-toggle-btn" onclick="toggleCalPage()">📅 Kalendár</button>
   </div>
 </header>
 
+<!-- ══ MAIN PAGE ══ -->
+<div id="page-main">
 <main>
 
-  <!-- ══ ZÍSKAJ DOPYT ══ -->
-  <div class="card" id="col-zd">
+  <!-- ZÍSKAJ DOPYT -->
+  <div class="card">
     <div class="card-title"><span class="dot"></span>Získaj Dopyt — Denné úlohy</div>
 
     <div class="task-item" id="t-calls" onclick="toggle('t-calls')"><div class="task-check"></div><span class="task-label">Cold calls</span><span class="count-pill">150</span></div>
@@ -198,7 +238,7 @@
       <span class="page-label">Strana:</span>
       <input class="page-input" type="number" id="pg-ceo" value="10" min="1" onchange="savePage('ceo',this.value)">
       <button class="btn btn-dark" onclick="openLink('ceo')">Otvoriť</button>
-      <button class="btn btn-red" id="cp-ceo" onclick="doCopy('ceo-connect','cp-ceo')">Kopírovať pitch</button>
+      <button class="btn btn-gold" id="cp-ceo" onclick="doCopy('ceo-connect','cp-ceo')">Kopírovať pitch</button>
     </div>
 
     <div class="task-item" id="t-blog" onclick="toggle('t-blog')"><div class="task-check"></div><span class="task-label">3 Blog posts — ziskajdopyt.sk</span><span class="count-pill">3</span></div>
@@ -209,8 +249,8 @@
     </div>
   </div>
 
-  <!-- ══ JÁN MARČEK CONSULTING ══ -->
-  <div class="card" id="col-jmc">
+  <!-- JÁN MARČEK CONSULTING -->
+  <div class="card">
     <div class="card-title"><span class="dot" style="background:#3b82f6"></span>Ján Marček Consulting</div>
 
     <div class="task-item" id="t-cloth" onclick="toggle('t-cloth')"><div class="task-check"></div><span class="task-label">LinkedIn Clothing Brands CEO</span><span class="count-pill">10</span></div>
@@ -218,7 +258,7 @@
       <span class="page-label">Strana:</span>
       <input class="page-input" type="number" id="pg-cloth" value="10" min="1" onchange="savePage('cloth',this.value)">
       <button class="btn btn-dark" onclick="openLink('cloth')">Otvoriť</button>
-      <button class="btn btn-red" id="cp-cloth" onclick="doCopy('clothing-brands','cp-cloth')">Kopírovať pitch</button>
+      <button class="btn btn-gold" id="cp-cloth" onclick="doCopy('clothing-brands','cp-cloth')">Kopírovať pitch</button>
     </div>
 
     <div class="task-item" id="t-shoptet" onclick="toggle('t-shoptet')"><div class="task-check"></div><span class="task-label">Email Chatbot — Shoptet pitch</span><span class="count-pill">10</span></div>
@@ -226,7 +266,7 @@
       <span class="page-label">Strana:</span>
       <input class="page-input" type="number" id="pg-shoptet" value="5" min="1" onchange="savePage('shoptet',this.value)">
       <button class="btn btn-dark" onclick="openLink('shoptet')">Otvoriť</button>
-      <button class="btn btn-red" id="cp-shoptet" onclick="doCopy('shoptet','cp-shoptet')">Kopírovať pitch</button>
+      <button class="btn btn-gold" id="cp-shoptet" onclick="doCopy('shoptet','cp-shoptet')">Kopírovať pitch</button>
     </div>
 
     <div class="task-item" id="t-solar" onclick="toggle('t-solar')"><div class="task-check"></div><span class="task-label">Solárne panely — scrape</span></div>
@@ -234,12 +274,12 @@
       <span class="page-label">Strana:</span>
       <input class="page-input" type="number" id="pg-solar" value="1" min="1" onchange="savePage('solar',this.value)">
       <button class="btn btn-dark" onclick="openLink('solar')">Otvoriť</button>
-      <button class="btn btn-red" id="cp-solar" onclick="doCopy('solar','cp-solar')">Kopírovať pitch</button>
+      <button class="btn btn-gold" id="cp-solar" onclick="doCopy('solar','cp-solar')">Kopírovať pitch</button>
     </div>
 
     <div class="task-item" id="t-li-post" onclick="toggle('t-li-post')"><div class="task-check"></div><span class="task-label">LinkedIn Post — vytvoriť</span></div>
     <div class="sub-row">
-      <button class="btn btn-red" id="cp-li" onclick="doCopy('linkedin-prompt','cp-li')">Kopírovať prompt pre Claude</button>
+      <button class="btn btn-gold" id="cp-li" onclick="doCopy('linkedin-prompt','cp-li')">Kopírovať prompt pre Claude</button>
     </div>
 
     <div class="task-item" id="t-jmc" onclick="toggle('t-jmc')"><div class="task-check"></div><span class="task-label">Jan Marcek Consulting — followups</span></div>
@@ -259,9 +299,8 @@
     </div>
   </div>
 
-  <!-- ══ BOTTOM ROW ══ -->
+  <!-- BOTTOM ROW -->
   <div class="full-row">
-
     <div class="card temp-card">
       <div class="card-title"><span class="dot" style="background:#3b82f6"></span>Dočasné úlohy</div>
       <div class="temp-add-row">
@@ -272,14 +311,17 @@
     </div>
 
     <div class="card pitch-card">
-      <div class="card-title"><span class="dot" style="background:#f5a623"></span>Pitche &amp; Prompty</div>
+      <div class="card-title"><span class="dot" style="background:var(--gold)"></span>Pitche &amp; Prompty</div>
       <div class="pitch-list" id="pitch-list"></div>
     </div>
-
   </div>
 
-  <!-- ══ CALENDAR ══ -->
-  <div class="card cal-card full-row" style="grid-template-columns:1fr;">
+</main>
+</div>
+
+<!-- ══ CALENDAR PAGE ══ -->
+<div id="page-cal">
+  <div style="max-width:1000px;margin:0 auto;padding:24px 20px;">
     <div class="cal-header">
       <span class="cal-month" id="cal-month"></span>
       <div class="cal-nav">
@@ -288,13 +330,14 @@
       </div>
     </div>
     <div class="cal-grid" id="cal-grid"></div>
-    <div style="display:flex;gap:14px;margin-top:10px;">
-      <span style="font-size:10px;color:var(--mid);display:flex;align-items:center;gap:5px;"><span style="background:rgba(230,59,46,.2);color:#ff7a6e;padding:1px 5px;border-radius:3px;font-weight:700;font-size:9px;">ZD</span>Získaj Dopyt</span>
-      <span style="font-size:10px;color:var(--mid);display:flex;align-items:center;gap:5px;"><span style="background:rgba(59,130,246,.2);color:#7eb8ff;padding:1px 5px;border-radius:3px;font-weight:700;font-size:9px;">JMC</span>Ján Marček Consulting</span>
+    <div class="cal-legend">
+      <div class="cal-legend-item"><span class="cal-score-badge zd">ZD</span> Získaj Dopyt — denné úlohy (max 7)</div>
+      <div class="cal-legend-item"><span class="cal-score-badge jmc">JMC</span> Ján Marček Consulting (max 5)</div>
+      <div class="cal-legend-item"><span class="cal-score-badge full-zd">ZD ✓</span> Všetky splnené</div>
+      <div class="cal-legend-item"><span class="cal-score-badge full-jmc">JMC ✓</span> Všetky splnené</div>
     </div>
   </div>
-
-</main>
+</div>
 
 <script>
 // ══════════════════════════════════════════
@@ -422,16 +465,16 @@ function openLink(type) {
 // ══════════════════════════════════════════
 // DATE UTILS
 // ══════════════════════════════════════════
-function dk(date) { return date.toDateString(); }           // "Thu Mar 13 2026"
-function addDays(date, n) { const d = new Date(date); d.setDate(d.getDate() + n); return d; }
-function isSameDay(a, b) { return dk(a) === dk(b); }
+function dk(d)          { return d.toDateString(); }
+function addDays(d, n)  { const x = new Date(d); x.setDate(x.getDate() + n); return x; }
+function isSameDay(a,b) { return dk(a) === dk(b); }
 
 const TODAY  = new Date();
-let viewDate = new Date(TODAY);   // currently displayed day
+let viewDate = new Date(TODAY);
 let calMonth = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1);
 
 // ══════════════════════════════════════════
-// STORE  (localStorage key: agency-dash-v2)
+// STORE
 // ══════════════════════════════════════════
 let STORE = {};
 
@@ -449,7 +492,6 @@ function dayData(date) {
   if (!STORE.days[k]) STORE.days[k] = { tasks: {} };
   return STORE.days[k];
 }
-
 function savePage(key, val) {
   STORE.globalPages[key] = parseInt(val) || 1;
   saveStore();
@@ -460,7 +502,7 @@ function savePage(key, val) {
 // ══════════════════════════════════════════
 const AGENCY = ['t-calls','t-call-fu','t-email','t-email-fu','t-li-fu','t-ceo','t-blog'];
 const CLIENT = ['t-cloth','t-shoptet','t-solar','t-li-post','t-jmc'];
-const ALL_TASKS = [...AGENCY, ...CLIENT, 't-tiktok'];
+const ALL_T  = [...AGENCY, ...CLIENT, 't-tiktok'];
 
 function toggle(id) {
   const el = document.getElementById(id);
@@ -468,14 +510,12 @@ function toggle(id) {
   d.tasks[id] = el.classList.toggle('done');
   saveStore();
   updateProgress();
-  renderCal();
+  if (document.getElementById('page-cal').style.display !== 'none') renderCal();
 }
 
 function applyDayState() {
   const d = dayData(viewDate);
-  ALL_TASKS.forEach(id => {
-    document.getElementById(id)?.classList.toggle('done', !!d.tasks[id]);
-  });
+  ALL_T.forEach(id => document.getElementById(id)?.classList.toggle('done', !!d.tasks[id]));
   updateProgress();
 }
 
@@ -492,22 +532,20 @@ function updateProgress() {
 // ══════════════════════════════════════════
 // DAY NAV
 // ══════════════════════════════════════════
-let pillOffset = 0; // offset from today for center pill
-
 function shiftView(n) {
   viewDate = addDays(viewDate, n);
-  pillOffset += n;
   renderDayNav();
   applyDayState();
   document.getElementById('header-date').textContent = formatViewDate();
 }
 
 function goToDay(date) {
-  viewDate   = new Date(date);
-  pillOffset = Math.round((viewDate - TODAY) / 86400000);
+  viewDate = new Date(date);
   renderDayNav();
   applyDayState();
   document.getElementById('header-date').textContent = formatViewDate();
+  // switch to main page when clicking calendar day
+  showPage('main');
 }
 
 function formatViewDate() {
@@ -516,26 +554,39 @@ function formatViewDate() {
 
 function renderDayNav() {
   const nav = document.getElementById('day-nav');
-  // keep arrows, replace pills
-  const arrows = nav.querySelectorAll('.day-arrow');
-  // remove old pills
   nav.querySelectorAll('.day-pill').forEach(p => p.remove());
-  // insert 3 pills: viewDate-1, viewDate, viewDate+1
-  const container = document.createDocumentFragment();
+  const arrows = nav.querySelectorAll('.day-arrow');
+  const frag   = document.createDocumentFragment();
+
   [-1, 0, 1].forEach(offset => {
     const d    = addDays(viewDate, offset);
     const pill = document.createElement('button');
     pill.className = 'day-pill';
     if (offset === 0)          pill.classList.add('active');
     if (isSameDay(d, TODAY))   pill.classList.add('today-marker');
-
-    const label = d.toLocaleDateString('sk-SK', { weekday:'short', day:'numeric', month:'numeric' });
-    pill.textContent = label;
+    pill.textContent = d.toLocaleDateString('sk-SK', { weekday:'short', day:'numeric', month:'numeric' });
     pill.onclick = () => goToDay(d);
-    container.appendChild(pill);
+    frag.appendChild(pill);
   });
-  // insert before last arrow
-  arrows[1].before(container);
+  arrows[1].before(frag);
+}
+
+// ══════════════════════════════════════════
+// PAGE TOGGLE
+// ══════════════════════════════════════════
+function toggleCalPage() {
+  const calVisible = document.getElementById('page-cal').style.display !== 'none';
+  showPage(calVisible ? 'main' : 'cal');
+}
+
+function showPage(name) {
+  const isMain = name === 'main';
+  document.getElementById('page-main').style.display = isMain ? 'block' : 'none';
+  document.getElementById('page-cal').style.display  = isMain ? 'none'  : 'block';
+  const btn = document.getElementById('cal-toggle-btn');
+  btn.textContent = isMain ? '📅 Kalendár' : '← Dashboard';
+  btn.classList.toggle('active', !isMain);
+  if (!isMain) renderCal();
 }
 
 // ══════════════════════════════════════════
@@ -547,25 +598,22 @@ function shiftCalMonth(n) {
 }
 
 function renderCal() {
-  const grid = document.getElementById('cal-grid');
-  const monthLabel = document.getElementById('cal-month');
+  const grid  = document.getElementById('cal-grid');
+  const label = document.getElementById('cal-month');
+  if (!grid) return;
   grid.innerHTML = '';
 
   const year  = calMonth.getFullYear();
   const month = calMonth.getMonth();
-  monthLabel.textContent = calMonth.toLocaleDateString('sk-SK', { month:'long', year:'numeric' });
+  label.textContent = calMonth.toLocaleDateString('sk-SK', { month:'long', year:'numeric' });
 
-  const DOW = ['Po','Ut','St','Št','Pi','So','Ne'];
-  DOW.forEach(d => {
+  ['Po','Ut','St','Št','Pi','So','Ne'].forEach(d => {
     const el = document.createElement('div');
-    el.className = 'cal-dow'; el.textContent = d;
-    grid.appendChild(el);
+    el.className = 'cal-dow'; el.textContent = d; grid.appendChild(el);
   });
 
-  const firstDay = new Date(year, month, 1);
-  let startDow = firstDay.getDay(); // 0=Sun
-  startDow = startDow === 0 ? 6 : startDow - 1; // Mon=0
-
+  let startDow = new Date(year, month, 1).getDay();
+  startDow = startDow === 0 ? 6 : startDow - 1;
   for (let i = 0; i < startDow; i++) {
     const el = document.createElement('div'); el.className = 'cal-day empty'; grid.appendChild(el);
   }
@@ -573,12 +621,11 @@ function renderCal() {
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   for (let day = 1; day <= daysInMonth; day++) {
     const date = new Date(year, month, day);
-    const key  = dk(date);
-    const data = STORE.days[key];
+    const data = STORE.days[dk(date)];
 
     const el = document.createElement('div');
     el.className = 'cal-day';
-    if (data && Object.keys(data.tasks || {}).length > 0) el.classList.add('has-data');
+    if (data && Object.keys(data.tasks || {}).length) el.classList.add('has-data');
     if (isSameDay(date, TODAY))    el.classList.add('is-today');
     if (isSameDay(date, viewDate)) el.classList.add('is-viewing');
 
@@ -587,25 +634,35 @@ function renderCal() {
     numEl.textContent = day;
     el.appendChild(numEl);
 
-    if (data && data.tasks) {
+    if (data?.tasks) {
       const zd  = AGENCY.filter(id => data.tasks[id]).length;
       const jmc = CLIENT.filter(id => data.tasks[id]).length;
+
       if (zd > 0 || jmc > 0) {
-        const scores = document.createElement('div');
-        scores.className = 'cal-scores';
+        const block = document.createElement('div');
+        block.className = 'cal-score-block';
+
         if (zd > 0) {
-          const s = document.createElement('span');
-          s.className = 'cal-score zd' + (zd === AGENCY.length ? ' full' : '');
-          s.textContent = `${zd}/${AGENCY.length}`;
-          scores.appendChild(s);
+          const row = document.createElement('div'); row.className = 'cal-score-row';
+          const badge = document.createElement('span');
+          badge.className = `cal-score-badge ${zd === AGENCY.length ? 'full-zd' : 'zd'}`;
+          badge.textContent = zd === AGENCY.length ? 'ZD ✓' : `ZD ${zd}/${AGENCY.length}`;
+          const lbl = document.createElement('span'); lbl.className = 'cal-score-label';
+          lbl.textContent = 'Denné úlohy';
+          row.appendChild(badge); row.appendChild(lbl);
+          block.appendChild(row);
         }
         if (jmc > 0) {
-          const s = document.createElement('span');
-          s.className = 'cal-score jmc' + (jmc === CLIENT.length ? ' full' : '');
-          s.textContent = `${jmc}/${CLIENT.length}`;
-          scores.appendChild(s);
+          const row = document.createElement('div'); row.className = 'cal-score-row';
+          const badge = document.createElement('span');
+          badge.className = `cal-score-badge ${jmc === CLIENT.length ? 'full-jmc' : 'jmc'}`;
+          badge.textContent = jmc === CLIENT.length ? 'JMC ✓' : `JMC ${jmc}/${CLIENT.length}`;
+          const lbl = document.createElement('span'); lbl.className = 'cal-score-label';
+          lbl.textContent = 'Consulting';
+          row.appendChild(badge); row.appendChild(lbl);
+          block.appendChild(row);
         }
-        el.appendChild(scores);
+        el.appendChild(block);
       }
     }
 
@@ -654,7 +711,7 @@ function doCopy(key, btnId) {
 }
 
 // ══════════════════════════════════════════
-// TEMP TASKS  (global — never reset)
+// TEMP TASKS
 // ══════════════════════════════════════════
 function addTemp() {
   const inp  = document.getElementById('temp-input');
@@ -666,26 +723,20 @@ function addTemp() {
   saveStore();
   renderTemps();
 }
-
 function delTemp(id) {
   STORE.temps = STORE.temps.filter(t => t.id !== id);
   saveStore();
   renderTemps();
 }
-
 function renderTemps() {
   const list = document.getElementById('temp-list');
-  if (!STORE.temps.length) {
-    list.innerHTML = '<div class="temp-empty">Žiadne dočasné úlohy</div>';
-    return;
-  }
+  if (!STORE.temps.length) { list.innerHTML = '<div class="temp-empty">Žiadne dočasné úlohy</div>'; return; }
   list.innerHTML = STORE.temps.map(t => `
     <div class="temp-task tc-${t.color}">
       <span class="temp-label">${escHtml(t.text)}</span>
       <button class="btn-del" onclick="delTemp(${t.id})">×</button>
     </div>`).join('');
 }
-
 function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 // ══════════════════════════════════════════
@@ -693,22 +744,16 @@ function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replac
 // ══════════════════════════════════════════
 function init() {
   loadStore();
-
   document.getElementById('header-date').textContent = formatViewDate();
-
-  // Restore page numbers
-  Object.entries(STORE.globalPages).forEach(([key, val]) => {
-    const el = document.getElementById('pg-' + key);
-    if (el) el.value = val;
+  Object.entries(STORE.globalPages).forEach(([k, v]) => {
+    const el = document.getElementById('pg-' + k); if (el) el.value = v;
   });
-
+  showPage('main');
   renderDayNav();
   applyDayState();
   renderPitches();
   renderTemps();
-  renderCal();
 }
-
 init();
 </script>
 </body>
