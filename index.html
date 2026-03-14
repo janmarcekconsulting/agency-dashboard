@@ -522,7 +522,10 @@ Marček`
   'linkedin-prompt': {
     title: 'LinkedIn Post — Prompt pre Claude',
     text:
-`Write a LinkedIn PDF carousel post (5–7 slides) for the founder of an online growth systems agency.
+`Write a LinkedIn PDF carousel post (9–11 slides) for the founder of an online growth systems agency.
+
+Before picking a topic — check what was used last time:
+Review previously generated carousels (if any exist in context or memory). Pick a topic that has NOT been covered yet. If the last carousel was about follow-up systems or agentic workflows, do NOT repeat that theme. Rotate across different angles of growth, systems, and strategy.
 
 Topic ideas (pick one or suggest your own):
 - Why most businesses don't need more ads — they need a system first
@@ -536,17 +539,28 @@ Topic ideas (pick one or suggest your own):
 
 Voice & persona: ENTJ 8w7 — direct, strategic, confident but not arrogant. Speaks from real experience. No hype, no guru energy, no corporate fluff.
 
-Rules:
-- Each slide = max 3 short lines
-- Slide 1: strong hook — bold statement or question that stops scrolling
-- Slides 2–6: practical, actionable points — what the reader can do or understand TODAY
-- Last slide: open question for the audience (drives comments)
-- NEVER mention specific tools by name (Claude, ChatGPT, Make, n8n, Zapier, etc.)
-- Focus on WHAT IS POSSIBLE, not which tool to use
+Slide types — mix these throughout:
+HOOK slide (slide 1): one bold statement, one short supporting line in a pill/box
+STAT slide: two contrasting data points, no body text needed
+PROBLEM slide: short headline + 2–3 punchy sentences
+CONTRAST slide: two bold statements stacked (white vs. yellow text)
+LIST slide: headline + 4 bullet points, each one line
+REFRAME slide: pure headline only — two lines max, no body
+CTA slide (last): "I help businesses do X. If [pain point] — let's talk." + "Follow for more"
+
+Copy rules:
+- Headline = ALL CAPS feel, 4–8 words max
+- Body = max 2–3 short sentences, each on its own line
+- Some slides have NO body text — headline alone carries the slide
+- Yellow text = key contrast statement or the punchline
+- NEVER mention specific tools by name
 - Language: English
 - Tone: direct, grounded, zero fluff
 
-Output: each slide numbered with short headline + body text.`
+Output format:
+Each slide numbered with: slide type label + headline + body text (if any) + note which text should be yellow
+
+After generating — log the topic used so the next run can avoid it.`
   }
 };
 
