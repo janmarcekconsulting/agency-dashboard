@@ -357,6 +357,28 @@
       </div>
     </div>
 
+    <div class="task-item" id="t-zdravotne" onclick="toggle('t-zdravotne')"><div class="task-check"></div><span class="task-label">Zdravotné firmy Finstat — Web + Pitch</span></div>
+    <div class="sub-row" style="flex-direction:column;align-items:flex-start;gap:0;">
+      <button class="btn btn-dark" style="margin-bottom:8px;font-size:11px;" onclick="toggleWorkflow2()">▼ Workflow</button>
+      <div id="workflow-box2" style="display:none;width:100%;">
+        <div class="workflow-steps">
+          <div class="wstep"><span class="wnum">1</span><span>Nájdi web firmy na Finstate / Google</span></div>
+          <div class="warrow">↓</div>
+          <div class="wstep"><span class="wnum">2</span><span>Vlož URL → Claude analyzuje chyby a čo stráca</span></div>
+          <div class="warrow">↓</div>
+          <div class="wstep"><span class="wnum">3</span><span>Claude vyberie čo im NAJVIAC pomôže (chatbot / workflow / redesign)</span></div>
+          <div class="warrow">↓</div>
+          <div class="wstep"><span class="wnum">4</span><span>Pred → po pre každé odporúčané riešenie</span></div>
+          <div class="warrow">↓</div>
+          <div class="wstep"><span class="wnum">5</span><span>Odošli personalizovaný pitch email</span></div>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center;margin-top:10px;flex-wrap:wrap;">
+          <input id="zdravotne-url" type="text" class="page-input" style="width:220px;font-size:12px;" placeholder="https://firma.sk">
+          <button class="btn btn-gold" id="cp-zdravotne" onclick="genZdravotnePrompt()">Generovať prompt pre Claude</button>
+        </div>
+      </div>
+    </div>
+
     <div class="task-item" id="t-li-post" onclick="toggle('t-li-post')"><div class="task-check"></div><span class="task-label">LinkedIn Post — vytvoriť</span></div>
     <div class="sub-row">
       <button class="btn btn-gold" id="cp-li" onclick="doCopy('linkedin-prompt','cp-li')">Kopírovať prompt pre Claude</button>
@@ -644,7 +666,7 @@ function savePage(key, val) {
 // TASKS
 // ══════════════════════════════════════════
 const AGENCY = ['t-calls','t-call-fu','t-email','t-email-fu','t-li-fu','t-ceo','t-blog'];
-const CLIENT = ['t-read','t-cloth','t-shoptet','t-solar','t-finstat','t-li-post','t-jmc'];
+const CLIENT = ['t-read','t-cloth','t-shoptet','t-solar','t-finstat','t-zdravotne','t-li-post','t-jmc'];
 const ALL_T  = [...AGENCY, ...CLIENT, 't-tiktok'];
 
 function toggleWorkflow() {
@@ -690,6 +712,55 @@ Tón: priamy, profesionálny, nie agresívny.`;
 
   navigator.clipboard.writeText(prompt).then(() => {
     const btn = document.getElementById('cp-finstat');
+    btn.textContent = '✓ Skopírované';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Generovať prompt pre Claude'; btn.classList.remove('copied'); }, 2500);
+  });
+}
+
+function toggleWorkflow2() {
+  const box = document.getElementById('workflow-box2');
+  const btn = box.previousElementSibling;
+  const open = box.style.display === 'none';
+  box.style.display = open ? 'block' : 'none';
+  btn.textContent = open ? '▲ Workflow' : '▼ Workflow';
+}
+
+function genZdravotnePrompt() {
+  const url = document.getElementById('zdravotne-url').value.trim();
+  const prompt = `Si expert na digitálny marketing, UX a business automatizáciu. Analyzuj webstránku tejto zdravotnej / medicínskej firmy a vytvor personalizovaný pitch.
+
+URL: ${url || '[VLOŽ URL FIRMY]'}
+
+ÚLOHA — urob toto v poradí:
+
+1. ANALÝZA STRÁNKY
+Pozri sa na celú stránku (homepage, služby, kontakt). Identifikuj KONKRÉTNE a RACIONÁLNE problémy — také, ktoré viditeľne stoja firmu pacientov alebo čas. Nie technické detaily. Zaujíma nás biznis: chýba online rezervácia, podpora len počas pracovnej doby, nie je jasné aké služby ponúkajú, žiadna možnosť ako pacient môže konvertovať mimo pracovných hodín a podobne.
+
+2. ODPORÚČANIA — navrhni všetky riešenia ktoré majú zmysel:
+- Redizajn webu (ak web mätie návštevníkov alebo nereflektuje čo klinika ponúka)
+- AI chatbot / zákaznícka podpora (ak klinika odpovedá na otázky manuálne, má obmedzenú dostupnosť, alebo pacienti potrebujú poradiť pred rezerváciou)
+- Agentic workflow (ak majú manuálny proces — follow-upy pacientom, pripomienky termínov, lead qualification)
+Pre každé odporúčanie vysvetli PREČO — konkrétna situácia z ich webu / biznisu. Jeden nový pacient v zdravotníctve = stovky € lifetime value — uvádzaj to v kontexte.
+
+3. PRED → PO (len pre navrhnuté riešenia)
+Pre každé odporúčané riešenie ukáž konkrétnu zmenu. Formát:
+RIEŠENIE: [názov]
+PRED: [ako to funguje teraz — čo pacient zažíva]
+PO: [ako to bude fungovať po implementácii]
+DOPAD: [čo to znamená pre biznis — viac pacientov, úspora času, vyššie tržby]
+
+4. PITCH EMAIL
+Napíš krátky email (max 120 slov) ktorý:
+- Začína KONKRÉTNYM pozorovaním z ich webu (čo si si všimol)
+- Hovorí čo ich to stojí v praxi (pacienti, čas, príležitosti)
+- Navrhuje riešenia stručne — bez dlhého vysvetľovania
+- Končí pozvaním na krátky nezáväzný hovor
+- Je jasné že si bol na ich webe, nie generický template
+Tón: priamy, profesionálny, nie agresívny.`;
+
+  navigator.clipboard.writeText(prompt).then(() => {
+    const btn = document.getElementById('cp-zdravotne');
     btn.textContent = '✓ Skopírované';
     btn.classList.add('copied');
     setTimeout(() => { btn.textContent = 'Generovať prompt pre Claude'; btn.classList.remove('copied'); }, 2500);
