@@ -664,28 +664,28 @@ URL: ${url || '[VLOŽ URL FIRMY]'}
 ÚLOHA — urob toto v poradí:
 
 1. ANALÝZA STRÁNKY
-Pozri sa na celú stránku (homepage, služby, kontakt). Identifikuj KONKRÉTNE dôvody prečo im unikajú zákazníci. Nie všeobecné veci — konkrétne (napr. "chýba CTA nad foldom", "čas načítania >4s", "nie je vidno čo firma robí do 3 sekúnd").
+Pozri sa na celú stránku (homepage, služby, kontakt). Identifikuj KONKRÉTNE a RACIONÁLNE problémy — také, ktoré viditeľne stoja firmu zákazníkov alebo čas. Nie technické detaily (rýchlosť načítania, meta tagy) — tie nikoho nezaujímajú. Zaujíma nás biznis: chýba možnosť rezervovať online, podpora len počas pracovnej doby, nie je jasné čo firma robí, žiadny spôsob ako zákazník môže konvertovať mimo pracovných hodín a podobne.
 
-2. ODPORÚČANIE — vyber JEDNO čo im NAJVIAC pomôže:
-- Redizajn webu (ak web zastaráva alebo mätie návštevníkov)
-- AI chatbot (LEN ak majú veľa opakujúcich sa otázok alebo dlhý predajný proces)
-- Agentic workflow (LEN ak majú manuálny proces ktorý stojí čas alebo zákazníkov — napr. ručné odpovede, lead qualification, follow-upy)
-Vysvetli PREČO si vybral práve toto — konkrétne číslo alebo situácia z ich biznisu.
+2. ODPORÚČANIA — navrhni všetky riešenia ktoré majú zmysel:
+- Redizajn webu (ak web mätie návštevníkov alebo nereflektuje čo firma ponúka)
+- AI chatbot / zákaznícka podpora (ak firma odpovedá na otázky manuálne, má obmedzenú dostupnosť, alebo zákazníci potrebujú poradiť pred kúpou)
+- Agentic workflow (ak majú manuálny proces ktorý sa dá automatizovať — follow-upy, lead qualification, rezervácie, reporty)
+Pre každé odporúčanie vysvetli PREČO — konkrétna situácia z ich webu / biznisu.
 
-3. REDIZAJN 3 SEKCIÍ (pred → po)
-Ukáž 3 konkrétne sekcie webu a ako by vyzerali po redesigne. Formát:
-SEKCIA: [názov]
-PRED: [čo tam teraz je / čo chýba]
-PO: [čo tam bude / čo sa zmení]
-PREČO: [ako to prinesie viac zákazníkov — konkrétne]
+3. PRED → PO (len pre navrhnuté riešenia)
+Pre každé odporúčané riešenie ukáž konkrétnu zmenu. Formát:
+RIEŠENIE: [názov]
+PRED: [ako to funguje teraz — čo zákazník zažíva]
+PO: [ako to bude fungovať po implementácii]
+DOPAD: [čo to znamená pre biznis — viac zákazníkov, úspora času, vyššie tržby]
 
 4. PITCH EMAIL
 Napíš krátky email (max 120 slov) ktorý:
-- Začína KONKRÉTNOU chybou ktorú si našiel na ich webe
-- Hovorí čo im to stojí (zákazníci, čas, peniaze)
-- Navrhuje JEDNO riešenie (to čo si vybral v bode 2)
-- Má jasné CTA (15-minútový hovor)
-- Nie je generický — musí byť jasné že si bol na ich webe
+- Začína KONKRÉTNYM pozorovaním z ich webu (čo si si všimol)
+- Hovorí čo ich to stojí v praxi (zákazníci, čas, príležitosti)
+- Navrhuje riešenia stručne — bez dlhého vysvetľovania
+- Končí pozvaním na krátky nezáväzný hovor (nie "15-minútový hovor" — len "krátky hovor")
+- Je jasné že si bol na ich webe, nie generický template
 Tón: priamy, profesionálny, nie agresívny.`;
 
   navigator.clipboard.writeText(prompt).then(() => {
