@@ -147,6 +147,10 @@
     }
 
     .sub-row { display: flex; align-items: center; gap: 6px; padding: 2px 10px 8px 36px; flex-wrap: wrap; }
+    .workflow-steps { display:flex; flex-direction:column; gap:0; }
+    .wstep { display:flex; align-items:flex-start; gap:8px; padding:7px 10px; background:rgba(255,215,0,.06); border:1px solid rgba(255,215,0,.15); border-radius:7px; font-size:12.5px; color:var(--text); }
+    .wnum { background:var(--gold); color:#111; font-weight:800; font-size:11px; border-radius:50%; width:18px; height:18px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+    .warrow { text-align:center; color:var(--gold); font-size:14px; padding:2px 0; opacity:.6; }
     .page-label { font-size: 10px; color: var(--mid); }
     .page-input { width: 44px; padding: 3px 5px; border: 1px solid rgba(255,255,255,.14); border-radius: 5px; font-size: 12px; text-align: center; background: rgba(255,255,255,.07); color: var(--text); font-weight: 600; outline: none; }
     .page-input:focus { border-color: var(--gold); }
@@ -157,7 +161,7 @@
     .btn-dark:hover { background: rgba(255,255,255,.15); }
     .btn-gold { background: var(--gold); color: #111; }
     .btn-gold:hover { background: #ffe033; }
-    .btn-gold.ok { background: var(--green); color: #fff; }
+    .btn-gold.ok, .btn-gold.copied { background: var(--green); color: #fff; }
 
     /* ── PROGRESS ── */
     .progress-row { margin-top: 10px; padding: 7px 10px; background: rgba(255,255,255,.03); border-radius: 7px; display: flex; align-items: center; gap: 10px; font-size: 11px; color: var(--mid); }
@@ -307,6 +311,28 @@
 
     <div class="task-item" id="t-read" onclick="toggle('t-read')"><div class="task-check"></div><span class="task-label">Read Transcendence</span></div>
 
+    <div class="task-item" id="t-finstat" onclick="toggle('t-finstat')"><div class="task-check"></div><span class="task-label">Finstat 1mil–5mil€ — Web + Pitch</span></div>
+    <div class="sub-row" style="flex-direction:column;align-items:flex-start;gap:0;">
+      <button class="btn btn-dark" style="margin-bottom:8px;font-size:11px;" onclick="toggleWorkflow()">▼ Workflow</button>
+      <div id="workflow-box" style="display:none;width:100%;">
+        <div class="workflow-steps">
+          <div class="wstep"><span class="wnum">1</span><span>Nájdi web firmy na Finstate / Google</span></div>
+          <div class="warrow">↓</div>
+          <div class="wstep"><span class="wnum">2</span><span>Vlož URL → Claude analyzuje chyby a čo stráca</span></div>
+          <div class="warrow">↓</div>
+          <div class="wstep"><span class="wnum">3</span><span>Claude vyberie čo im NAJVIAC pomôže (chatbot / workflow / redesign)</span></div>
+          <div class="warrow">↓</div>
+          <div class="wstep"><span class="wnum">4</span><span>Redizajn 3 sekcií — pred → po popis</span></div>
+          <div class="warrow">↓</div>
+          <div class="wstep"><span class="wnum">5</span><span>Odošli personalizovaný pitch email</span></div>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center;margin-top:10px;flex-wrap:wrap;">
+          <input id="finstat-url" type="text" class="page-input" style="width:220px;font-size:12px;" placeholder="https://firma.sk">
+          <button class="btn btn-gold" id="cp-finstat" onclick="genFinstatPrompt()">Generovať prompt pre Claude</button>
+        </div>
+      </div>
+    </div>
+
     <div class="task-item" id="t-cloth" onclick="toggle('t-cloth')"><div class="task-check"></div><span class="task-label">LinkedIn Clothing Brands CEO</span><span class="count-pill">10</span></div>
     <div class="sub-row">
       <span class="page-label">Strana:</span>
@@ -337,8 +363,6 @@
     </div>
 
     <div class="task-item" id="t-jmc" onclick="toggle('t-jmc')"><div class="task-check"></div><span class="task-label">Jan Marcek Consulting — followups</span></div>
-
-    <div class="task-item" id="t-read" onclick="toggle('t-read')"><div class="task-check"></div><span class="task-label">Read Transcendence</span></div>
 
     <div class="progress-row">
       <span id="cl-txt">0 / 5</span>
@@ -620,8 +644,57 @@ function savePage(key, val) {
 // TASKS
 // ══════════════════════════════════════════
 const AGENCY = ['t-calls','t-call-fu','t-email','t-email-fu','t-li-fu','t-ceo','t-blog'];
-const CLIENT = ['t-cloth','t-shoptet','t-solar','t-li-post','t-jmc','t-read'];
+const CLIENT = ['t-read','t-finstat','t-cloth','t-shoptet','t-solar','t-li-post','t-jmc'];
 const ALL_T  = [...AGENCY, ...CLIENT, 't-tiktok'];
+
+function toggleWorkflow() {
+  const box = document.getElementById('workflow-box');
+  const btn = box.previousElementSibling;
+  const open = box.style.display === 'none';
+  box.style.display = open ? 'block' : 'none';
+  btn.textContent = open ? '▲ Workflow' : '▼ Workflow';
+}
+
+function genFinstatPrompt() {
+  const url = document.getElementById('finstat-url').value.trim();
+  const prompt = `Si expert na digitálny marketing, UX a business automatizáciu. Analyzuj webstránku tejto firmy a vytvor personalizovaný pitch.
+
+URL: ${url || '[VLOŽ URL FIRMY]'}
+
+ÚLOHA — urob toto v poradí:
+
+1. ANALÝZA STRÁNKY
+Pozri sa na celú stránku (homepage, služby, kontakt). Identifikuj KONKRÉTNE dôvody prečo im unikajú zákazníci. Nie všeobecné veci — konkrétne (napr. "chýba CTA nad foldom", "čas načítania >4s", "nie je vidno čo firma robí do 3 sekúnd").
+
+2. ODPORÚČANIE — vyber JEDNO čo im NAJVIAC pomôže:
+- Redizajn webu (ak web zastaráva alebo mätie návštevníkov)
+- AI chatbot (LEN ak majú veľa opakujúcich sa otázok alebo dlhý predajný proces)
+- Agentic workflow (LEN ak majú manuálny proces ktorý stojí čas alebo zákazníkov — napr. ručné odpovede, lead qualification, follow-upy)
+Vysvetli PREČO si vybral práve toto — konkrétne číslo alebo situácia z ich biznisu.
+
+3. REDIZAJN 3 SEKCIÍ (pred → po)
+Ukáž 3 konkrétne sekcie webu a ako by vyzerali po redesigne. Formát:
+SEKCIA: [názov]
+PRED: [čo tam teraz je / čo chýba]
+PO: [čo tam bude / čo sa zmení]
+PREČO: [ako to prinesie viac zákazníkov — konkrétne]
+
+4. PITCH EMAIL
+Napíš krátky email (max 120 slov) ktorý:
+- Začína KONKRÉTNOU chybou ktorú si našiel na ich webe
+- Hovorí čo im to stojí (zákazníci, čas, peniaze)
+- Navrhuje JEDNO riešenie (to čo si vybral v bode 2)
+- Má jasné CTA (15-minútový hovor)
+- Nie je generický — musí byť jasné že si bol na ich webe
+Tón: priamy, profesionálny, nie agresívny.`;
+
+  navigator.clipboard.writeText(prompt).then(() => {
+    const btn = document.getElementById('cp-finstat');
+    btn.textContent = '✓ Skopírované';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Generovať prompt pre Claude'; btn.classList.remove('copied'); }, 2500);
+  });
+}
 
 function toggle(id) {
   const el = document.getElementById(id);
