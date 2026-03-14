@@ -702,26 +702,26 @@ URL: ${url || '[VLOŽ URL FIRMY]'}
 1. ANALÝZA STRÁNKY
 Pozri sa na celú stránku (homepage, služby, kontakt). Identifikuj KONKRÉTNE a RACIONÁLNE problémy — také, ktoré viditeľne stoja firmu zákazníkov alebo čas. Nie technické detaily (rýchlosť načítania, meta tagy) — tie nikoho nezaujímajú. Zaujíma nás biznis: chýba možnosť rezervovať online, podpora len počas pracovnej doby, nie je jasné čo firma robí, žiadny spôsob ako zákazník môže konvertovať mimo pracovných hodín a podobne.
 
-2. ODPORÚČANIA — navrhni všetky riešenia ktoré majú zmysel:
+2. ODPORÚČANIA
+Navrhni všetky riešenia ktoré majú zmysel pre tento konkrétny biznis. Základné kategórie:
 - Redizajn webu (ak web mätie návštevníkov alebo nereflektuje čo firma ponúka)
 - AI chatbot / zákaznícka podpora (ak firma odpovedá na otázky manuálne, má obmedzenú dostupnosť, alebo zákazníci potrebujú poradiť pred kúpou)
-- Agentic workflow (ak majú manuálny proces ktorý sa dá automatizovať — follow-upy, lead qualification, rezervácie, reporty)
+- Agentic workflow (ak firma pravdepodobne rieši manuálne opakujúce sa interné procesy — spracovanie dát, reporting, interná komunikácia, administratíva, správa dokumentov a podobne)
+Ale neobmedzuj sa len na tieto tri. Ak vidíš ďalšie príležitosti — kalkulačky, konfigurátor produktov, online rezervačný systém, interaktívne nástroje, custom dashboardy, automatizované reporty, integrácie — navrhni ich. Riešenia sú realizovateľné pomocou Claude Code, takže technické obmedzenia sú minimálne.
 Pre každé odporúčanie vysvetli PREČO — konkrétna situácia z ich webu / biznisu.
 
-3. PRED → PO (len pre navrhnuté riešenia)
-Pre každé odporúčané riešenie ukáž konkrétnu zmenu. Formát:
-RIEŠENIE: [názov]
-PRED: [ako to funguje teraz — čo zákazník zažíva]
-PO: [ako to bude fungovať po implementácii]
-DOPAD: [čo to znamená pre biznis — viac zákazníkov, úspora času, vyššie tržby]
+→ ZASTAV SA TU a opýtaj sa: Ktoré z odporúčaní zahrnúť do pitch emailu?
 
-4. PITCH EMAIL
+Po potvrdení napíš:
+
+3. PITCH EMAIL
 Napíš krátky email (max 120 slov) ktorý:
 - Začína KONKRÉTNYM pozorovaním z ich webu (čo si si všimol)
 - Hovorí čo ich to stojí v praxi (zákazníci, čas, príležitosti)
-- Navrhuje riešenia stručne — bez dlhého vysvetľovania
+- Zahŕňa IBA vybrané odporúčania — stručne, bez dlhého vysvetľovania
 - Končí pozvaním na krátky nezáväzný hovor (nie "15-minútový hovor" — len "krátky hovor")
 - Je jasné že si bol na ich webe, nie generický template
+- Podpis emailu: S pozdravom, Marček
 Tón: priamy, profesionálny, nie agresívny.`;
 
   navigator.clipboard.writeText(prompt).then(() => {
@@ -754,23 +754,22 @@ Pozri sa na celú stránku (homepage, služby, kontakt). Identifikuj KONKRÉTNE 
 2. ODPORÚČANIA — navrhni všetky riešenia ktoré majú zmysel:
 - Redizajn webu (ak web mätie návštevníkov alebo nereflektuje čo klinika ponúka)
 - AI chatbot / zákaznícka podpora (ak klinika odpovedá na otázky manuálne, má obmedzenú dostupnosť, alebo pacienti potrebujú poradiť pred rezerváciou)
-- Agentic workflow (ak majú manuálny proces — follow-upy pacientom, pripomienky termínov, lead qualification)
+- Agentic workflow (ak firma pravdepodobne rieši manuálne opakujúce sa procesy — follow-upy pacientom, pripomienky termínov, spracovanie formulárov, reporting, správa dokumentov)
+Ale neobmedzuj sa len na tieto tri. Ak vidíš ďalšie príležitosti — online rezervačný systém, kalkulačka liečby, automatizované pripomienky, patient onboarding, integrácie — navrhni ich. Riešenia sú realizovateľné pomocou Claude Code, takže technické obmedzenia sú minimálne.
 Pre každé odporúčanie vysvetli PREČO — konkrétna situácia z ich webu / biznisu. Jeden nový pacient v zdravotníctve = stovky € lifetime value — uvádzaj to v kontexte.
 
-3. PRED → PO (len pre navrhnuté riešenia)
-Pre každé odporúčané riešenie ukáž konkrétnu zmenu. Formát:
-RIEŠENIE: [názov]
-PRED: [ako to funguje teraz — čo pacient zažíva]
-PO: [ako to bude fungovať po implementácii]
-DOPAD: [čo to znamená pre biznis — viac pacientov, úspora času, vyššie tržby]
+→ ZASTAV SA TU a opýtaj sa: Ktoré z odporúčaní zahrnúť do pitch emailu?
 
-4. PITCH EMAIL
+Po potvrdení napíš:
+
+3. PITCH EMAIL
 Napíš krátky email (max 120 slov) ktorý:
 - Začína KONKRÉTNYM pozorovaním z ich webu (čo si si všimol)
 - Hovorí čo ich to stojí v praxi (pacienti, čas, príležitosti)
-- Navrhuje riešenia stručne — bez dlhého vysvetľovania
-- Končí pozvaním na krátky nezáväzný hovor
+- Zahŕňa IBA vybrané odporúčania — stručne, bez dlhého vysvetľovania
+- Končí pozvaním na krátky nezáväzný hovor (nie "15-minútový hovor" — len "krátky hovor")
 - Je jasné že si bol na ich webe, nie generický template
+- Podpis emailu: S pozdravom, Marček
 Tón: priamy, profesionálny, nie agresívny.`;
 
   navigator.clipboard.writeText(prompt).then(() => {
