@@ -281,7 +281,7 @@
 
     .cc-arrow { color: rgba(255,215,0,.55); font-size: 22px; text-align: center; padding: 3px 0; line-height: 1; }
     .cc-choose-label { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: var(--mid); margin: 2px 0 8px; }
-    .cc-split-row { display: flex; gap: 14px; width: 580px; }
+    .cc-split-row { display: flex; gap: 14px; width: 580px; align-items: flex-start; }
     .cc-branch { flex: 1; display: flex; flex-direction: column; align-items: center; }
     .cc-merge-arrows { display: flex; justify-content: space-between; width: 500px; padding: 0 30px; }
     .cc-no-sep { width: 440px; border-top: 1px solid rgba(255,255,255,.08); margin: 18px 0 14px; }
@@ -521,38 +521,40 @@
     <!-- SPLIT arrows -->
     <div class="cc-merge-arrows"><div class="cc-arrow">↙</div><div class="cc-arrow">↘</div></div>
 
-    <!-- SPLIT BRANCHES -->
+    <!-- SPLIT BRANCHES — Nemajú web LEFT | Majú web RIGHT -->
     <div class="cc-split-row">
+
+      <!-- LEFT: Nemajú web -->
       <div class="cc-branch">
-        <div class="cc-red">
-          <div class="cc-box-label">Majú web</div>
-          <div class="cc-box-text">1) ste spokojní s tým koľko vám prináša dopytov, alebo by ste chceli viac?</div>
-        </div>
-      </div>
-      <div class="cc-branch">
-        <div class="cc-green">
+        <div class="cc-green" style="width:100%">
           <div class="cc-box-label">Nemajú web</div>
           <div class="cc-box-text">2) je to tak zámerne alebo to len nebola doteraz priorita?</div>
         </div>
+        <div class="cc-arrow">↓</div>
+        <div class="cc-merge" style="width:100%">
+          <div class="cc-box-label">Ponuka</div>
+          <div class="cc-box-text">Viem vám pripraviť návrh webstránky zadarmo, bez záväzku a poslať vám ho na e-mail. Mali by ste záujem?</div>
+        </div>
+        <div class="cc-arrow">↓</div>
+        <div class="cc-extra" style="width:100%">
+          <div class="cc-box-label">Doplňujúca otázka</div>
+          <div class="cc-box-text">Mohli by ste mi v krátkosti povedať čomu sa venujete a na koho sa zamieravate?</div>
+        </div>
       </div>
-    </div>
 
-    <!-- MERGE arrows -->
-    <div class="cc-merge-arrows"><div class="cc-arrow">↘</div><div class="cc-arrow">↙</div></div>
+      <!-- RIGHT: Majú web -->
+      <div class="cc-branch">
+        <div class="cc-red" style="width:100%">
+          <div class="cc-box-label">Majú web</div>
+          <div class="cc-box-text">1) ste spokojní s tým koľko vám prináša dopytov, alebo by ste chceli viac?</div>
+        </div>
+        <div class="cc-arrow">↓</div>
+        <div class="cc-merge" style="width:100%">
+          <div class="cc-box-label">Ponuka</div>
+          <div class="cc-box-text">Viem vám pripraviť návrh webstránky zadarmo, bez záväzku a poslať vám ho na e-mail. Mali by ste záujem?</div>
+        </div>
+      </div>
 
-    <!-- MERGE BOX -->
-    <div class="cc-merge">
-      <div class="cc-box-label">Ponuka</div>
-      <div class="cc-box-text">Viem vám pripraviť návrh webstránky zadarmo, bez záväzku a poslať vám ho na e-mail. Mali by ste záujem?</div>
-    </div>
-
-    <div class="cc-arrow">↓</div>
-    <div class="cc-extra-note">iba pre tých bez webu</div>
-
-    <!-- EXTRA -->
-    <div class="cc-extra">
-      <div class="cc-box-label">Doplňujúca otázka</div>
-      <div class="cc-box-text">Mohli by ste mi v krátkosti povedať čomu sa venujete a na koho sa zamieravate?</div>
     </div>
 
     <!-- NO SECTION -->
@@ -560,7 +562,7 @@
     <div class="cc-no-label">Ak povedia kdekoľvek NIE:</div>
     <div class="cc-no">
       <div class="cc-box-label">Záver</div>
-      <div class="cc-box-text">Chápem, prípadne ak sa situácia zmení, môžem sa ozvať neskôr?</div>
+      <div class="cc-box-text">Rozumiem, teraz nie je pre vás aktuálne, môžem sa vám pripomenúť v budúcnosti?</div>
     </div>
 
   </div>
