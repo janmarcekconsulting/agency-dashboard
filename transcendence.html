@@ -1,93 +1,93 @@
 <!DOCTYPE html>
-<html lang="sk">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Transcendence — Ján Marček</title>
+  <title>Self Transcendence — Ján Marček</title>
   <style>
-    :root {
-      --bg:     #0E0E0E;
-      --card:   #1A1A1A;
-      --border: rgba(255,255,255,.08);
-      --text:   #EBEBEB;
-      --mid:    rgba(235,235,235,.45);
-      --gold:   #FFD700;
-      --signal: #E63B2E;
-    }
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
       font-family: 'Georgia', 'Times New Roman', serif;
-      background: var(--bg);
-      color: var(--text);
+      background: #E8E8E8;
       min-height: 100vh;
-      padding: 0 0 80px;
+      display: flex;
+      flex-direction: column;
     }
 
     /* ── HEADER ── */
     .header {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(14,14,14,.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; gap: 14px;
-      padding: 14px 24px;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(232,232,232,.97);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 24px;
+      gap: 12px;
     }
     .back-btn {
-      background: none; border: 1px solid var(--border);
-      color: var(--mid); border-radius: 7px;
-      padding: 6px 12px; cursor: pointer; font-size: 13px;
+      background: none;
+      border: 1px solid #bbb;
+      color: #555;
+      border-radius: 7px;
+      padding: 6px 14px;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       transition: all .15s;
+      text-decoration: none;
+      display: inline-block;
     }
-    .back-btn:hover { border-color: rgba(255,255,255,.25); color: var(--text); }
+    .back-btn:hover { border-color: #888; color: #111; }
+
+    .header-center {
+      text-align: center;
+      flex: 1;
+    }
     .header-title {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: 16px; font-weight: 700; letter-spacing: -.2px;
-      color: var(--gold);
+      font-size: 14px;
+      font-weight: 700;
+      color: #111;
+      letter-spacing: -.2px;
     }
-    .header-sub {
+    .header-counter {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: 11px; color: var(--mid); margin-left: auto;
+      font-size: 11px;
+      color: #888;
+      margin-top: 2px;
     }
 
-    /* ── BOOK CONTAINER ── */
-    .book {
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 40px 20px;
+    /* ── BOOK STAGE ── */
+    .stage {
+      margin-top: 64px;
+      flex: 1;
       display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-
-    /* ── A4 PAGE ── */
-    .page {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      margin-bottom: 2px;
-      overflow: hidden;
-      page-break-inside: avoid;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px 100px;
       position: relative;
-      /* A4 aspect ratio: 210mm × 297mm = 1:1.414 */
-      /* At 680px wide the height would be 961px, but we let content flow */
-      min-height: 880px;
-      display: flex;
-      flex-direction: column;
-    }
-    .page:first-child { border-radius: 3px 3px 0 0; }
-    .page:last-child { border-radius: 0 0 3px 3px; margin-bottom: 0; }
-    .page + .page { border-top: none; }
-
-    /* page number */
-    .page-num {
-      position: absolute;
-      bottom: 18px; right: 24px;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: 10px; color: rgba(235,235,235,.2);
-      letter-spacing: 1px;
     }
 
-    /* ── FULL IMAGE PAGE ── */
+    /* ── PAGE ── */
+    .page {
+      display: none;
+      background: #fff;
+      width: 100%;
+      max-width: 640px;
+      min-height: 904px; /* A4 ratio ~1.414 */
+      box-shadow: 0 4px 40px rgba(0,0,0,.18), 0 1px 4px rgba(0,0,0,.1);
+      border-radius: 3px;
+      position: relative;
+      overflow: hidden;
+    }
+    .page.active { display: flex; flex-direction: column; }
+
+    /* ── FULL-BLEED IMAGE PAGE ── */
     .page.page-image {
       padding: 0;
       min-height: unset;
@@ -95,169 +95,401 @@
     .page.page-image img {
       width: 100%;
       display: block;
+      border-radius: 3px;
     }
 
     /* ── TEXT PAGE ── */
     .page.page-text {
-      padding: 56px 60px 60px;
+      padding: 64px 68px 72px;
     }
-    @media (max-width: 520px) {
-      .page.page-text { padding: 36px 28px 40px; }
+    @media (max-width: 560px) {
+      .page.page-text { padding: 40px 32px 48px; }
     }
 
-    /* ── CHAPTER TITLE ── */
-    .chapter-title {
-      font-size: 11px;
+    /* ── COVER PAGE ── */
+    .page.page-cover {
+      padding: 0;
+      min-height: 904px;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: #fff;
+    }
+    .cover-inner {
+      padding: 60px 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      width: 100%;
+    }
+    .cover-label {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 3.5px;
+      color: #999;
+      margin-bottom: 32px;
+    }
+    .cover-main-title {
+      font-size: 52px;
+      font-weight: 800;
+      line-height: 1.08;
+      color: #111;
+      letter-spacing: -1.5px;
+      margin-bottom: 12px;
+    }
+    .cover-subtitle {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 48px;
+    }
+    .cover-line {
+      width: 48px;
+      height: 2px;
+      background: #111;
+      margin: 0 auto 48px;
+      opacity: .2;
+    }
+    .cover-date {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 12px;
+      color: #aaa;
+      letter-spacing: 1px;
+    }
+    .cover-author {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: #888;
+      margin-top: 8px;
+    }
+
+    /* ── CHAPTER TAG ── */
+    .chapter-tag {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 10px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 2.5px;
-      color: var(--gold);
-      margin-bottom: 28px;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: #bbb;
+      margin-bottom: 24px;
     }
 
-    /* ── HEADING ── */
+    /* ── HEADINGS ── */
     .page h1 {
-      font-size: 32px;
-      font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 32px;
-      letter-spacing: -.5px;
+      font-size: 38px;
+      font-weight: 800;
+      line-height: 1.12;
+      color: #111;
+      margin-bottom: 28px;
+      letter-spacing: -1px;
     }
     .page h2 {
-      font-size: 22px;
+      font-size: 24px;
       font-weight: 700;
-      line-height: 1.3;
+      line-height: 1.25;
+      color: #111;
       margin-bottom: 20px;
-      letter-spacing: -.3px;
+      letter-spacing: -.4px;
     }
 
     /* ── BODY TEXT ── */
     .page p {
-      font-size: 15px;
-      line-height: 1.85;
-      color: rgba(235,235,235,.85);
-      margin-bottom: 18px;
+      font-size: 15.5px;
+      line-height: 1.9;
+      color: #222;
+      margin-bottom: 20px;
     }
-    .page p:last-child { margin-bottom: 0; }
-
-    /* ── QUOTE ── */
-    .quote {
-      border-left: 3px solid var(--gold);
-      padding: 12px 20px;
-      margin: 24px 0;
-      background: rgba(255,215,0,.05);
-      border-radius: 0 6px 6px 0;
-    }
-    .quote p {
-      font-style: italic;
-      font-size: 16px;
-      line-height: 1.7;
-      color: rgba(235,235,235,.9);
-      margin: 0;
-    }
+    .page p:last-of-type { margin-bottom: 0; }
 
     /* ── DIVIDER ── */
     .divider {
-      width: 40px; height: 2px;
-      background: var(--gold);
-      opacity: .5;
+      width: 36px;
+      height: 2px;
+      background: #111;
+      opacity: .15;
       margin: 28px 0;
     }
 
-    /* ── COVER PAGE ── */
-    .page.cover {
-      min-height: 880px;
-      background: linear-gradient(160deg, #1A1A1A 0%, #111 100%);
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 60px 40px;
-      border: 1px solid rgba(255,215,0,.18);
+    /* ── BELIEFS LIST ── */
+    .beliefs-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
     }
-    .cover-title {
-      font-size: 48px;
-      font-weight: 800;
-      letter-spacing: -1px;
-      color: var(--gold);
-      margin-bottom: 16px;
-      line-height: 1.1;
+    .beliefs-list li {
+      font-size: 14.5px;
+      line-height: 1.65;
+      color: #222;
+      padding: 9px 0;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
     }
-    .cover-subtitle {
-      font-size: 14px;
-      color: var(--mid);
-      letter-spacing: 3px;
-      text-transform: uppercase;
+    .beliefs-list li:last-child { border-bottom: none; }
+    .belief-dot {
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      background: #111;
+      border-radius: 50%;
+      margin-top: 8px;
+      flex-shrink: 0;
+    }
+
+    /* ── PAGE NUMBER ── */
+    .page-num {
+      position: absolute;
+      bottom: 22px;
+      right: 28px;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      margin-bottom: 60px;
-    }
-    .cover-author {
-      font-size: 13px;
-      color: var(--mid);
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 10px;
+      color: #ccc;
       letter-spacing: 1px;
     }
-    .cover-line {
-      width: 60px; height: 1px;
-      background: rgba(255,215,0,.3);
-      margin: 24px auto;
+
+    /* ── NAVIGATION ── */
+    .nav {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(232,232,232,.97);
+      backdrop-filter: blur(8px);
+      border-top: 1px solid #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      padding: 14px 24px;
+    }
+    .nav-btn {
+      background: #111;
+      color: #fff;
+      border: none;
+      border-radius: 9px;
+      padding: 10px 28px;
+      font-size: 18px;
+      cursor: pointer;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 700;
+      transition: background .15s, transform .1s;
+      line-height: 1;
+      min-width: 60px;
+    }
+    .nav-btn:hover { background: #333; }
+    .nav-btn:active { transform: scale(.96); }
+    .nav-btn:disabled { background: #ccc; color: #999; cursor: default; }
+    .nav-btn:disabled:active { transform: none; }
+
+    .nav-dots {
+      display: flex;
+      gap: 7px;
+      align-items: center;
+    }
+    .nav-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ccc;
+      cursor: pointer;
+      transition: background .15s, transform .15s;
+    }
+    .nav-dot.active {
+      background: #111;
+      transform: scale(1.25);
     }
   </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <div class="header">
-  <button class="back-btn" onclick="history.back()">← Späť</button>
-  <span class="header-title">Transcendence</span>
-  <span class="header-sub">Ján Marček</span>
+  <a class="back-btn" href="index.html">← Back</a>
+  <div class="header-center">
+    <div class="header-title">Self Transcendence</div>
+    <div class="header-counter" id="page-counter">Page 1 of 7</div>
+  </div>
+  <div style="width:72px;"></div>
 </div>
 
-<div class="book">
+<!-- BOOK STAGE -->
+<div class="stage" id="stage">
 
-  <!-- COVER -->
-  <div class="page cover">
-    <div>
-      <div class="cover-subtitle">Ján Marček</div>
-      <div class="cover-title">Transcendence</div>
+  <!-- PAGE 1 — Cover image (1080×1920 mood board) -->
+  <div class="page page-image active" data-page="1">
+    <img src="images/page1-cover.jpg" alt="Transcendence — Cover">
+    <div class="page-num" style="color:rgba(255,255,255,.4);">1</div>
+  </div>
+
+  <!-- PAGE 2 — Title page -->
+  <div class="page page-cover" data-page="2">
+    <div class="cover-inner">
+      <div class="cover-label">Ján Marček</div>
+      <div class="cover-main-title">Self<br>Transcendence</div>
+      <div class="cover-subtitle">Workbook v1.1</div>
       <div class="cover-line"></div>
-      <div class="cover-author">2025</div>
+      <div class="cover-date">19th March 2026</div>
     </div>
-    <div class="page-num">—</div>
-  </div>
-
-  <!-- PAGE 1 — example text page -->
-  <div class="page page-text">
-    <div class="chapter-title">Kapitola I</div>
-    <h1>Začiatok</h1>
-    <div class="divider"></div>
-    <p>Tu príde tvoj text. Môžeš mi poslať akýkoľvek text a ja ho upravím, gramaticky opravím a naformátujem do tejto šablóny.</p>
-    <p>Každá strana vyzerá ako strana v knihe — čistý layout, správne odsadenie, dobré typografické proporcie.</p>
-    <div class="quote">
-      <p>„Citát alebo dôležitá myšlienka sa zobrazí takto — zvýraznená zlatou čiarou."</p>
-    </div>
-    <p>Pokračovanie textu po citáte. Strana je navrhnutá tak, aby sa pohodlne čítala aj na mobile aj na desktope.</p>
-    <div class="page-num">1</div>
-  </div>
-
-  <!-- PAGE 2 — example image page (full bleed) -->
-  <!-- Uncomment and set src when you have an image:
-  <div class="page page-image">
-    <img src="images/strana-2.jpg" alt="Strana 2">
     <div class="page-num">2</div>
   </div>
-  -->
 
-  <!-- PAGE 3 — example text page -->
-  <div class="page page-text">
-    <div class="chapter-title">Kapitola II</div>
-    <h2>Ďalšia kapitola</h2>
-    <p>Toto je ďalší príklad textovej strany. Pošli mi obsah a ja z neho spravím knižku v tomto formáte.</p>
-    <p>Pre obrázky 1080×1920 použijem celostranový layout — obrázok vyplní celú stranu bez okrajov.</p>
-    <p>Pre texty použijem tento knižkový layout s okrajmi, kapitolami a správnou typografiou.</p>
+  <!-- PAGE 3 — My Beliefs -->
+  <div class="page page-text" data-page="3">
+    <div class="chapter-tag">Chapter I</div>
+    <h1>My Beliefs</h1>
+    <div class="divider"></div>
+    <ul class="beliefs-list">
+      <li><span class="belief-dot"></span><span>I am disciplined.</span></li>
+      <li><span class="belief-dot"></span><span>I am worthy of earning bigger money.</span></li>
+      <li><span class="belief-dot"></span><span>I am very intelligent.</span></li>
+      <li><span class="belief-dot"></span><span>I am young and I can change.</span></li>
+      <li><span class="belief-dot"></span><span>I have a lot of energy to change.</span></li>
+      <li><span class="belief-dot"></span><span>I deserve a better life.</span></li>
+      <li><span class="belief-dot"></span><span>I am a winner.</span></li>
+      <li><span class="belief-dot"></span><span>I have good luck.</span></li>
+      <li><span class="belief-dot"></span><span>I have good English pronunciation.</span></li>
+      <li><span class="belief-dot"></span><span>I am very good in front of the camera.</span></li>
+      <li><span class="belief-dot"></span><span>I won't be judged if I lose, because I will win.</span></li>
+      <li><span class="belief-dot"></span><span>My willpower is strong.</span></li>
+      <li><span class="belief-dot"></span><span>My personality is easy to work with.</span></li>
+      <li><span class="belief-dot"></span><span>I am beautiful.</span></li>
+      <li><span class="belief-dot"></span><span>I am strong.</span></li>
+      <li><span class="belief-dot"></span><span>I am strong-minded.</span></li>
+      <li><span class="belief-dot"></span><span>I love myself.</span></li>
+      <li><span class="belief-dot"></span><span>I can achieve anything.</span></li>
+      <li><span class="belief-dot"></span><span>People love to get called by phone.</span></li>
+      <li><span class="belief-dot"></span><span>People are willing to pay more than €350 for a website.</span></li>
+      <li><span class="belief-dot"></span><span>People in Slovakia are rich.</span></li>
+      <li><span class="belief-dot"></span><span>It's easy to find clients.</span></li>
+      <li><span class="belief-dot"></span><span>People don't talk about me behind my back.</span></li>
+      <li><span class="belief-dot"></span><span>Businesses need my help.</span></li>
+      <li><span class="belief-dot"></span><span>Cold calling is easy.</span></li>
+      <li><span class="belief-dot"></span><span>Having a business is chill.</span></li>
+      <li><span class="belief-dot"></span><span>Having a business takes very little time.</span></li>
+      <li><span class="belief-dot"></span><span>People trust service offers.</span></li>
+      <li><span class="belief-dot"></span><span>Businesses tend to act fast.</span></li>
+    </ul>
     <div class="page-num">3</div>
   </div>
 
+  <!-- PAGE 4 — (reserved / blank spacer page - or add more content later) -->
+  <!-- Skipped per outline — jumping to page 5 -->
+
+  <!-- PAGE 5 — Hnxty Vision image -->
+  <div class="page page-image" data-page="4">
+    <img src="images/page5-vision.jpg" alt="Hnxty Vision">
+    <div class="page-num" style="color:rgba(0,0,0,.2);">4</div>
+  </div>
+
+  <!-- PAGE 6 — Next Chapters image -->
+  <div class="page page-image" data-page="5">
+    <img src="images/page6-chapters.jpg" alt="Next Chapters">
+    <div class="page-num" style="color:rgba(0,0,0,.2);">5</div>
+  </div>
+
+  <!-- PAGE 7 — Hnxty Story -->
+  <div class="page page-text" data-page="6">
+    <div class="chapter-tag">Chapter II</div>
+    <h1>The Story of Hnxty</h1>
+    <div class="divider"></div>
+    <p>
+      Hnxty was a 25-year-old man who struggled with money, health, mental health, and life in general.
+      At 25, he made a decision that would change everything — he decided to transform himself completely.
+    </p>
+    <p>
+      He rebuilt his mental and physical health from the ground up. His body became lean, shredded, and full of energy.
+      Hnxty became a man of quiet confidence — hard-working, stoic, with perfect posture, a symmetrical face, and a strong, masculine presence.
+    </p>
+    <p>
+      With his new identity came results. He scaled his agency to <strong>€5,000 per month</strong> and became
+      a recognised professional in his niche — a well-known and respected name in the marketing industry.
+      He then fixed his teeth and got veneers.
+    </p>
+    <p>
+      A few months later, he hit <strong>€10,000 per month</strong> — a defining milestone for any entrepreneur.
+      He got his driving licence, bought his first car, and took a short road trip with friends to celebrate.
+    </p>
+    <p>
+      After the trip, he moved into a better two-bedroom flat — modern, quiet, and soundproof.
+      He continued pushing and scaled his agency to <strong>€25,000 per month</strong>, living a healthy, fulfilled, and intentional life.
+    </p>
+    <p>
+      The final chapter of this phase: he saved up, bought a three-bedroom flat in <em>Zelené Vlčince</em>,
+      and stepped into the next version of himself.
+    </p>
+    <div class="page-num">6</div>
+  </div>
+
+</div><!-- /stage -->
+
+<!-- NAVIGATION -->
+<div class="nav">
+  <button class="nav-btn" id="btn-prev" onclick="navigate(-1)" disabled>←</button>
+  <div class="nav-dots" id="nav-dots"></div>
+  <button class="nav-btn" id="btn-next" onclick="navigate(1)">→</button>
 </div>
+
+<script>
+  const pages  = Array.from(document.querySelectorAll('.page'));
+  const total  = pages.length;
+  let current  = 0;
+
+  const counter  = document.getElementById('page-counter');
+  const btnPrev  = document.getElementById('btn-prev');
+  const btnNext  = document.getElementById('btn-next');
+  const dotsWrap = document.getElementById('nav-dots');
+
+  // Build dots
+  pages.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(d);
+  });
+
+  function goTo(idx) {
+    pages[current].classList.remove('active');
+    dotsWrap.children[current].classList.remove('active');
+    current = Math.max(0, Math.min(idx, total - 1));
+    pages[current].classList.add('active');
+    dotsWrap.children[current].classList.add('active');
+    btnPrev.disabled = current === 0;
+    btnNext.disabled = current === total - 1;
+    counter.textContent = `Page ${current + 1} of ${total}`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function navigate(dir) {
+    goTo(current + dir);
+  }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   navigate(-1);
+  });
+
+  // Touch/swipe navigation
+  let touchStartX = 0;
+  document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) navigate(dx < 0 ? 1 : -1);
+  });
+
+  // Init counter
+  counter.textContent = `Page 1 of ${total}`;
+</script>
 
 </body>
 </html>
