@@ -246,6 +246,47 @@
 
     .cal-legend { display: flex; gap: 16px; margin-top: 16px; flex-wrap: wrap; }
     .cal-legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--mid); }
+
+    /* ── COLD CALL MODAL ── */
+    .cc-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.78); z-index: 200; cursor: pointer; }
+    .cc-modal {
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      background: #1A1A1A; border: 1px solid rgba(255,215,0,.25); border-radius: 14px;
+      padding: 20px 24px; width: 700px; max-width: calc(100vw - 24px);
+      max-height: 90vh; overflow-y: auto; z-index: 201;
+    }
+    .cc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .cc-title { font-size: 13px; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 1.2px; }
+    .cc-close { background: none; border: none; color: var(--mid); cursor: pointer; font-size: 22px; line-height: 1; transition: color .15s; }
+    .cc-close:hover { color: var(--text); }
+
+    .cc-flow { display: flex; flex-direction: column; align-items: center; }
+    .cc-box-label { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.3px; margin-bottom: 6px; }
+    .cc-box-text { font-size: 12.5px; line-height: 1.65; color: var(--text); }
+
+    .cc-start  { background: rgba(255,215,0,.1);   border: 1px solid rgba(255,215,0,.3);   border-radius: 9px; padding: 13px 16px; width: 440px; }
+    .cc-start  .cc-box-label { color: var(--gold); }
+    .cc-cont   { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.15); border-radius: 9px; padding: 13px 16px; width: 440px; }
+    .cc-cont   .cc-box-label { color: var(--mid); }
+    .cc-red    { background: rgba(230,59,46,.1);    border: 1px solid rgba(230,59,46,.3);   border-radius: 9px; padding: 13px 16px; width: 100%; }
+    .cc-red    .cc-box-label { color: #ff7a6e; }
+    .cc-green  { background: rgba(45,155,111,.1);   border: 1px solid rgba(45,155,111,.3);  border-radius: 9px; padding: 13px 16px; width: 100%; }
+    .cc-green  .cc-box-label { color: #5ddba5; }
+    .cc-merge  { background: rgba(59,130,246,.1);   border: 1px solid rgba(59,130,246,.3);  border-radius: 9px; padding: 13px 16px; width: 440px; }
+    .cc-merge  .cc-box-label { color: #7eb8ff; }
+    .cc-extra  { background: rgba(139,92,246,.1);   border: 1px solid rgba(139,92,246,.3);  border-radius: 9px; padding: 13px 16px; width: 440px; }
+    .cc-extra  .cc-box-label { color: #c4b5fd; }
+    .cc-no     { background: rgba(230,59,46,.07);   border: 1px solid rgba(230,59,46,.2);   border-radius: 9px; padding: 13px 16px; width: 440px; }
+    .cc-no     .cc-box-label { color: var(--signal); }
+
+    .cc-arrow { color: rgba(255,215,0,.55); font-size: 22px; text-align: center; padding: 3px 0; line-height: 1; }
+    .cc-choose-label { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: var(--mid); margin: 2px 0 8px; }
+    .cc-split-row { display: flex; gap: 14px; width: 580px; }
+    .cc-branch { flex: 1; display: flex; flex-direction: column; align-items: center; }
+    .cc-merge-arrows { display: flex; justify-content: space-between; width: 500px; padding: 0 30px; }
+    .cc-no-sep { width: 440px; border-top: 1px solid rgba(255,255,255,.08); margin: 18px 0 14px; }
+    .cc-no-label { font-size: 10px; color: var(--signal); font-weight: 700; letter-spacing: .5px; margin-bottom: 8px; }
+    .cc-extra-note { font-size: 10px; color: rgba(139,92,246,.8); font-style: italic; padding: 3px 0; }
   </style>
 </head>
 <body>
@@ -284,6 +325,9 @@
     <div class="card-title"><span class="dot"></span>Získaj Dopyt — Denné úlohy</div>
 
     <div class="task-item" id="t-calls" onclick="toggle('t-calls')"><div class="task-check"></div><span class="task-label">Cold calls</span><span class="count-pill">150</span></div>
+    <div class="sub-row">
+      <button class="btn btn-gold" onclick="openColdCall()">📞 Cold call script</button>
+    </div>
     <div class="task-item" id="t-call-fu" onclick="toggle('t-call-fu')"><div class="task-check"></div><span class="task-label">Call followup</span></div>
     <div class="task-item" id="t-email" onclick="toggle('t-email')"><div class="task-check"></div><span class="task-label">Email send</span><span class="count-pill">400</span></div>
     <div class="task-item" id="t-email-fu" onclick="toggle('t-email-fu')"><div class="task-check"></div><span class="task-label">Email followup</span></div>
@@ -314,7 +358,7 @@
 
     <div class="task-item" id="t-read" onclick="toggle('t-read')"><div class="task-check"></div><span class="task-label">Read Transcendence</span></div>
     <div class="sub-row">
-      <button class="btn btn-dark" onclick="window.location.href='transcendence.html'">Čítať</button>
+      <button class="btn btn-gold" onclick="window.location.href='transcendence.html'">Čítať</button>
     </div>
 
     <div class="task-item" id="t-cloth" onclick="toggle('t-cloth')"><div class="task-check"></div><span class="task-label">LinkedIn Clothing Brands CEO</span><span class="count-pill">10</span></div>
@@ -403,7 +447,7 @@
       <span class="task-label" style="color:var(--mid)">TikTok Clothing Brand — video make</span>
     </div>
     <div class="sub-row">
-      <button class="btn btn-dark" onclick="window.open('https://janmarcekconsulting.github.io/fashion-daily/','_blank')">Otvoriť fashion-daily</button>
+      <button class="btn btn-gold" onclick="window.open('https://janmarcekconsulting.github.io/fashion-daily/','_blank')">Otvoriť fashion-daily</button>
     </div>
   </div>
 
@@ -444,6 +488,81 @@
       <div class="cal-legend-item"><span class="cal-score-badge full-zd">ZD ✓</span> Všetky splnené</div>
       <div class="cal-legend-item"><span class="cal-score-badge full-jmc">JMC ✓</span> Všetky splnené</div>
     </div>
+  </div>
+</div>
+
+<!-- ══ COLD CALL SCRIPT MODAL ══ -->
+<div id="cold-call-overlay" class="cc-overlay" style="display:none" onclick="closeColdCall()"></div>
+<div id="cold-call-modal" class="cc-modal" style="display:none">
+  <div class="cc-header">
+    <span class="cc-title">📞 Cold Call Script</span>
+    <button class="cc-close" onclick="closeColdCall()">✕</button>
+  </div>
+
+  <div class="cc-flow">
+
+    <!-- START -->
+    <div class="cc-start">
+      <div class="cc-box-label">Start</div>
+      <div class="cc-box-text">Dobrý deň, pri telefóne Marček — robím webové riešenia pre firmy, mám na vás len dve rýchle otázky, máte minútku?</div>
+    </div>
+
+    <div class="cc-arrow">↓</div>
+
+    <!-- CONTINUE -->
+    <div class="cc-cont">
+      <div class="cc-box-label">Continue</div>
+      <div class="cc-box-text">Všimol som si na Googli, že nemáte vytvorenú web stránku, je táto informácia správna?</div>
+    </div>
+
+    <div class="cc-arrow">↓</div>
+    <div class="cc-choose-label">Choose</div>
+
+    <!-- SPLIT arrows -->
+    <div class="cc-merge-arrows"><div class="cc-arrow">↙</div><div class="cc-arrow">↘</div></div>
+
+    <!-- SPLIT BRANCHES -->
+    <div class="cc-split-row">
+      <div class="cc-branch">
+        <div class="cc-red">
+          <div class="cc-box-label">Majú web</div>
+          <div class="cc-box-text">1) ste spokojní s tým koľko vám prináša dopytov, alebo by ste chceli viac?</div>
+        </div>
+      </div>
+      <div class="cc-branch">
+        <div class="cc-green">
+          <div class="cc-box-label">Nemajú web</div>
+          <div class="cc-box-text">2) je to tak zámerne alebo to len nebola doteraz priorita?</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MERGE arrows -->
+    <div class="cc-merge-arrows"><div class="cc-arrow">↘</div><div class="cc-arrow">↙</div></div>
+
+    <!-- MERGE BOX -->
+    <div class="cc-merge">
+      <div class="cc-box-label">Ponuka</div>
+      <div class="cc-box-text">Viem vám pripraviť návrh webstránky zadarmo, bez záväzku a poslať vám ho na e-mail. Mali by ste záujem?</div>
+    </div>
+
+    <div class="cc-arrow">↓</div>
+    <div class="cc-extra-note">iba pre tých bez webu</div>
+
+    <!-- EXTRA -->
+    <div class="cc-extra">
+      <div class="cc-box-label">Doplňujúca otázka</div>
+      <div class="cc-box-text">Mohli by ste mi v krátkosti povedať čomu sa venujete a na koho sa zamieravate?</div>
+    </div>
+
+    <!-- NO SECTION -->
+    <div class="cc-no-sep"></div>
+    <div class="cc-no-label">Ak povedia kdekoľvek NIE:</div>
+    <div class="cc-no">
+      <div class="cc-box-label">Záver</div>
+      <div class="cc-box-text">Chápem, prípadne ak sa situácia zmení, môžem sa ozvať neskôr?</div>
+    </div>
+
   </div>
 </div>
 
@@ -796,6 +915,18 @@ Tón: priamy, profesionálny, nie agresívny.`;
     btn.classList.add('copied');
     setTimeout(() => { btn.textContent = 'Generovať prompt pre Claude'; btn.classList.remove('copied'); }, 2500);
   });
+}
+
+// ══════════════════════════════════════════
+// COLD CALL MODAL
+// ══════════════════════════════════════════
+function openColdCall() {
+  document.getElementById('cold-call-overlay').style.display = 'block';
+  document.getElementById('cold-call-modal').style.display  = 'block';
+}
+function closeColdCall() {
+  document.getElementById('cold-call-overlay').style.display = 'none';
+  document.getElementById('cold-call-modal').style.display  = 'none';
 }
 
 function toggle(id) {
