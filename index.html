@@ -252,8 +252,8 @@
     .cc-modal {
       position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
       background: #1A1A1A; border: 1px solid rgba(255,215,0,.25); border-radius: 14px;
-      padding: 20px 24px; width: 700px; max-width: calc(100vw - 24px);
-      max-height: 90vh; overflow-y: auto; z-index: 201;
+      padding: 20px 28px; width: 860px; max-width: calc(100vw - 24px);
+      max-height: 96vh; overflow-y: auto; z-index: 201;
     }
     .cc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
     .cc-title { font-size: 13px; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 1.2px; }
@@ -264,9 +264,9 @@
     .cc-box-label { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.3px; margin-bottom: 6px; }
     .cc-box-text { font-size: 12.5px; line-height: 1.65; color: var(--text); }
 
-    .cc-start  { background: rgba(255,215,0,.1);   border: 1px solid rgba(255,215,0,.3);   border-radius: 9px; padding: 13px 16px; width: 440px; }
+    .cc-start  { background: rgba(255,215,0,.1);   border: 1px solid rgba(255,215,0,.3);   border-radius: 9px; padding: 13px 16px; width: 560px; }
     .cc-start  .cc-box-label { color: var(--gold); }
-    .cc-cont   { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.15); border-radius: 9px; padding: 13px 16px; width: 440px; }
+    .cc-cont   { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.15); border-radius: 9px; padding: 13px 16px; width: 560px; }
     .cc-cont   .cc-box-label { color: var(--mid); }
     .cc-red    { background: rgba(230,59,46,.1);    border: 1px solid rgba(230,59,46,.3);   border-radius: 9px; padding: 13px 16px; width: 100%; }
     .cc-red    .cc-box-label { color: #ff7a6e; }
@@ -276,7 +276,7 @@
     .cc-merge  .cc-box-label { color: #7eb8ff; }
     .cc-extra  { background: rgba(139,92,246,.1);   border: 1px solid rgba(139,92,246,.3);  border-radius: 9px; padding: 13px 16px; width: 440px; }
     .cc-extra  .cc-box-label { color: #c4b5fd; }
-    .cc-no     { background: rgba(230,59,46,.07);   border: 1px solid rgba(230,59,46,.2);   border-radius: 9px; padding: 13px 16px; width: 440px; }
+    .cc-no     { background: rgba(230,59,46,.07);   border: 1px solid rgba(230,59,46,.2);   border-radius: 9px; padding: 13px 16px; width: 560px; }
     .cc-no     .cc-box-label { color: var(--signal); }
     .cc-email  { background: rgba(255,215,0,.08);   border: 1px solid rgba(255,215,0,.25);  border-radius: 9px; padding: 13px 16px; }
     .cc-email  .cc-box-label { color: var(--gold); }
@@ -285,10 +285,10 @@
 
     .cc-arrow { color: rgba(255,215,0,.55); font-size: 22px; text-align: center; padding: 3px 0; line-height: 1; }
     .cc-choose-label { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: var(--mid); margin: 2px 0 8px; }
-    .cc-split-row { display: flex; gap: 14px; width: 580px; align-items: flex-start; }
+    .cc-split-row { display: flex; gap: 18px; width: 720px; align-items: flex-start; }
     .cc-branch { flex: 1; display: flex; flex-direction: column; align-items: center; }
-    .cc-merge-arrows { display: flex; justify-content: space-between; width: 500px; padding: 0 30px; }
-    .cc-no-sep { width: 440px; border-top: 1px solid rgba(255,255,255,.08); margin: 18px 0 14px; }
+    .cc-merge-arrows { display: flex; justify-content: space-between; width: 620px; padding: 0 40px; }
+    .cc-no-sep { width: 560px; border-top: 1px solid rgba(255,255,255,.08); margin: 18px 0 14px; }
     .cc-no-label { font-size: 10px; color: var(--signal); font-weight: 700; letter-spacing: .5px; margin-bottom: 8px; }
     .cc-extra-note { font-size: 10px; color: rgba(139,92,246,.8); font-style: italic; padding: 3px 0; }
   </style>
@@ -542,7 +542,7 @@
         <div class="cc-arrow">↓</div>
         <div class="cc-email" style="width:100%">
           <div class="cc-box-label">E-mail</div>
-          <div class="cc-box-text">Aký máte e-mail?</div>
+          <div class="cc-box-text">Aký máte prosím vás e-mail?</div>
         </div>
         <div class="cc-arrow">↓</div>
         <div class="cc-extra" style="width:100%">
@@ -563,14 +563,14 @@
           <div class="cc-box-text">Viem vám pripraviť návrh webstránky zadarmo, bez záväzku a poslať vám ho na e-mail. Mali by ste záujem?</div>
         </div>
         <div class="cc-arrow">↓</div>
+        <div class="cc-email" style="width:100%">
+          <div class="cc-box-label">E-mail</div>
+          <div class="cc-box-text">Aký máte prosím vás e-mail?</div>
+        </div>
+        <div class="cc-arrow">↓</div>
         <div class="cc-webname" style="width:100%">
           <div class="cc-box-label">Web stránka</div>
           <div class="cc-box-text">Ako sa volá vaša web stránka?</div>
-        </div>
-        <div class="cc-arrow">↓</div>
-        <div class="cc-email" style="width:100%">
-          <div class="cc-box-label">E-mail</div>
-          <div class="cc-box-text">Aký máte e-mail?</div>
         </div>
       </div>
 
