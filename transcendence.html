@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transcendence — Ján Marček</title>
+  <style>
+    :root {
+      --bg:     #0E0E0E;
+      --card:   #1A1A1A;
+      --border: rgba(255,255,255,.08);
+      --text:   #EBEBEB;
+      --mid:    rgba(235,235,235,.45);
+      --gold:   #FFD700;
+      --signal: #E63B2E;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 0 0 80px;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(14,14,14,.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 24px;
+    }
+    .back-btn {
+      background: none; border: 1px solid var(--border);
+      color: var(--mid); border-radius: 7px;
+      padding: 6px 12px; cursor: pointer; font-size: 13px;
+      transition: all .15s;
+    }
+    .back-btn:hover { border-color: rgba(255,255,255,.25); color: var(--text); }
+    .header-title {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 16px; font-weight: 700; letter-spacing: -.2px;
+      color: var(--gold);
+    }
+    .header-sub {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 11px; color: var(--mid); margin-left: auto;
+    }
+
+    /* ── BOOK CONTAINER ── */
+    .book {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    /* ── A4 PAGE ── */
+    .page {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      margin-bottom: 2px;
+      overflow: hidden;
+      page-break-inside: avoid;
+      position: relative;
+      /* A4 aspect ratio: 210mm × 297mm = 1:1.414 */
+      /* At 680px wide the height would be 961px, but we let content flow */
+      min-height: 880px;
+      display: flex;
+      flex-direction: column;
+    }
+    .page:first-child { border-radius: 3px 3px 0 0; }
+    .page:last-child { border-radius: 0 0 3px 3px; margin-bottom: 0; }
+    .page + .page { border-top: none; }
+
+    /* page number */
+    .page-num {
+      position: absolute;
+      bottom: 18px; right: 24px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 10px; color: rgba(235,235,235,.2);
+      letter-spacing: 1px;
+    }
+
+    /* ── FULL IMAGE PAGE ── */
+    .page.page-image {
+      padding: 0;
+      min-height: unset;
+    }
+    .page.page-image img {
+      width: 100%;
+      display: block;
+    }
+
+    /* ── TEXT PAGE ── */
+    .page.page-text {
+      padding: 56px 60px 60px;
+    }
+    @media (max-width: 520px) {
+      .page.page-text { padding: 36px 28px 40px; }
+    }
+
+    /* ── CHAPTER TITLE ── */
+    .chapter-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: var(--gold);
+      margin-bottom: 28px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    /* ── HEADING ── */
+    .page h1 {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 32px;
+      letter-spacing: -.5px;
+    }
+    .page h2 {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 20px;
+      letter-spacing: -.3px;
+    }
+
+    /* ── BODY TEXT ── */
+    .page p {
+      font-size: 15px;
+      line-height: 1.85;
+      color: rgba(235,235,235,.85);
+      margin-bottom: 18px;
+    }
+    .page p:last-child { margin-bottom: 0; }
+
+    /* ── QUOTE ── */
+    .quote {
+      border-left: 3px solid var(--gold);
+      padding: 12px 20px;
+      margin: 24px 0;
+      background: rgba(255,215,0,.05);
+      border-radius: 0 6px 6px 0;
+    }
+    .quote p {
+      font-style: italic;
+      font-size: 16px;
+      line-height: 1.7;
+      color: rgba(235,235,235,.9);
+      margin: 0;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 40px; height: 2px;
+      background: var(--gold);
+      opacity: .5;
+      margin: 28px 0;
+    }
+
+    /* ── COVER PAGE ── */
+    .page.cover {
+      min-height: 880px;
+      background: linear-gradient(160deg, #1A1A1A 0%, #111 100%);
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 40px;
+      border: 1px solid rgba(255,215,0,.18);
+    }
+    .cover-title {
+      font-size: 48px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: var(--gold);
+      margin-bottom: 16px;
+      line-height: 1.1;
+    }
+    .cover-subtitle {
+      font-size: 14px;
+      color: var(--mid);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      margin-bottom: 60px;
+    }
+    .cover-author {
+      font-size: 13px;
+      color: var(--mid);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      letter-spacing: 1px;
+    }
+    .cover-line {
+      width: 60px; height: 1px;
+      background: rgba(255,215,0,.3);
+      margin: 24px auto;
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <button class="back-btn" onclick="history.back()">← Späť</button>
+  <span class="header-title">Transcendence</span>
+  <span class="header-sub">Ján Marček</span>
+</div>
+
+<div class="book">
+
+  <!-- COVER -->
+  <div class="page cover">
+    <div>
+      <div class="cover-subtitle">Ján Marček</div>
+      <div class="cover-title">Transcendence</div>
+      <div class="cover-line"></div>
+      <div class="cover-author">2025</div>
+    </div>
+    <div class="page-num">—</div>
+  </div>
+
+  <!-- PAGE 1 — example text page -->
+  <div class="page page-text">
+    <div class="chapter-title">Kapitola I</div>
+    <h1>Začiatok</h1>
+    <div class="divider"></div>
+    <p>Tu príde tvoj text. Môžeš mi poslať akýkoľvek text a ja ho upravím, gramaticky opravím a naformátujem do tejto šablóny.</p>
+    <p>Každá strana vyzerá ako strana v knihe — čistý layout, správne odsadenie, dobré typografické proporcie.</p>
+    <div class="quote">
+      <p>„Citát alebo dôležitá myšlienka sa zobrazí takto — zvýraznená zlatou čiarou."</p>
+    </div>
+    <p>Pokračovanie textu po citáte. Strana je navrhnutá tak, aby sa pohodlne čítala aj na mobile aj na desktope.</p>
+    <div class="page-num">1</div>
+  </div>
+
+  <!-- PAGE 2 — example image page (full bleed) -->
+  <!-- Uncomment and set src when you have an image:
+  <div class="page page-image">
+    <img src="images/strana-2.jpg" alt="Strana 2">
+    <div class="page-num">2</div>
+  </div>
+  -->
+
+  <!-- PAGE 3 — example text page -->
+  <div class="page page-text">
+    <div class="chapter-title">Kapitola II</div>
+    <h2>Ďalšia kapitola</h2>
+    <p>Toto je ďalší príklad textovej strany. Pošli mi obsah a ja z neho spravím knižku v tomto formáte.</p>
+    <p>Pre obrázky 1080×1920 použijem celostranový layout — obrázok vyplní celú stranu bez okrajov.</p>
+    <p>Pre texty použijem tento knižkový layout s okrajmi, kapitolami a správnou typografiou.</p>
+    <div class="page-num">3</div>
+  </div>
+
+</div>
+
+</body>
+</html>
