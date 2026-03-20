@@ -302,6 +302,81 @@
     .cc-no-sep { width: 560px; border-top: 1px solid var(--border); margin: 18px 0 14px; }
     .cc-no-label { font-size: 10px; color: var(--signal); font-weight: 700; letter-spacing: .5px; margin-bottom: 8px; }
     .cc-extra-note { font-size: 10px; color: #7C3AED; font-style: italic; padding: 3px 0; }
+
+    /* ══ QUANTIFIED SELF ══ */
+    #page-qs { display: none; }
+    .qs-layout { max-width: 1320px; margin: 0 auto; padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media(max-width:860px) { .qs-layout { grid-template-columns: 1fr; } }
+    .qs-col { display: flex; flex-direction: column; gap: 16px; }
+    .qs-card { background: var(--card); border-radius: 14px; padding: 18px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+    .qs-card-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 14px; display: flex; align-items: center; gap: 7px; }
+    .qs-day-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+    .qs-day-label { font-size: 14px; font-weight: 700; color: var(--text); }
+    /* Sleep */
+    .sleep-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .sleep-field label { display: block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--muted); margin-bottom: 5px; }
+    .sleep-input { width: 100%; padding: 8px 10px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 14px; font-weight: 600; color: var(--text); background: var(--bg); font-family: inherit; outline: none; transition: border-color .15s; }
+    .sleep-input:focus { border-color: var(--blue); }
+    .sleep-big { font-size: 34px; font-weight: 800; color: var(--text); text-align: center; letter-spacing: -1px; line-height: 1; }
+    /* Toggles */
+    .toggle-group { display: flex; flex-direction: column; gap: 8px; }
+    .qs-toggle { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px; cursor: pointer; transition: all .15s; user-select: none; }
+    .qs-toggle:hover { border-color: var(--blue-bdr); }
+    .qs-toggle.on { border-color: var(--green); background: #F0FDF4; }
+    .qs-toggle-left { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--text); }
+    .qs-toggle-emoji { font-size: 17px; }
+    .qs-switch { width: 36px; height: 20px; border-radius: 10px; background: var(--border); position: relative; transition: background .2s; flex-shrink: 0; }
+    .qs-toggle.on .qs-switch { background: var(--green); }
+    .qs-switch::after { content:''; position: absolute; width: 14px; height: 14px; background: #fff; border-radius: 50%; top: 3px; left: 3px; transition: transform .2s; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+    .qs-toggle.on .qs-switch::after { transform: translateX(16px); }
+    /* Macros */
+    .macro-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 14px; }
+    .macro-box { text-align: center; background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px; padding: 9px 4px; }
+    .macro-box.kcal-box { border-color: var(--gold-bdr); background: var(--gold-bg); }
+    .macro-box.prot-box { border-color: var(--blue-bdr); background: var(--blue-light); }
+    .macro-val { font-size: 17px; font-weight: 800; color: var(--text); letter-spacing: -.5px; }
+    .macro-lbl { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; margin-top: 1px; }
+    /* Food buttons */
+    .food-btn-grid { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+    .food-btn { background: var(--bg); border: 1.5px solid var(--border); border-radius: 8px; padding: 5px 9px; cursor: pointer; font-size: 11.5px; font-weight: 600; color: var(--text); transition: all .15s; font-family: inherit; }
+    .food-btn:hover { border-color: var(--blue-bdr); background: var(--blue-light); color: var(--blue); }
+    /* Food log */
+    .food-log-list { display: flex; flex-direction: column; gap: 5px; }
+    .food-log-item { display: flex; align-items: center; justify-content: space-between; padding: 7px 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; gap: 6px; }
+    .food-log-name { font-size: 12px; font-weight: 600; color: var(--text); flex: 1; }
+    .food-log-right { display: flex; align-items: center; gap: 7px; flex-shrink: 0; }
+    .food-log-kcal { font-size: 11px; color: var(--muted); white-space: nowrap; }
+    .fqty-btn { background: var(--border); border: none; border-radius: 4px; width: 19px; height: 19px; cursor: pointer; font-size: 13px; display: flex; align-items: center; justify-content: center; color: var(--text); transition: background .15s; padding: 0; font-family: inherit; }
+    .fqty-btn:hover { background: var(--blue-light); }
+    .fqty-num { font-size: 11.5px; font-weight: 700; color: var(--text); min-width: 28px; text-align: center; }
+    .food-del { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 13px; transition: color .15s; padding: 0; line-height: 1; }
+    .food-del:hover { color: var(--signal); }
+    /* QS Calendar */
+    .qs-cal-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .qs-cal-month { font-size: 14px; font-weight: 700; color: var(--text); }
+    .qs-cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 3px; }
+    .qs-dow { font-size: 9px; font-weight: 700; text-transform: uppercase; color: var(--muted); text-align: center; padding: 3px 0; }
+    .qs-cday { border-radius: 7px; padding: 4px 2px; text-align: center; cursor: pointer; transition: transform .1s; min-height: 44px; border: 1.5px solid transparent; }
+    .qs-cday:hover { transform: scale(1.06); }
+    .qs-cday.qs-empty { cursor: default; }
+    .qs-cday.qs-selected { border-color: var(--blue) !important; }
+    .qs-cday-num { font-size: 10.5px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+    .qs-cday-dots { display: flex; justify-content: center; gap: 2px; }
+    .qs-dot { width: 5px; height: 5px; border-radius: 50%; }
+    .qs-score-0 { background: #FEF2F2; } .qs-score-1 { background: #FFFBEB; }
+    .qs-score-2 { background: #EFF6FF; } .qs-score-3 { background: #F0FDF4; }
+    .qs-no-data { background: var(--bg); }
+    /* Stats */
+    .qs-stat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+    .qs-stat { background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 12px; }
+    .qs-stat-val { font-size: 20px; font-weight: 800; color: var(--text); letter-spacing: -.5px; }
+    .qs-stat-lbl { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; margin-top: 2px; }
+    .qs-bar-group { display: flex; flex-direction: column; gap: 7px; margin-top: 14px; }
+    .qs-bar-row { display: flex; align-items: center; gap: 8px; }
+    .qs-bar-lbl { font-size: 11px; color: var(--mid); width: 70px; flex-shrink: 0; }
+    .qs-bar-track { flex: 1; height: 7px; background: var(--border); border-radius: 4px; overflow: hidden; }
+    .qs-bar-fill { height: 100%; border-radius: 4px; transition: width .5s; }
+    .qs-bar-pct { font-size: 11px; font-weight: 700; color: var(--text); width: 30px; text-align: right; }
   </style>
 </head>
 <body>
@@ -329,6 +404,7 @@
     <span class="header-date" id="header-date"></span>
     <button class="nav-quick-btn" onclick="window.location.href='transcendence.html'">📖 Transcendence</button>
     <button class="nav-quick-btn" onclick="window.open('https://janmarcekconsulting.github.io/fashion-daily/','_blank')">👗 Fashion Daily</button>
+    <button class="cal-btn" id="qs-toggle-btn" onclick="toggleQsPage()">🧠 QS</button>
     <button class="cal-btn" id="cal-toggle-btn" onclick="toggleCalPage()">📅 Kalendár</button>
   </div>
 </header>
@@ -508,6 +584,142 @@
       <div class="cal-legend-item"><span class="cal-score-badge jmc">JMC</span> Ján Marček Consulting (max 6)</div>
       <div class="cal-legend-item"><span class="cal-score-badge full-zd">ZD ✓</span> Všetky splnené</div>
       <div class="cal-legend-item"><span class="cal-score-badge full-jmc">JMC ✓</span> Všetky splnené</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ QUANTIFIED SELF PAGE ══ -->
+<div id="page-qs">
+  <div class="qs-layout">
+
+    <!-- LEFT: Daily Entry -->
+    <div class="qs-col">
+      <div class="qs-day-nav">
+        <span class="qs-day-label" id="qs-day-label"></span>
+        <button class="cal-btn" onclick="qsGoToday()" style="font-size:11px;padding:5px 10px;">Dnes</button>
+      </div>
+
+      <!-- Sleep -->
+      <div class="qs-card">
+        <div class="qs-card-title"><span class="dot" style="background:#818CF8"></span>Spánok</div>
+        <div class="sleep-grid">
+          <div class="sleep-field">
+            <label>Hodín spánku</label>
+            <div class="sleep-big" id="qs-sleep-display">—</div>
+            <input type="number" class="sleep-input" id="qs-sleep-h" min="0" max="16" step="0.5" placeholder="7.5"
+              style="margin-top:6px;text-align:center;"
+              oninput="qsSaveField('sleepH',this.value);document.getElementById('qs-sleep-display').textContent=this.value?this.value+'h':'—'">
+          </div>
+          <div>
+            <div class="sleep-field" style="margin-bottom:10px;">
+              <label>Zaspal</label>
+              <input type="time" class="sleep-input" id="qs-bedtime" onchange="qsSaveField('bedtime',this.value)">
+            </div>
+            <div class="sleep-field">
+              <label>Zobudil sa</label>
+              <input type="time" class="sleep-input" id="qs-waketime" onchange="qsSaveField('wakeTime',this.value)">
+            </div>
+          </div>
+        </div>
+        <div class="qs-toggle" id="qs-t-nightAwake" onclick="qsToggle('nightAwake')">
+          <div class="qs-toggle-left"><span class="qs-toggle-emoji">🌙</span>Zobudil som sa v noci</div>
+          <div class="qs-switch"></div>
+        </div>
+      </div>
+
+      <!-- Wellness -->
+      <div class="qs-card">
+        <div class="qs-card-title"><span class="dot" style="background:#10B981"></span>Wellness</div>
+        <div class="toggle-group">
+          <div class="qs-toggle" id="qs-t-vitamin" onclick="qsToggle('vitamin')">
+            <div class="qs-toggle-left"><span class="qs-toggle-emoji">💊</span>Vitamín (10 ml)</div>
+            <div class="qs-switch"></div>
+          </div>
+          <div class="qs-toggle" id="qs-t-outside" onclick="qsToggle('outside')">
+            <div class="qs-toggle-left"><span class="qs-toggle-emoji">🌿</span>Bol som vonku</div>
+            <div class="qs-switch"></div>
+          </div>
+          <div class="qs-toggle" id="qs-t-exercise" onclick="qsToggle('exercise')">
+            <div class="qs-toggle-left"><span class="qs-toggle-emoji">💪</span>Cvičil som</div>
+            <div class="qs-switch"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Food Tracker -->
+      <div class="qs-card">
+        <div class="qs-card-title"><span class="dot" style="background:#F59E0B"></span>Jedlo</div>
+        <div class="macro-row">
+          <div class="macro-box kcal-box"><div class="macro-val" id="qs-kcal">0</div><div class="macro-lbl">kcal</div></div>
+          <div class="macro-box prot-box"><div class="macro-val" id="qs-prot">0g</div><div class="macro-lbl">Proteín</div></div>
+          <div class="macro-box"><div class="macro-val" id="qs-carbs">0g</div><div class="macro-lbl">Sacharidy</div></div>
+          <div class="macro-box"><div class="macro-val" id="qs-fat">0g</div><div class="macro-lbl">Tuky</div></div>
+        </div>
+        <div class="food-btn-grid" id="food-btn-grid"></div>
+        <div class="food-log-list" id="qs-food-log"></div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Monthly Stats -->
+    <div class="qs-col">
+
+      <!-- Monthly Calendar -->
+      <div class="qs-card">
+        <div class="qs-cal-hdr">
+          <span class="qs-cal-month" id="qs-cal-month"></span>
+          <div style="display:flex;gap:5px;">
+            <button class="cal-nav-btn" onclick="shiftQsMonth(-1)">‹</button>
+            <button class="cal-nav-btn" onclick="shiftQsMonth(1)">›</button>
+          </div>
+        </div>
+        <div class="qs-cal-grid" id="qs-cal-grid"></div>
+        <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--muted)"><div style="width:9px;height:9px;border-radius:2px;background:#F0FDF4;border:1px solid #BBF7D0"></div>3 splnené</div>
+          <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--muted)"><div style="width:9px;height:9px;border-radius:2px;background:#EFF6FF;border:1px solid #BFDBFE"></div>2 splnené</div>
+          <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--muted)"><div style="width:9px;height:9px;border-radius:2px;background:#FFFBEB;border:1px solid #FDE68A"></div>1 splnené</div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:6px;flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--muted)"><div style="width:7px;height:7px;border-radius:50%;background:#10B981"></div>Vitamín</div>
+          <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--muted)"><div style="width:7px;height:7px;border-radius:50%;background:#3B82F6"></div>Vonku</div>
+          <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--muted)"><div style="width:7px;height:7px;border-radius:50%;background:#F59E0B"></div>Cvičenie</div>
+        </div>
+      </div>
+
+      <!-- Monthly Stats -->
+      <div class="qs-card">
+        <div class="qs-card-title"><span class="dot" style="background:#8B5CF6"></span>Mesačné štatistiky</div>
+        <div class="qs-stat-grid">
+          <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-sleep">—</div><div class="qs-stat-lbl">Avg spánok</div></div>
+          <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-kcal">—</div><div class="qs-stat-lbl">Avg kcal</div></div>
+          <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-prot">—</div><div class="qs-stat-lbl">Avg proteín</div></div>
+          <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-vitamin">0/0</div><div class="qs-stat-lbl">💊 Vitamín</div></div>
+          <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-outside">0/0</div><div class="qs-stat-lbl">🌿 Vonku</div></div>
+          <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-exercise">0/0</div><div class="qs-stat-lbl">💪 Cvičenie</div></div>
+        </div>
+        <div class="qs-bar-group">
+          <div class="qs-bar-row">
+            <span class="qs-bar-lbl">💊 Vitamín</span>
+            <div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-vitamin" style="width:0%;background:#10B981"></div></div>
+            <span class="qs-bar-pct" id="qs-pct-vitamin">0%</span>
+          </div>
+          <div class="qs-bar-row">
+            <span class="qs-bar-lbl">🌿 Vonku</span>
+            <div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-outside" style="width:0%;background:#3B82F6"></div></div>
+            <span class="qs-bar-pct" id="qs-pct-outside">0%</span>
+          </div>
+          <div class="qs-bar-row">
+            <span class="qs-bar-lbl">💪 Cvičenie</span>
+            <div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-exercise" style="width:0%;background:#F59E0B"></div></div>
+            <span class="qs-bar-pct" id="qs-pct-exercise">0%</span>
+          </div>
+          <div class="qs-bar-row">
+            <span class="qs-bar-lbl">😴 Spánok 7h+</span>
+            <div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-sleep" style="width:0%;background:#818CF8"></div></div>
+            <span class="qs-bar-pct" id="qs-pct-sleep">0%</span>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -1044,13 +1256,19 @@ function toggleCalPage() {
 }
 
 function showPage(name) {
-  const isMain = name === 'main';
-  document.getElementById('page-main').style.display = isMain ? 'block' : 'none';
-  document.getElementById('page-cal').style.display  = isMain ? 'none'  : 'block';
-  const btn = document.getElementById('cal-toggle-btn');
-  btn.textContent = isMain ? '📅 Kalendár' : '← Dashboard';
-  btn.classList.toggle('active', !isMain);
-  if (!isMain) renderCal();
+  document.getElementById('page-main').style.display = name === 'main' ? 'block' : 'none';
+  document.getElementById('page-cal').style.display  = name === 'cal'  ? 'block' : 'none';
+  document.getElementById('page-qs').style.display   = name === 'qs'   ? 'block' : 'none';
+  const calBtn = document.getElementById('cal-toggle-btn');
+  calBtn.textContent = name === 'cal' ? '← Dashboard' : '📅 Kalendár';
+  calBtn.classList.toggle('active', name === 'cal');
+  document.getElementById('qs-toggle-btn').classList.toggle('active', name === 'qs');
+  if (name === 'cal') renderCal();
+  if (name === 'qs') { renderQsDay(); renderQsCal(); renderQsStats(); }
+}
+function toggleQsPage() {
+  const vis = document.getElementById('page-qs').style.display !== 'none';
+  showPage(vis ? 'main' : 'qs');
 }
 
 // ══════════════════════════════════════════
@@ -1204,6 +1422,171 @@ function renderTemps() {
 function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 // ══════════════════════════════════════════
+// QUANTIFIED SELF
+// ══════════════════════════════════════════
+const QS_FOODS = {
+  kajzerka: { name:'Kajzerka cereálna', emoji:'🥐', dq:60,  unit:'g',  per100:true,  kcal:288,  fat:4.35, satFat:0.85, carbs:48.3, sugars:1.43, fiber:5.54, prot:11.2, salt:1.51 },
+  egg:      { name:'Vajíčko',           emoji:'🥚', dq:1,   unit:'ks', per100:false, kcal:78,   fat:5.3,  satFat:1.6,  carbs:0.6,  sugars:0.6,  fiber:0,    prot:6.3,  salt:0.2  },
+  banana:   { name:'Banán',             emoji:'🍌', dq:1,   unit:'ks', per100:false, kcal:107,  fat:0.36, satFat:0.1,  carbs:27,   sugars:14.4, fiber:3.1,  prot:1.3,  salt:0    },
+  jogurt:   { name:'Grécky jogurt',     emoji:'🫐', dq:200, unit:'g',  per100:true,  kcal:148,  fat:8.5,  satFat:5.3,  carbs:14.3, sugars:13.4, fiber:0,    prot:3.4,  salt:0.1  },
+  horalka:  { name:'Horalka',           emoji:'🍫', dq:1,   unit:'ks', per100:false, kcal:230,  fat:11,   satFat:5,    carbs:32,   sugars:22,   fiber:0.5,  prot:3,    salt:0.15 },
+  kavenka:  { name:'Kavenka',           emoji:'☕', dq:1,   unit:'ks', per100:false, kcal:55,   fat:1.7,  satFat:0.9,  carbs:9,    sugars:8,    fiber:0,    prot:0.5,  salt:0.05 },
+  oreo:     { name:'Oreo',              emoji:'🍪', dq:1,   unit:'ks', per100:false, kcal:52,   fat:2.2,  satFat:0.7,  carbs:7.5,  sugars:4.5,  fiber:0.3,  prot:0.6,  salt:0.08 },
+  tiger:    { name:'Tiger 250ml',       emoji:'⚡', dq:1,   unit:'ks', per100:false, kcal:43,   fat:0,    satFat:0,    carbs:10.5, sugars:10.5, fiber:0,    prot:0,    salt:0.25 },
+  pasta:    { name:'Cestoviny 125g',    emoji:'🍝', dq:125, unit:'g',  per100:true,  kcal:370,  fat:1.5,  satFat:0.3,  carbs:75,   sugars:3,    fiber:2.5,  prot:13,   salt:0.01 },
+};
+
+let qsDay = new Date().toISOString().slice(0,10);
+let qsMonthDate = new Date();
+
+function qsDayData() {
+  const d = STORE.days[qsDay] || (STORE.days[qsDay] = { tasks:{} });
+  if (!d.qs) d.qs = { sleepH:'', bedtime:'', wakeTime:'', nightAwake:false, vitamin:false, outside:false, exercise:false, food:[] };
+  return d.qs;
+}
+function qsSaveField(field, val) { qsDayData()[field] = val; scheduleSave(); renderQsStats(); }
+function qsToggle(field) { const q = qsDayData(); q[field] = !q[field]; renderQsDay(); scheduleSave(); renderQsCal(); renderQsStats(); }
+function qsGoToday() { qsDay = new Date().toISOString().slice(0,10); renderQsDay(); renderQsCal(); }
+
+function qsMacros(q) {
+  let kcal=0,fat=0,prot=0,carbs=0;
+  (q.food||[]).forEach(({id,qty}) => {
+    const f=QS_FOODS[id]; if(!f) return;
+    const m = f.per100 ? qty/100 : qty;
+    kcal+=f.kcal*m; fat+=f.fat*m; prot+=f.prot*m; carbs+=f.carbs*m;
+  });
+  return { kcal:Math.round(kcal), fat:Math.round(fat*10)/10, prot:Math.round(prot*10)/10, carbs:Math.round(carbs*10)/10 };
+}
+
+function qsAddFood(id) {
+  const q = qsDayData();
+  const existing = q.food.find(f => f.id === id && !QS_FOODS[id].per100);
+  if (existing) { existing.qty++; } else { q.food.push({ id, qty: QS_FOODS[id].dq }); }
+  renderQsDay(); scheduleSave();
+}
+function qsDelFood(i) { qsDayData().food.splice(i,1); renderQsDay(); scheduleSave(); }
+function qsQtyChange(i, delta) {
+  const q = qsDayData(); const item = q.food[i]; const f = QS_FOODS[item.id];
+  item.qty = f.per100 ? Math.max(10, item.qty + delta*10) : Math.max(1, item.qty + delta);
+  renderQsDay(); scheduleSave();
+}
+
+function renderQsDay() {
+  const q = qsDayData();
+  const d = new Date(qsDay + 'T12:00:00');
+  document.getElementById('qs-day-label').textContent =
+    d.toLocaleDateString('sk-SK', { weekday:'long', day:'numeric', month:'long' });
+
+  const sh = document.getElementById('qs-sleep-h');
+  if (sh) { sh.value = q.sleepH || ''; document.getElementById('qs-sleep-display').textContent = q.sleepH ? q.sleepH+'h' : '—'; }
+  const bt = document.getElementById('qs-bedtime'); if (bt) bt.value = q.bedtime || '';
+  const wt = document.getElementById('qs-waketime'); if (wt) wt.value = q.wakeTime || '';
+
+  ['nightAwake','vitamin','outside','exercise'].forEach(f => {
+    const el = document.getElementById('qs-t-'+f); if (el) el.classList.toggle('on', !!q[f]);
+  });
+
+  const m = qsMacros(q);
+  document.getElementById('qs-kcal').textContent = m.kcal;
+  document.getElementById('qs-prot').textContent = m.prot+'g';
+  document.getElementById('qs-carbs').textContent = m.carbs+'g';
+  document.getElementById('qs-fat').textContent = m.fat+'g';
+
+  const log = document.getElementById('qs-food-log'); log.innerHTML = '';
+  (q.food||[]).forEach((item,i) => {
+    const f = QS_FOODS[item.id]; if (!f) return;
+    const mult = f.per100 ? item.qty/100 : item.qty;
+    const kcal = Math.round(f.kcal*mult);
+    const div = document.createElement('div'); div.className = 'food-log-item';
+    div.innerHTML = `<span class="food-log-name">${f.emoji} ${f.name}</span>
+      <div class="food-log-right">
+        <button class="fqty-btn" onclick="qsQtyChange(${i},-1)">−</button>
+        <span class="fqty-num">${item.qty}${f.unit}</span>
+        <button class="fqty-btn" onclick="qsQtyChange(${i},1)">+</button>
+        <span class="food-log-kcal">${kcal} kcal</span>
+        <button class="food-del" onclick="qsDelFood(${i})">✕</button>
+      </div>`;
+    log.appendChild(div);
+  });
+}
+
+function buildFoodBtns() {
+  const g = document.getElementById('food-btn-grid'); if (!g) return; g.innerHTML = '';
+  Object.entries(QS_FOODS).forEach(([id,f]) => {
+    const b = document.createElement('button'); b.className = 'food-btn';
+    b.innerHTML = `${f.emoji} ${f.name}`; b.onclick = () => qsAddFood(id); g.appendChild(b);
+  });
+}
+
+function renderQsCal() {
+  const year = qsMonthDate.getFullYear(), month = qsMonthDate.getMonth();
+  const names = ['Január','Február','Marec','Apríl','Máj','Jún','Júl','August','September','Október','November','December'];
+  document.getElementById('qs-cal-month').textContent = `${names[month]} ${year}`;
+  const grid = document.getElementById('qs-cal-grid'); grid.innerHTML = '';
+  ['Po','Ut','St','Št','Pi','So','Ne'].forEach(d => {
+    const el = document.createElement('div'); el.className = 'qs-dow'; el.textContent = d; grid.appendChild(el);
+  });
+  const firstDow = (new Date(year,month,1).getDay()+6)%7;
+  for (let i=0;i<firstDow;i++) { const e=document.createElement('div'); e.className='qs-cday qs-empty'; grid.appendChild(e); }
+  const days = new Date(year,month+1,0).getDate();
+  for (let d=1;d<=days;d++) {
+    const dk = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const qs = STORE.days[dk]?.qs;
+    const el = document.createElement('div');
+    let score = 0, dots = '';
+    if (qs) {
+      if (qs.vitamin)  score++;
+      if (qs.outside)  score++;
+      if (qs.exercise) score++;
+      el.className = `qs-cday qs-score-${score}`;
+      dots = `<div class="qs-cday-dots">
+        <div class="qs-dot" style="background:${qs.vitamin  ?'#10B981':'#E5E7EB'}" title="Vitamín"></div>
+        <div class="qs-dot" style="background:${qs.outside  ?'#3B82F6':'#E5E7EB'}" title="Vonku"></div>
+        <div class="qs-dot" style="background:${qs.exercise ?'#F59E0B':'#E5E7EB'}" title="Cvičenie"></div>
+      </div>`;
+    } else { el.className = 'qs-cday qs-no-data'; }
+    if (dk === qsDay) el.classList.add('qs-selected');
+    el.innerHTML = `<div class="qs-cday-num">${d}</div>${dots}`;
+    el.onclick = () => { qsDay = dk; renderQsDay(); renderQsCal(); };
+    grid.appendChild(el);
+  }
+}
+
+function renderQsStats() {
+  const year = qsMonthDate.getFullYear(), month = qsMonthDate.getMonth();
+  const days = new Date(year,month+1,0).getDate();
+  let vitC=0, outC=0, exC=0, sleepC=0, sleepSum=0, kcalC=0, kcalSum=0, protSum=0, dwd=0, sleepGoodC=0;
+  for (let d=1;d<=days;d++) {
+    const dk = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const qs = STORE.days[dk]?.qs; if(!qs) continue; dwd++;
+    if (qs.vitamin) vitC++; if (qs.outside) outC++; if (qs.exercise) exC++;
+    if (qs.sleepH)  { sleepSum+=parseFloat(qs.sleepH); sleepC++; if(parseFloat(qs.sleepH)>=7) sleepGoodC++; }
+    if (qs.food?.length) { const m=qsMacros(qs); kcalSum+=m.kcal; protSum+=m.prot; kcalC++; }
+  }
+  const avgSleep = sleepC ? (sleepSum/sleepC).toFixed(1)+'h' : '—';
+  const avgKcal  = kcalC  ? Math.round(kcalSum/kcalC) : '—';
+  const avgProt  = kcalC  ? Math.round(protSum/kcalC)+'g' : '—';
+  const base = dwd || 1;
+  document.getElementById('qs-stat-sleep').textContent   = avgSleep;
+  document.getElementById('qs-stat-kcal').textContent    = avgKcal;
+  document.getElementById('qs-stat-prot').textContent    = avgProt;
+  document.getElementById('qs-stat-vitamin').textContent  = `${vitC}/${dwd}`;
+  document.getElementById('qs-stat-outside').textContent  = `${outC}/${dwd}`;
+  document.getElementById('qs-stat-exercise').textContent = `${exC}/${dwd}`;
+  const pct = k => dwd>0 ? Math.round(k/dwd*100) : 0;
+  [['vitamin',vitC],['outside',outC],['exercise',exC],['sleep',sleepGoodC]].forEach(([k,v]) => {
+    const p = pct(v);
+    const bar = document.getElementById('qs-bar-'+k); if (bar) bar.style.width=p+'%';
+    const lbl = document.getElementById('qs-pct-'+k); if (lbl) lbl.textContent=p+'%';
+  });
+}
+
+function shiftQsMonth(delta) {
+  qsMonthDate = new Date(qsMonthDate.getFullYear(), qsMonthDate.getMonth()+delta, 1);
+  renderQsCal(); renderQsStats();
+}
+
+// ══════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════
 // ── LOGIN ──
@@ -1244,6 +1627,7 @@ async function init() {
   applyDayState();
   renderPitches();
   renderTemps();
+  buildFoodBtns();
 }
 init();
 </script>
