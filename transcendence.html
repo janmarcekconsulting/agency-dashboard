@@ -93,8 +93,6 @@
     /* ── FULL-BLEED IMAGE PAGE ── */
     .page.page-image {
       padding: 0;
-      overflow: hidden;
-      height: auto;
       background: #111;
       align-items: center;
       justify-content: center;
@@ -102,7 +100,7 @@
     .page.page-image.active { display: flex; }
     .page.page-image img {
       width: 100%;
-      max-height: calc(100vh - 64px - 96px);
+      height: 100%;
       display: block;
       border-radius: 3px;
       object-fit: contain;
