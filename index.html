@@ -387,6 +387,7 @@
     .qs-wday-num  { font-size: 15px; font-weight: 800; color: var(--text); margin: 2px 0; }
     .qs-wday-sleep{ font-size: 9px; color: var(--mid); font-weight: 600; margin-bottom: 3px; min-height: 13px; }
     .qs-wday-dots { display: flex; justify-content: center; gap: 2px; }
+    .qs-wday-xanax{ font-size: 8px; color: #7C3AED; font-weight: 700; margin-top: 3px; }
     /* Weekly stats row */
     .qs-week-stats { display: grid; grid-template-columns: repeat(5,1fr); gap: 6px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
     /* Monthly modal */
@@ -406,7 +407,16 @@
     .qs-mday-sleep { font-size: 10px; font-weight: 600; color: #818CF8; }
     .qs-mday-kcal  { font-size: 9.5px; color: var(--mid); margin-top: 1px; }
     .qs-mday-dots  { display: flex; gap: 3px; margin-top: 5px; }
+    .qs-mday-xanax { font-size: 8.5px; color: #7C3AED; font-weight: 700; margin-top: 3px; }
     .qs-mday-dot   { width: 7px; height: 7px; border-radius: 50%; }
+    /* Dose / Xanax buttons */
+    .dose-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px; }
+    .dose-btns { display: flex; gap: 4px; }
+    .dose-btn { padding: 5px 10px; border-radius: 7px; border: 1.5px solid var(--border); background: var(--card); font-size: 11.5px; font-weight: 600; color: var(--mid); cursor: pointer; font-family: inherit; transition: all .15s; }
+    .dose-btn:hover { border-color: var(--blue-bdr); color: var(--blue); }
+    .dose-btn.dose-on { background: #10B981; border-color: #10B981; color: #fff; }
+    .dose-btn.xanax-on { background: #8B5CF6; border-color: #8B5CF6; color: #fff; }
+    .macro-goal { font-size: 9px; color: var(--muted); margin-top: 1px; }
     /* Vitamin grid */
     .vit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
     .vit-item {}
@@ -669,9 +679,22 @@
       <div class="qs-card">
         <div class="qs-card-title"><span class="dot" style="background:#10B981"></span>Wellness</div>
         <div class="toggle-group">
-          <div class="qs-toggle" id="qs-t-vitamin" onclick="qsToggle('vitamin')">
-            <div class="qs-toggle-left"><span class="qs-toggle-emoji">💊</span>Vitamín (10 ml)</div>
-            <div class="qs-switch"></div>
+          <div class="dose-row">
+            <div class="qs-toggle-left"><span class="qs-toggle-emoji">💊</span>Vitamín</div>
+            <div class="dose-btns" id="vit-dose-btns">
+              <button class="dose-btn" onclick="setVitDose(0)">0 ml</button>
+              <button class="dose-btn" onclick="setVitDose(10)">10 ml</button>
+              <button class="dose-btn" onclick="setVitDose(15)">15 ml</button>
+            </div>
+          </div>
+          <div class="dose-row">
+            <div class="qs-toggle-left"><span class="qs-toggle-emoji">🟣</span>Xanax (mg)</div>
+            <div class="dose-btns" id="xanax-dose-btns">
+              <button class="dose-btn" onclick="setXanax(0)">0</button>
+              <button class="dose-btn" onclick="setXanax(0.25)">0.25</button>
+              <button class="dose-btn" onclick="setXanax(0.5)">0.5</button>
+              <button class="dose-btn" onclick="setXanax(1)">1 mg</button>
+            </div>
           </div>
           <div class="qs-toggle" id="qs-t-outside" onclick="qsToggle('outside')">
             <div class="qs-toggle-left"><span class="qs-toggle-emoji">🌿</span>Bol som vonku</div>
@@ -689,7 +712,7 @@
         <div class="qs-card-title"><span class="dot" style="background:#F59E0B"></span>Jedlo</div>
         <div class="macro-row">
           <div class="macro-box kcal-box"><div class="macro-val" id="qs-kcal">0</div><div class="macro-lbl">kcal</div></div>
-          <div class="macro-box prot-box"><div class="macro-val" id="qs-prot">0g</div><div class="macro-lbl">Proteín</div></div>
+          <div class="macro-box prot-box"><div class="macro-val" id="qs-prot">0g</div><div class="macro-lbl">Proteín</div><div class="macro-goal" id="qs-prot-goal">/ 100g</div></div>
           <div class="macro-box"><div class="macro-val" id="qs-carbs">0g</div><div class="macro-lbl">Sacharidy</div></div>
           <div class="macro-box"><div class="macro-val" id="qs-fat">0g</div><div class="macro-lbl">Tuky</div></div>
         </div>
@@ -1485,10 +1508,10 @@ const QS_FOODS = {
     vit:{ vitB1:0.1, Fe:1.3, vitFo:7, Mg:53, Ka:215 } },
 };
 
-// Vitamin supplement — 10 ml dose (= 10/15 of labelled 15ml values)
+// Vitamin supplement — values for full 15ml dose (multiply by vitDose/15)
 const VITAMIN_SUPPLEMENT = {
-  vitA:533, vitC:667, vitD:20, vitB1:20, vitB2:20, vitB6:13.3,
-  vitB12:67, vitFo:267, Ca:30, Fe:2.3, Mg:8.9, Ka:71, Zn:4.7
+  vitA:800, vitC:1000, vitD:30, vitB1:30, vitB2:30, vitB6:20,
+  vitB12:100, vitFo:400, Ca:45, Fe:3.5, Mg:13.4, Ka:107, Zn:7
 };
 
 // Daily goals — male, 25 years, 187 cm (EU/WHO RDI)
@@ -1513,9 +1536,17 @@ let qsMonthDate = new Date();
 
 function qsDayData() {
   const d = STORE.days[qsDay] || (STORE.days[qsDay] = { tasks:{} });
-  if (!d.qs) d.qs = { sleepH:'', bedtime:'', wakeTime:'', nightAwake:false, vitamin:false, outside:false, exercise:false, food:[] };
+  if (!d.qs) d.qs = { sleepH:'', bedtime:'', wakeTime:'', nightAwake:false, vitDose:0, xanax:0, outside:false, exercise:false, food:[] };
+  // backwards compat: old boolean vitamin → vitDose
+  if (d.qs.vitamin === true  && d.qs.vitDose === undefined) d.qs.vitDose = 10;
+  if (d.qs.vitamin === false && d.qs.vitDose === undefined) d.qs.vitDose = 0;
+  if (d.qs.vitDose  === undefined) d.qs.vitDose = 0;
+  if (d.qs.xanax    === undefined) d.qs.xanax   = 0;
   return d.qs;
 }
+function setVitDose(ml) { qsDayData().vitDose = ml; renderQsDay(); scheduleSave(); renderQsWeek(); renderQsStats(); }
+function setXanax(mg)   { qsDayData().xanax   = mg; renderQsDay(); scheduleSave(); renderQsWeek(); }
+function vitDoseOf(qs)  { return (qs.vitDose !== undefined ? qs.vitDose : (qs.vitamin ? 10 : 0)); }
 function qsSaveField(field, val) { qsDayData()[field] = val; scheduleSave(); renderQsStats(); }
 function qsToggle(field) { const q = qsDayData(); q[field] = !q[field]; renderQsDay(); scheduleSave(); renderQsWeek(); renderQsStats(); }
 function qsGoToday() { qsDay = new Date().toISOString().slice(0,10); renderQsDay(); renderQsCal(); }
@@ -1537,8 +1568,10 @@ function qsVitamins(q) {
     const m = f.per100 ? qty/100 : qty;
     Object.entries(f.vit).forEach(([k,v]) => { totals[k]=(totals[k]||0)+v*m; });
   });
-  if (q.vitamin) {
-    Object.entries(VITAMIN_SUPPLEMENT).forEach(([k,v]) => { totals[k]=(totals[k]||0)+v; });
+  const dose = vitDoseOf(q);
+  if (dose > 0) {
+    const mult = dose / 15;
+    Object.entries(VITAMIN_SUPPLEMENT).forEach(([k,v]) => { totals[k]=(totals[k]||0)+v*mult; });
   }
   return totals;
 }
@@ -1555,7 +1588,7 @@ function renderQsVit(q) {
     const val = vit[k]||0;
     const pct = Math.min(100,Math.round(val/g.goal*100));
     const col = pct>=100?'#10B981':pct>=50?'#F59E0B':'#EF4444';
-    const shown = pct>=100 ? '✓' : (Math.round(val*10)/10)+g.unit;
+    const shown = `${Math.round(val*10)/10} / ${g.goal}${g.unit}`;
     const el=document.createElement('div'); el.className='vit-item';
     el.innerHTML=`<div class="vit-top"><span class="vit-lbl">${g.label}</span><span class="vit-val" style="color:${col}">${shown}</span></div>
       <div class="vit-track"><div class="vit-fill" style="width:${pct}%;background:${col}"></div></div>`;
@@ -1587,8 +1620,20 @@ function renderQsDay() {
   const bt = document.getElementById('qs-bedtime'); if (bt) bt.value = q.bedtime || '';
   const wt = document.getElementById('qs-waketime'); if (wt) wt.value = q.wakeTime || '';
 
-  ['nightAwake','vitamin','outside','exercise'].forEach(f => {
+  ['nightAwake','outside','exercise'].forEach(f => {
     const el = document.getElementById('qs-t-'+f); if (el) el.classList.toggle('on', !!q[f]);
+  });
+
+  // Vitamin dose buttons
+  const vd = vitDoseOf(q);
+  document.querySelectorAll('#vit-dose-btns .dose-btn').forEach(b => {
+    b.classList.toggle('dose-on', parseInt(b.textContent) === vd);
+  });
+
+  // Xanax buttons
+  const xv = q.xanax || 0;
+  document.querySelectorAll('#xanax-dose-btns .dose-btn').forEach(b => {
+    b.classList.toggle('xanax-on', parseFloat(b.textContent) === xv || (b.textContent==='1 mg' && xv===1));
   });
 
   const m = qsMacros(q);
@@ -1596,19 +1641,23 @@ function renderQsDay() {
   document.getElementById('qs-prot').textContent = m.prot+'g';
   document.getElementById('qs-carbs').textContent = m.carbs+'g';
   document.getElementById('qs-fat').textContent = m.fat+'g';
+  // protein goal indicator
+  const pg = document.getElementById('qs-prot-goal');
+  if (pg) { pg.textContent = `/ 100g`; pg.style.color = m.prot>=100?'#10B981':m.prot>=60?'#F59E0B':'var(--muted)'; }
 
   const log = document.getElementById('qs-food-log'); log.innerHTML = '';
   (q.food||[]).forEach((item,i) => {
     const f = QS_FOODS[item.id]; if (!f) return;
     const mult = f.per100 ? item.qty/100 : item.qty;
     const kcal = Math.round(f.kcal*mult);
+    const prot = Math.round(f.prot*mult*10)/10;
     const div = document.createElement('div'); div.className = 'food-log-item';
     div.innerHTML = `<span class="food-log-name">${f.emoji} ${f.name}</span>
       <div class="food-log-right">
         <button class="fqty-btn" onclick="qsQtyChange(${i},-1)">−</button>
         <span class="fqty-num">${item.qty}${f.unit}</span>
         <button class="fqty-btn" onclick="qsQtyChange(${i},1)">+</button>
-        <span class="food-log-kcal">${kcal} kcal</span>
+        <span class="food-log-kcal">${kcal} kcal · <b style="color:var(--blue)">${prot}g P</b></span>
         <button class="food-del" onclick="qsDelFood(${i})">✕</button>
       </div>`;
     log.appendChild(div);
@@ -1641,12 +1690,12 @@ function renderQsCal() {
     const el = document.createElement('div');
     let score = 0, dots = '';
     if (qs) {
-      if (qs.vitamin)  score++;
+      if (vitDoseOf(qs)>0) score++;
       if (qs.outside)  score++;
       if (qs.exercise) score++;
       el.className = `qs-cday qs-score-${score}`;
       dots = `<div class="qs-cday-dots">
-        <div class="qs-dot" style="background:${qs.vitamin  ?'#10B981':'#E5E7EB'}" title="Vitamín"></div>
+        <div class="qs-dot" style="background:${vitDoseOf(qs)>0?'#10B981':'#E5E7EB'}" title="Vitamín"></div>
         <div class="qs-dot" style="background:${qs.outside  ?'#3B82F6':'#E5E7EB'}" title="Vonku"></div>
         <div class="qs-dot" style="background:${qs.exercise ?'#F59E0B':'#E5E7EB'}" title="Cvičenie"></div>
       </div>`;
@@ -1665,7 +1714,7 @@ function renderQsStats() {
   for (let d=1;d<=days;d++) {
     const dk = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const qs = STORE.days[dk]?.qs; if(!qs) continue; dwd++;
-    if (qs.vitamin) vitC++; if (qs.outside) outC++; if (qs.exercise) exC++;
+    if (vitDoseOf(qs)>0) vitC++; if (qs.outside) outC++; if (qs.exercise) exC++;
     if (qs.sleepH)  { sleepSum+=parseFloat(qs.sleepH); sleepC++; if(parseFloat(qs.sleepH)>=7) sleepGoodC++; }
     if (qs.food?.length) { const m=qsMacros(qs); kcalSum+=m.kcal; protSum+=m.prot; kcalC++; }
   }
@@ -1710,10 +1759,12 @@ function renderQsWeek() {
       <div class="qs-wday-num">${d.getDate()}</div>
       <div class="qs-wday-sleep">${qs?.sleepH ? qs.sleepH+'h' : '—'}</div>
       <div class="qs-wday-dots">
-        <div class="qs-dot" style="background:${qs?.vitamin?'#10B981':'#E5E7EB'}"></div>
+        <div class="qs-dot" style="background:${vitDoseOf(qs||{})>0?'#10B981':'#E5E7EB'}"></div>
         <div class="qs-dot" style="background:${qs?.outside?'#3B82F6':'#E5E7EB'}"></div>
         <div class="qs-dot" style="background:${qs?.exercise?'#F59E0B':'#E5E7EB'}"></div>
-      </div>`;
+      </div>
+      ${qs?.xanax>0?`<div class="qs-wday-xanax">🟣 ${qs.xanax}mg</div>`:''}
+      `;
     el.onclick = () => { qsDay = dk; renderQsDay(); renderQsWeek(); };
     grid.appendChild(el);
   }
@@ -1726,7 +1777,7 @@ function renderQsWeek() {
   for (let i=0;i<7;i++) {
     const d2=new Date(qsWeekStart); d2.setDate(d2.getDate()+i);
     const qs2=STORE.days[d2.toISOString().slice(0,10)]?.qs; if(!qs2) continue; dwd++;
-    if(qs2.vitamin) vitC++; if(qs2.outside) outC++; if(qs2.exercise) exC++;
+    if(vitDoseOf(qs2)>0) vitC++; if(qs2.outside) outC++; if(qs2.exercise) exC++;
     if(qs2.sleepH) { slpSum+=parseFloat(qs2.sleepH); slpC++; }
     if(qs2.food?.length) { const m=qsMacros(qs2); kcalSum+=m.kcal; kcalC++; }
   }
@@ -1772,10 +1823,12 @@ function renderQsMonthModal() {
       ${qs?.sleepH?`<div class="qs-mday-sleep">😴 ${qs.sleepH}h</div>`:''}
       ${m?`<div class="qs-mday-kcal">🍽 ${m.kcal} kcal</div>`:''}
       <div class="qs-mday-dots">
-        <div class="qs-mday-dot" style="background:${qs?.vitamin?'#10B981':'#E5E7EB'}" title="Vitamín"></div>
+        <div class="qs-mday-dot" style="background:${vitDoseOf(qs||{})>0?'#10B981':'#E5E7EB'}" title="Vitamín"></div>
         <div class="qs-mday-dot" style="background:${qs?.outside?'#3B82F6':'#E5E7EB'}" title="Vonku"></div>
         <div class="qs-mday-dot" style="background:${qs?.exercise?'#F59E0B':'#E5E7EB'}" title="Cvičenie"></div>
-      </div>`;
+      </div>
+      ${qs?.xanax>0?`<div class="qs-mday-xanax">🟣 ${qs.xanax}mg</div>`:''}
+      `;
     el.onclick=()=>{ qsDay=dk; closeQsMonthModal(); renderQsDay(); renderQsWeek(); };
     grid.appendChild(el);
   }
