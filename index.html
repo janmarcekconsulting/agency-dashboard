@@ -388,18 +388,31 @@
     .qs-wday-sleep{ font-size: 9px; color: var(--mid); font-weight: 600; margin-bottom: 3px; min-height: 13px; }
     .qs-wday-dots { display: flex; justify-content: center; gap: 2px; }
     .qs-wday-xanax{ font-size: 8px; color: #7C3AED; font-weight: 700; margin-top: 3px; }
+    .qs-wday-tags { display: flex; flex-direction: column; gap: 2px; margin-top: 3px; align-items: center; }
+    .wd-tag { font-size: 7.5px; font-weight: 700; padding: 1px 4px; border-radius: 4px; white-space: nowrap; }
+    .wd-vit { color: #065F46; background: #D1FAE5; }
+    .wd-out { color: #1E40AF; background: #DBEAFE; }
+    .wd-ex  { color: #92400E; background: #FEF3C7; }
+    .wd-nrg { color: #78350F; background: #FEF9C3; }
+    .wd-xan { color: #5B21B6; background: #EDE9FE; }
     /* Weekly stats row */
     .qs-week-stats { display: grid; grid-template-columns: repeat(5,1fr); gap: 6px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+    /* Open monthly button */
+    .btn-open-month { width: 100%; padding: 12px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; font-size: 13px; font-weight: 700; color: var(--blue); cursor: pointer; font-family: inherit; transition: all .15s; }
+    .btn-open-month:hover { background: var(--blue-light); border-color: var(--blue-bdr); }
     /* Monthly modal */
-    .qs-modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,.45); z-index: 500; display: flex; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 32px 16px; }
-    .qs-modal-box { background: var(--surface); border-radius: 18px; padding: 24px; width: 100%; max-width: 1060px; box-shadow: var(--shadow-md); }
+    .qs-modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,.45); z-index: 500; display: flex; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 24px 16px; }
+    .qs-modal-box { background: var(--surface); border-radius: 18px; padding: 24px; width: 100%; max-width: 1300px; box-shadow: var(--shadow-md); }
     .qs-modal-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
     .qs-modal-title { font-size: 17px; font-weight: 700; color: var(--text); }
     .qs-modal-close { background: var(--bg); border: 1.5px solid var(--border); border-radius: 8px; padding: 6px 12px; cursor: pointer; font-size: 16px; color: var(--mid); font-family: inherit; transition: all .15s; }
     .qs-modal-close:hover { border-color: var(--signal); color: var(--signal); }
+    .qs-modal-body { display: flex; gap: 20px; align-items: flex-start; }
+    .qs-modal-cal-area { flex: 0 0 80%; min-width: 0; }
+    .qs-modal-stats-area { flex: 0 0 calc(20% - 20px); min-width: 180px; }
     .qs-mgrid { display: grid; grid-template-columns: repeat(7,1fr); gap: 5px; }
     .qs-mdow { font-size: 9px; font-weight: 700; text-transform: uppercase; color: var(--muted); text-align: center; padding: 4px 0; }
-    .qs-mday { border: 1.5px solid var(--border); border-radius: 9px; padding: 6px 7px; min-height: 82px; cursor: pointer; transition: border-color .15s; background: var(--bg); }
+    .qs-mday { border: 1.5px solid var(--border); border-radius: 9px; padding: 6px 7px; min-height: 90px; cursor: pointer; transition: border-color .15s; background: var(--bg); }
     .qs-mday:hover { border-color: var(--blue-bdr); }
     .qs-mday.qs-msel { border-color: var(--blue); background: var(--blue-light); }
     .qs-mday.qs-mempty { border-color: transparent; background: transparent; cursor: default; min-height: unset; }
@@ -409,6 +422,11 @@
     .qs-mday-dots  { display: flex; gap: 3px; margin-top: 5px; }
     .qs-mday-xanax { font-size: 8.5px; color: #7C3AED; font-weight: 700; margin-top: 3px; }
     .qs-mday-dot   { width: 7px; height: 7px; border-radius: 50%; }
+    .qs-mday-tag { font-size: 8px; font-weight: 700; padding: 1px 4px; border-radius: 4px; margin-top: 2px; display: inline-block; }
+    .qs-mday-vit { color: #065F46; background: #D1FAE5; }
+    .qs-mday-xan { color: #5B21B6; background: #EDE9FE; }
+    .qs-mday-out { color: #1E40AF; background: #DBEAFE; }
+    .qs-mday-ex  { color: #92400E; background: #FEF3C7; }
     /* Dose / Xanax buttons */
     .dose-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px; }
     .dose-btns { display: flex; gap: 4px; }
@@ -690,11 +708,18 @@
           <div class="dose-row">
             <div class="qs-toggle-left"><span class="qs-toggle-emoji">🟣</span>Xanax (mg)</div>
             <div class="dose-btns" id="xanax-dose-btns">
-              <button class="dose-btn" onclick="setXanax(0)">0</button>
-              <button class="dose-btn" onclick="setXanax(0.25)">0.25</button>
-              <button class="dose-btn" onclick="setXanax(0.5)">0.5</button>
-              <button class="dose-btn" onclick="setXanax(1)">1 mg</button>
+              <button class="dose-btn" data-val="0"    onclick="setXanax(0)">0</button>
+              <button class="dose-btn" data-val="0.25" onclick="setXanax(0.25)">0.25</button>
+              <button class="dose-btn" data-val="0.5"  onclick="setXanax(0.5)">0.5</button>
+              <button class="dose-btn" data-val="0.75" onclick="setXanax(0.75)">0.75</button>
+              <button class="dose-btn" data-val="1"    onclick="setXanax(1)">1</button>
+              <button class="dose-btn" data-val="1.25" onclick="setXanax(1.25)">1.25</button>
+              <button class="dose-btn" data-val="1.5"  onclick="setXanax(1.5)">1.5</button>
             </div>
+          </div>
+          <div class="qs-toggle" id="qs-t-energetak" onclick="qsToggle('energetak')">
+            <div class="qs-toggle-left"><span class="qs-toggle-emoji">⚡</span>Energeťak</div>
+            <div class="qs-switch"></div>
           </div>
           <div class="qs-toggle" id="qs-t-outside" onclick="qsToggle('outside')">
             <div class="qs-toggle-left"><span class="qs-toggle-emoji">🌿</span>Bol som vonku</div>
@@ -736,34 +761,10 @@
         </div>
         <div class="qs-week-grid" id="qs-week-grid"></div>
         <div class="qs-week-stats" id="qs-week-stats"></div>
-        <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;">
-          <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--muted)"><div style="width:7px;height:7px;border-radius:50%;background:#10B981"></div>Vitamín</div>
-          <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--muted)"><div style="width:7px;height:7px;border-radius:50%;background:#3B82F6"></div>Vonku</div>
-          <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--muted)"><div style="width:7px;height:7px;border-radius:50%;background:#F59E0B"></div>Cvičenie</div>
-        </div>
       </div>
 
-      <!-- Monthly Stats → click to open modal -->
-      <div class="qs-card" style="cursor:pointer;" onclick="openQsMonthModal()">
-        <div class="qs-card-title">
-          <span class="dot" style="background:#8B5CF6"></span>Mesačné štatistiky
-          <span style="margin-left:auto;font-size:10px;color:var(--blue);font-weight:700;">📅 Otvoriť →</span>
-        </div>
-        <div class="qs-stat-grid">
-          <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-sleep">—</div><div class="qs-stat-lbl">Avg spánok</div></div>
-          <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-kcal">—</div><div class="qs-stat-lbl">Avg kcal</div></div>
-          <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-prot">—</div><div class="qs-stat-lbl">Avg proteín</div></div>
-          <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-vitamin">0/0</div><div class="qs-stat-lbl">💊 Vitamín</div></div>
-          <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-outside">0/0</div><div class="qs-stat-lbl">🌿 Vonku</div></div>
-          <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-exercise">0/0</div><div class="qs-stat-lbl">💪 Cvičenie</div></div>
-        </div>
-        <div class="qs-bar-group">
-          <div class="qs-bar-row"><span class="qs-bar-lbl">💊 Vitamín</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-vitamin" style="width:0%;background:#10B981"></div></div><span class="qs-bar-pct" id="qs-pct-vitamin">0%</span></div>
-          <div class="qs-bar-row"><span class="qs-bar-lbl">🌿 Vonku</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-outside" style="width:0%;background:#3B82F6"></div></div><span class="qs-bar-pct" id="qs-pct-outside">0%</span></div>
-          <div class="qs-bar-row"><span class="qs-bar-lbl">💪 Cvičenie</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-exercise" style="width:0%;background:#F59E0B"></div></div><span class="qs-bar-pct" id="qs-pct-exercise">0%</span></div>
-          <div class="qs-bar-row"><span class="qs-bar-lbl">😴 Spánok 7h+</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-sleep" style="width:0%;background:#818CF8"></div></div><span class="qs-bar-pct" id="qs-pct-sleep">0%</span></div>
-        </div>
-      </div>
+      <!-- Open monthly modal button -->
+      <button class="btn-open-month" onclick="openQsMonthModal()">📅 Mesačný prehľad</button>
 
     </div>
   </div>
@@ -780,7 +781,28 @@
       </div>
       <button class="qs-modal-close" onclick="closeQsMonthModal()">✕ Zavrieť</button>
     </div>
-    <div class="qs-mgrid" id="qs-mgrid"></div>
+    <div class="qs-modal-body">
+      <div class="qs-modal-cal-area">
+        <div class="qs-mgrid" id="qs-mgrid"></div>
+      </div>
+      <div class="qs-modal-stats-area">
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px;">Mesačné štatistiky</div>
+        <div class="qs-stat-grid" style="grid-template-columns:1fr 1fr;">
+          <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-sleep">—</div><div class="qs-stat-lbl">Avg spánok</div></div>
+          <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-kcal">—</div><div class="qs-stat-lbl">Avg kcal</div></div>
+          <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-prot">—</div><div class="qs-stat-lbl">Avg proteín</div></div>
+          <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-vitamin">0/0</div><div class="qs-stat-lbl">💊 Vitamín</div></div>
+          <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-outside">0/0</div><div class="qs-stat-lbl">🌿 Vonku</div></div>
+          <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-exercise">0/0</div><div class="qs-stat-lbl">💪 Cvičenie</div></div>
+        </div>
+        <div class="qs-bar-group" style="margin-top:16px;">
+          <div class="qs-bar-row"><span class="qs-bar-lbl">💊 Vitamín</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-vitamin" style="width:0%;background:#10B981"></div></div><span class="qs-bar-pct" id="qs-pct-vitamin">0%</span></div>
+          <div class="qs-bar-row"><span class="qs-bar-lbl">🌿 Vonku</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-outside" style="width:0%;background:#3B82F6"></div></div><span class="qs-bar-pct" id="qs-pct-outside">0%</span></div>
+          <div class="qs-bar-row"><span class="qs-bar-lbl">💪 Cvičenie</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-exercise" style="width:0%;background:#F59E0B"></div></div><span class="qs-bar-pct" id="qs-pct-exercise">0%</span></div>
+          <div class="qs-bar-row"><span class="qs-bar-lbl">😴 Spánok 7h+</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-sleep" style="width:0%;background:#818CF8"></div></div><span class="qs-bar-pct" id="qs-pct-sleep">0%</span></div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1498,7 +1520,7 @@ const QS_FOODS = {
     vit:{ vitB2:0.2, vitB12:0.75, Ca:110, Ka:141, Mg:12 } },
   horalka:  { name:'Horalka',                  emoji:'🍫', dq:1,   unit:'ks', per100:false, kcal:230, fat:11,  satFat:5,   carbs:32,  sugars:22,  fiber:0.5, prot:3,   salt:0.15,
     vit:{ Ca:25, Ka:80, Mg:15 } },
-  sedita:   { name:'Sedita Kakaové rezy',      emoji:'🍰', dq:1,   unit:'ks', per100:false, kcal:147, fat:6.0, satFat:2.8, carbs:21,  sugars:15,  fiber:0.5, prot:2.5, salt:0.14,
+  sedita:   { name:'Sedita Kakaové rezy',      emoji:'🍰', dq:50,  unit:'g',  per100:true,  kcal:537, fat:33,  satFat:20,  carbs:51,  sugars:31,  fiber:3,   prot:8,   salt:0.2,
     vit:{ Ca:20, Mg:10, Ka:50 } },
   oreo:     { name:'Oreo',                     emoji:'🍪', dq:1,   unit:'ks', per100:false, kcal:52,  fat:2.2, satFat:0.7, carbs:7.5, sugars:4.5, fiber:0.3, prot:0.6, salt:0.08,
     vit:{ Ca:5 } },
@@ -1506,6 +1528,8 @@ const QS_FOODS = {
     vit:{ vitC:10, vitB6:0.7, vitB12:0.5 } },
   pasta:    { name:'Cestoviny 125g',           emoji:'🍝', dq:125, unit:'g',  per100:true,  kcal:370, fat:1.5, satFat:0.3, carbs:75,  sugars:3,   fiber:2.5, prot:13,  salt:0.01,
     vit:{ vitB1:0.1, Fe:1.3, vitFo:7, Mg:53, Ka:215 } },
+  kura:     { name:'Kuracie prsia GymBeam',    emoji:'🍗', dq:100, unit:'g',  per100:true,  kcal:126, fat:2.0, satFat:0.6, carbs:0.5, sugars:0.1, fiber:0,   prot:26.9, salt:0.51,
+    vit:{ vitB6:0.6, vitB12:0.3, Ka:350, Mg:30, Fe:0.5, Zn:1.0 } },
 };
 
 // Vitamin supplement — values for full 15ml dose (multiply by vitDose/15)
@@ -1536,12 +1560,13 @@ let qsMonthDate = new Date();
 
 function qsDayData() {
   const d = STORE.days[qsDay] || (STORE.days[qsDay] = { tasks:{} });
-  if (!d.qs) d.qs = { sleepH:'', bedtime:'', wakeTime:'', nightAwake:false, vitDose:0, xanax:0, outside:false, exercise:false, food:[] };
+  if (!d.qs) d.qs = { sleepH:'', bedtime:'', wakeTime:'', nightAwake:false, vitDose:0, xanax:0, outside:false, exercise:false, energetak:false, food:[] };
   // backwards compat: old boolean vitamin → vitDose
   if (d.qs.vitamin === true  && d.qs.vitDose === undefined) d.qs.vitDose = 10;
   if (d.qs.vitamin === false && d.qs.vitDose === undefined) d.qs.vitDose = 0;
-  if (d.qs.vitDose  === undefined) d.qs.vitDose = 0;
-  if (d.qs.xanax    === undefined) d.qs.xanax   = 0;
+  if (d.qs.vitDose    === undefined) d.qs.vitDose = 0;
+  if (d.qs.xanax      === undefined) d.qs.xanax = 0;
+  if (d.qs.energetak  === undefined) d.qs.energetak = false;
   return d.qs;
 }
 function setVitDose(ml) { qsDayData().vitDose = ml; renderQsDay(); scheduleSave(); renderQsWeek(); renderQsStats(); }
@@ -1620,7 +1645,7 @@ function renderQsDay() {
   const bt = document.getElementById('qs-bedtime'); if (bt) bt.value = q.bedtime || '';
   const wt = document.getElementById('qs-waketime'); if (wt) wt.value = q.wakeTime || '';
 
-  ['nightAwake','outside','exercise'].forEach(f => {
+  ['nightAwake','outside','exercise','energetak'].forEach(f => {
     const el = document.getElementById('qs-t-'+f); if (el) el.classList.toggle('on', !!q[f]);
   });
 
@@ -1633,7 +1658,7 @@ function renderQsDay() {
   // Xanax buttons
   const xv = q.xanax || 0;
   document.querySelectorAll('#xanax-dose-btns .dose-btn').forEach(b => {
-    b.classList.toggle('xanax-on', parseFloat(b.textContent) === xv || (b.textContent==='1 mg' && xv===1));
+    b.classList.toggle('xanax-on', parseFloat(b.dataset.val) === xv);
   });
 
   const m = qsMacros(q);
@@ -1755,16 +1780,17 @@ function renderQsWeek() {
     const qs = STORE.days[dk]?.qs;
     const el = document.createElement('div');
     el.className = 'qs-wday' + (dk===qsDay?' qs-wsel':'') + (dk===todayKey?' qs-wtoday':'');
+    const vd = vitDoseOf(qs||{});
     el.innerHTML = `<div class="qs-wday-name">${dows[i]}</div>
       <div class="qs-wday-num">${d.getDate()}</div>
       <div class="qs-wday-sleep">${qs?.sleepH ? qs.sleepH+'h' : '—'}</div>
-      <div class="qs-wday-dots">
-        <div class="qs-dot" style="background:${vitDoseOf(qs||{})>0?'#10B981':'#E5E7EB'}"></div>
-        <div class="qs-dot" style="background:${qs?.outside?'#3B82F6':'#E5E7EB'}"></div>
-        <div class="qs-dot" style="background:${qs?.exercise?'#F59E0B':'#E5E7EB'}"></div>
-      </div>
-      ${qs?.xanax>0?`<div class="qs-wday-xanax">🟣 ${qs.xanax}mg</div>`:''}
-      `;
+      <div class="qs-wday-tags">
+        ${vd>0?`<span class="wd-tag wd-vit">💊 ${vd}ml</span>`:''}
+        ${qs?.outside?'<span class="wd-tag wd-out">🌿 Vonku</span>':''}
+        ${qs?.exercise?'<span class="wd-tag wd-ex">💪 Cvič.</span>':''}
+        ${qs?.energetak?'<span class="wd-tag wd-nrg">⚡ Energ.</span>':''}
+        ${qs?.xanax>0?`<span class="wd-tag wd-xan">🟣 ${qs.xanax}mg</span>`:''}
+      </div>`;
     el.onclick = () => { qsDay = dk; renderQsDay(); renderQsWeek(); };
     grid.appendChild(el);
   }
@@ -1800,7 +1826,7 @@ function shiftQsMonthModal(delta) {
   qsMonthDate = new Date(qsMonthDate.getFullYear(), qsMonthDate.getMonth()+delta, 1);
   renderQsMonthModal(); renderQsStats();
 }
-function openQsMonthModal()  { document.getElementById('qs-month-modal').style.display='flex'; renderQsMonthModal(); }
+function openQsMonthModal()  { document.getElementById('qs-month-modal').style.display='flex'; renderQsMonthModal(); renderQsStats(); }
 function closeQsMonthModal() { document.getElementById('qs-month-modal').style.display='none'; }
 
 function renderQsMonthModal() {
@@ -1819,16 +1845,14 @@ function renderQsMonthModal() {
     const qs=STORE.days[dk]?.qs;
     const el=document.createElement('div'); el.className='qs-mday'+(dk===qsDay?' qs-msel':'');
     const m = qs?.food?.length ? qsMacros(qs) : null;
+    const mvd = vitDoseOf(qs||{});
     el.innerHTML=`<div class="qs-mday-num">${d}.</div>
       ${qs?.sleepH?`<div class="qs-mday-sleep">😴 ${qs.sleepH}h</div>`:''}
       ${m?`<div class="qs-mday-kcal">🍽 ${m.kcal} kcal</div>`:''}
-      <div class="qs-mday-dots">
-        <div class="qs-mday-dot" style="background:${vitDoseOf(qs||{})>0?'#10B981':'#E5E7EB'}" title="Vitamín"></div>
-        <div class="qs-mday-dot" style="background:${qs?.outside?'#3B82F6':'#E5E7EB'}" title="Vonku"></div>
-        <div class="qs-mday-dot" style="background:${qs?.exercise?'#F59E0B':'#E5E7EB'}" title="Cvičenie"></div>
-      </div>
-      ${qs?.xanax>0?`<div class="qs-mday-xanax">🟣 ${qs.xanax}mg</div>`:''}
-      `;
+      ${mvd>0?`<div class="qs-mday-tag qs-mday-vit">💊 ${mvd}ml</div>`:''}
+      ${qs?.xanax>0?`<div class="qs-mday-tag qs-mday-xan">🟣 ${qs.xanax}mg</div>`:''}
+      ${qs?.outside?'<div class="qs-mday-tag qs-mday-out">🌿 Vonku</div>':''}
+      ${qs?.exercise?'<div class="qs-mday-tag qs-mday-ex">💪 Cvičenie</div>':''}`;
     el.onclick=()=>{ qsDay=dk; closeQsMonthModal(); renderQsDay(); renderQsWeek(); };
     grid.appendChild(el);
   }
