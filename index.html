@@ -377,6 +377,14 @@
     .qs-bar-track { flex: 1; height: 7px; background: var(--border); border-radius: 4px; overflow: hidden; }
     .qs-bar-fill { height: 100%; border-radius: 4px; transition: width .5s; }
     .qs-bar-pct { font-size: 11px; font-weight: 700; color: var(--text); width: 30px; text-align: right; }
+    /* Vitamin grid */
+    .vit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+    .vit-item {}
+    .vit-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px; }
+    .vit-lbl { font-size: 10px; color: var(--mid); font-weight: 600; }
+    .vit-val { font-size: 9.5px; font-weight: 700; color: var(--muted); }
+    .vit-track { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+    .vit-fill { height: 100%; border-radius: 3px; transition: width .4s; }
   </style>
 </head>
 <body>
@@ -657,6 +665,7 @@
         </div>
         <div class="food-btn-grid" id="food-btn-grid"></div>
         <div class="food-log-list" id="qs-food-log"></div>
+        <div class="vit-grid" id="qs-vit-grid"></div>
       </div>
     </div>
 
@@ -1424,16 +1433,51 @@ function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replac
 // ══════════════════════════════════════════
 // QUANTIFIED SELF
 // ══════════════════════════════════════════
+// vit keys: vitA(mcg) vitC(mg) vitD(mcg) vitB1(mg) vitB2(mg) vitB6(mg) vitB12(mcg) vitFo(mcg folate)
+//            Ca(mg) Fe(mg) Mg(mg) Ka(mg potassium) Zn(mg)
+// For per100:true foods → values are per 100g; for per100:false → values are per piece/unit
 const QS_FOODS = {
-  kajzerka: { name:'Kajzerka cereálna', emoji:'🥐', dq:60,  unit:'g',  per100:true,  kcal:288,  fat:4.35, satFat:0.85, carbs:48.3, sugars:1.43, fiber:5.54, prot:11.2, salt:1.51 },
-  egg:      { name:'Vajíčko',           emoji:'🥚', dq:1,   unit:'ks', per100:false, kcal:78,   fat:5.3,  satFat:1.6,  carbs:0.6,  sugars:0.6,  fiber:0,    prot:6.3,  salt:0.2  },
-  banana:   { name:'Banán',             emoji:'🍌', dq:1,   unit:'ks', per100:false, kcal:107,  fat:0.36, satFat:0.1,  carbs:27,   sugars:14.4, fiber:3.1,  prot:1.3,  salt:0    },
-  jogurt:   { name:'Grécky jogurt',     emoji:'🫐', dq:200, unit:'g',  per100:true,  kcal:148,  fat:8.5,  satFat:5.3,  carbs:14.3, sugars:13.4, fiber:0,    prot:3.4,  salt:0.1  },
-  horalka:  { name:'Horalka',           emoji:'🍫', dq:1,   unit:'ks', per100:false, kcal:230,  fat:11,   satFat:5,    carbs:32,   sugars:22,   fiber:0.5,  prot:3,    salt:0.15 },
-  kavenka:  { name:'Kavenka',           emoji:'☕', dq:1,   unit:'ks', per100:false, kcal:55,   fat:1.7,  satFat:0.9,  carbs:9,    sugars:8,    fiber:0,    prot:0.5,  salt:0.05 },
-  oreo:     { name:'Oreo',              emoji:'🍪', dq:1,   unit:'ks', per100:false, kcal:52,   fat:2.2,  satFat:0.7,  carbs:7.5,  sugars:4.5,  fiber:0.3,  prot:0.6,  salt:0.08 },
-  tiger:    { name:'Tiger 250ml',       emoji:'⚡', dq:1,   unit:'ks', per100:false, kcal:43,   fat:0,    satFat:0,    carbs:10.5, sugars:10.5, fiber:0,    prot:0,    salt:0.25 },
-  pasta:    { name:'Cestoviny 125g',    emoji:'🍝', dq:125, unit:'g',  per100:true,  kcal:370,  fat:1.5,  satFat:0.3,  carbs:75,   sugars:3,    fiber:2.5,  prot:13,   salt:0.01 },
+  kajzerka: { name:'Kajzerka cereálna',        emoji:'🥐', dq:60,  unit:'g',  per100:true,  kcal:288, fat:4.35,satFat:0.85,carbs:48.3,sugars:1.43,fiber:5.54,prot:11.2,salt:1.51,
+    vit:{ vitB1:0.3, vitB2:0.06, vitFo:30, Fe:2.0, Ca:30, Mg:30, Ka:170 } },
+  egg:      { name:'Vajíčko',                  emoji:'🥚', dq:1,   unit:'ks', per100:false, kcal:78,  fat:5.3, satFat:1.6, carbs:0.6, sugars:0.6, fiber:0,   prot:6.3, salt:0.2,
+    vit:{ vitA:80, vitD:2.0, vitB2:0.26, vitB12:0.9, vitFo:24, Fe:1.0, Zn:0.6, Ca:28, Ka:70, Mg:6 } },
+  banana:   { name:'Banán',                    emoji:'🍌', dq:1,   unit:'ks', per100:false, kcal:107, fat:0.36,satFat:0.1, carbs:27,  sugars:14.4,fiber:3.1, prot:1.3, salt:0,
+    vit:{ vitC:10, vitB6:0.4, vitFo:24, Ka:422, Mg:32 } },
+  jogurt:   { name:'Grécky jogurt',            emoji:'🫐', dq:125, unit:'g',  per100:true,  kcal:148, fat:8.5, satFat:5.3, carbs:14.3,sugars:13.4,fiber:0,   prot:3.4, salt:0.1,
+    vit:{ vitB2:0.2, vitB12:0.75, Ca:110, Ka:141, Mg:12 } },
+  horalka:  { name:'Horalka',                  emoji:'🍫', dq:1,   unit:'ks', per100:false, kcal:230, fat:11,  satFat:5,   carbs:32,  sugars:22,  fiber:0.5, prot:3,   salt:0.15,
+    vit:{ Ca:25, Ka:80, Mg:15 } },
+  sedita:   { name:'Sedita Kakaové rezy',      emoji:'🍰', dq:1,   unit:'ks', per100:false, kcal:147, fat:6.0, satFat:2.8, carbs:21,  sugars:15,  fiber:0.5, prot:2.5, salt:0.14,
+    vit:{ Ca:20, Mg:10, Ka:50 } },
+  oreo:     { name:'Oreo',                     emoji:'🍪', dq:1,   unit:'ks', per100:false, kcal:52,  fat:2.2, satFat:0.7, carbs:7.5, sugars:4.5, fiber:0.3, prot:0.6, salt:0.08,
+    vit:{ Ca:5 } },
+  tiger:    { name:'Tiger 250ml',              emoji:'⚡', dq:1,   unit:'ks', per100:false, kcal:43,  fat:0,   satFat:0,   carbs:10.5,sugars:10.5,fiber:0,   prot:0,   salt:0.25,
+    vit:{ vitC:10, vitB6:0.7, vitB12:0.5 } },
+  pasta:    { name:'Cestoviny 125g',           emoji:'🍝', dq:125, unit:'g',  per100:true,  kcal:370, fat:1.5, satFat:0.3, carbs:75,  sugars:3,   fiber:2.5, prot:13,  salt:0.01,
+    vit:{ vitB1:0.1, Fe:1.3, vitFo:7, Mg:53, Ka:215 } },
+};
+
+// Vitamin supplement — 10 ml dose (= 10/15 of labelled 15ml values)
+const VITAMIN_SUPPLEMENT = {
+  vitA:533, vitC:667, vitD:20, vitB1:20, vitB2:20, vitB6:13.3,
+  vitB12:67, vitFo:267, Ca:30, Fe:2.3, Mg:8.9, Ka:71, Zn:4.7
+};
+
+// Daily goals — male, 25 years, 187 cm (EU/WHO RDI)
+const VITAMIN_GOALS = {
+  vitA:  { goal:900,  unit:'mcg', label:'Vit. A'   },
+  vitC:  { goal:90,   unit:'mg',  label:'Vit. C'   },
+  vitD:  { goal:15,   unit:'mcg', label:'Vit. D'   },
+  vitB1: { goal:1.2,  unit:'mg',  label:'B1'        },
+  vitB2: { goal:1.3,  unit:'mg',  label:'B2'        },
+  vitB6: { goal:1.3,  unit:'mg',  label:'B6'        },
+  vitB12:{ goal:2.4,  unit:'mcg', label:'B12'       },
+  vitFo: { goal:400,  unit:'mcg', label:'Folát'     },
+  Ca:    { goal:1000, unit:'mg',  label:'Vápnik'    },
+  Fe:    { goal:8,    unit:'mg',  label:'Železo'    },
+  Mg:    { goal:420,  unit:'mg',  label:'Horčík'    },
+  Ka:    { goal:3500, unit:'mg',  label:'Draslík'   },
+  Zn:    { goal:11,   unit:'mg',  label:'Zinok'     },
 };
 
 let qsDay = new Date().toISOString().slice(0,10);
@@ -1456,6 +1500,39 @@ function qsMacros(q) {
     kcal+=f.kcal*m; fat+=f.fat*m; prot+=f.prot*m; carbs+=f.carbs*m;
   });
   return { kcal:Math.round(kcal), fat:Math.round(fat*10)/10, prot:Math.round(prot*10)/10, carbs:Math.round(carbs*10)/10 };
+}
+
+function qsVitamins(q) {
+  const totals = {};
+  (q.food||[]).forEach(({id,qty}) => {
+    const f=QS_FOODS[id]; if(!f||!f.vit) return;
+    const m = f.per100 ? qty/100 : qty;
+    Object.entries(f.vit).forEach(([k,v]) => { totals[k]=(totals[k]||0)+v*m; });
+  });
+  if (q.vitamin) {
+    Object.entries(VITAMIN_SUPPLEMENT).forEach(([k,v]) => { totals[k]=(totals[k]||0)+v; });
+  }
+  return totals;
+}
+
+function renderQsVit(q) {
+  const grid = document.getElementById('qs-vit-grid'); if(!grid) return;
+  const vit = qsVitamins(q);
+  const vitLbl = document.createElement('div');
+  vitLbl.style.cssText='grid-column:1/-1;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);';
+  vitLbl.textContent='Vitamíny & Minerály (denný cieľ)';
+  grid.innerHTML='';
+  grid.appendChild(vitLbl);
+  Object.entries(VITAMIN_GOALS).forEach(([k,g]) => {
+    const val = vit[k]||0;
+    const pct = Math.min(100,Math.round(val/g.goal*100));
+    const col = pct>=100?'#10B981':pct>=50?'#F59E0B':'#EF4444';
+    const shown = pct>=100 ? '✓' : (Math.round(val*10)/10)+g.unit;
+    const el=document.createElement('div'); el.className='vit-item';
+    el.innerHTML=`<div class="vit-top"><span class="vit-lbl">${g.label}</span><span class="vit-val" style="color:${col}">${shown}</span></div>
+      <div class="vit-track"><div class="vit-fill" style="width:${pct}%;background:${col}"></div></div>`;
+    grid.appendChild(el);
+  });
 }
 
 function qsAddFood(id) {
@@ -1508,6 +1585,7 @@ function renderQsDay() {
       </div>`;
     log.appendChild(div);
   });
+  renderQsVit(q);
 }
 
 function buildFoodBtns() {
