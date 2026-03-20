@@ -399,7 +399,7 @@
       <button class="btn btn-gold" id="cp-cloth" onclick="doCopy('clothing-brands','cp-cloth')">Kopírovať pitch</button>
     </div>
 
-    <div class="task-item" id="t-shoptet" onclick="toggle('t-shoptet')"><div class="task-check"></div><span class="task-label">Email Chatbot — Shoptet pitch</span><span class="count-pill">10</span></div>
+    <div class="task-item" id="t-shoptet" onclick="toggle('t-shoptet')"><div class="task-check"></div><span class="task-label" style="color:var(--mid)">Email Chatbot — Shoptet pitch</span><span class="count-pill">10</span></div>
     <div class="sub-row">
       <span class="page-label">Strana:</span>
       <input class="page-input" type="number" id="pg-shoptet" value="5" min="1" onchange="savePage('shoptet',this.value)">
@@ -407,7 +407,7 @@
       <button class="btn btn-gold" id="cp-shoptet" onclick="doCopy('shoptet','cp-shoptet')">Kopírovať pitch</button>
     </div>
 
-    <div class="task-item" id="t-solar" onclick="toggle('t-solar')"><div class="task-check"></div><span class="task-label">Solárne panely — scrape</span></div>
+    <div class="task-item" id="t-solar" onclick="toggle('t-solar')"><div class="task-check"></div><span class="task-label" style="color:var(--mid)">Solárne panely — scrape</span><span class="count-pill">10</span></div>
     <div class="sub-row">
       <span class="page-label">Strana:</span>
       <input class="page-input" type="number" id="pg-solar" value="1" min="1" onchange="savePage('solar',this.value)">
@@ -415,7 +415,7 @@
       <button class="btn btn-gold" id="cp-solar" onclick="doCopy('solar','cp-solar')">Kopírovať pitch</button>
     </div>
 
-    <div class="task-item" id="t-finstat" onclick="toggle('t-finstat')"><div class="task-check"></div><span class="task-label">Finstat 1mil–5mil€ — Web + Pitch</span></div>
+    <div class="task-item" id="t-finstat" onclick="toggle('t-finstat')"><div class="task-check"></div><span class="task-label">Finstat 1mil–5mil€ — Web + Pitch</span><span class="count-pill">10</span></div>
     <div class="sub-row" style="flex-direction:column;align-items:flex-start;gap:0;">
       <button class="btn btn-dark" style="margin-bottom:8px;font-size:11px;" onclick="toggleWorkflow()">▼ Workflow</button>
       <div id="workflow-box" style="display:none;width:100%;">
@@ -437,7 +437,7 @@
       </div>
     </div>
 
-    <div class="task-item" id="t-zdravotne" onclick="toggle('t-zdravotne')"><div class="task-check"></div><span class="task-label">Zdravotné firmy Finstat — Web + Pitch</span></div>
+    <div class="task-item" id="t-zdravotne" onclick="toggle('t-zdravotne')"><div class="task-check"></div><span class="task-label">Zdravotné firmy Finstat — Web + Pitch</span><span class="count-pill">10</span></div>
     <div class="sub-row" style="flex-direction:column;align-items:flex-start;gap:0;">
       <button class="btn btn-dark" style="margin-bottom:8px;font-size:11px;" onclick="toggleWorkflow2()">▼ Workflow</button>
       <div id="workflow-box2" style="display:none;width:100%;">
@@ -505,7 +505,7 @@
     <div class="cal-grid" id="cal-grid"></div>
     <div class="cal-legend">
       <div class="cal-legend-item"><span class="cal-score-badge zd">ZD</span> Získaj Dopyt — denné úlohy (max 7)</div>
-      <div class="cal-legend-item"><span class="cal-score-badge jmc">JMC</span> Ján Marček Consulting (max 5)</div>
+      <div class="cal-legend-item"><span class="cal-score-badge jmc">JMC</span> Ján Marček Consulting (max 6)</div>
       <div class="cal-legend-item"><span class="cal-score-badge full-zd">ZD ✓</span> Všetky splnené</div>
       <div class="cal-legend-item"><span class="cal-score-badge full-jmc">JMC ✓</span> Všetky splnené</div>
     </div>
@@ -843,7 +843,7 @@ function savePage(key, val) {
 // TASKS
 // ══════════════════════════════════════════
 const AGENCY = ['t-calls','t-call-fu','t-email','t-email-fu','t-li-fu','t-ceo','t-blog'];
-const CLIENT = ['t-read','t-cloth','t-shoptet','t-solar','t-finstat','t-zdravotne','t-li-post','t-jmc'];
+const CLIENT = ['t-read','t-cloth','t-finstat','t-zdravotne','t-li-post','t-jmc'];
 const ALL_T  = [...AGENCY, ...CLIENT, 't-tiktok'];
 
 function toggleWorkflow() {
