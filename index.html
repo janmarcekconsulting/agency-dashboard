@@ -401,8 +401,8 @@
     .btn-open-month { width: 100%; padding: 12px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; font-size: 13px; font-weight: 700; color: var(--blue); cursor: pointer; font-family: inherit; transition: all .15s; }
     .btn-open-month:hover { background: var(--blue-light); border-color: var(--blue-bdr); }
     /* Monthly modal */
-    .qs-modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,.45); z-index: 500; display: flex; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 24px 16px; }
-    .qs-modal-box { background: var(--surface); border-radius: 18px; padding: 24px; width: 100%; max-width: 1300px; box-shadow: var(--shadow-md); }
+    .qs-modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,.45); z-index: 500; display: flex; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 16px; }
+    .qs-modal-box { background: var(--surface); border-radius: 18px; padding: 24px; width: 98vw; max-width: 1500px; box-shadow: var(--shadow-md); }
     .qs-modal-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
     .qs-modal-title { font-size: 17px; font-weight: 700; color: var(--text); }
     .qs-modal-close { background: var(--bg); border: 1.5px solid var(--border); border-radius: 8px; padding: 6px 12px; cursor: pointer; font-size: 16px; color: var(--mid); font-family: inherit; transition: all .15s; }
@@ -412,17 +412,17 @@
     .qs-modal-stats-area { flex: 0 0 calc(20% - 20px); min-width: 180px; }
     .qs-mgrid { display: grid; grid-template-columns: repeat(7,1fr); gap: 5px; }
     .qs-mdow { font-size: 9px; font-weight: 700; text-transform: uppercase; color: var(--muted); text-align: center; padding: 4px 0; }
-    .qs-mday { border: 1.5px solid var(--border); border-radius: 9px; padding: 6px 7px; min-height: 90px; cursor: pointer; transition: border-color .15s; background: var(--bg); }
+    .qs-mday { border: 1.5px solid var(--border); border-radius: 9px; padding: 8px 9px; min-height: 110px; cursor: pointer; transition: border-color .15s; background: var(--bg); }
     .qs-mday:hover { border-color: var(--blue-bdr); }
     .qs-mday.qs-msel { border-color: var(--blue); background: var(--blue-light); }
     .qs-mday.qs-mempty { border-color: transparent; background: transparent; cursor: default; min-height: unset; }
-    .qs-mday-num   { font-size: 11px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
-    .qs-mday-sleep { font-size: 10px; font-weight: 600; color: #818CF8; }
-    .qs-mday-kcal  { font-size: 9.5px; color: var(--mid); margin-top: 1px; }
+    .qs-mday-num   { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .qs-mday-sleep { font-size: 11px; font-weight: 600; color: #818CF8; }
+    .qs-mday-kcal  { font-size: 10px; color: var(--mid); margin-top: 2px; }
     .qs-mday-dots  { display: flex; gap: 3px; margin-top: 5px; }
     .qs-mday-xanax { font-size: 8.5px; color: #7C3AED; font-weight: 700; margin-top: 3px; }
     .qs-mday-dot   { width: 7px; height: 7px; border-radius: 50%; }
-    .qs-mday-tag { font-size: 8px; font-weight: 700; padding: 1px 4px; border-radius: 4px; margin-top: 2px; display: inline-block; }
+    .qs-mday-tag { font-size: 9px; font-weight: 700; padding: 2px 5px; border-radius: 4px; margin-top: 2px; display: inline-block; }
     .qs-mday-vit { color: #065F46; background: #D1FAE5; }
     .qs-mday-xan { color: #5B21B6; background: #EDE9FE; }
     .qs-mday-out { color: #1E40AF; background: #DBEAFE; }
@@ -732,23 +732,13 @@
         </div>
       </div>
 
-      <!-- Food Tracker -->
-      <div class="qs-card">
-        <div class="qs-card-title"><span class="dot" style="background:#F59E0B"></span>Jedlo</div>
-        <div class="macro-row">
-          <div class="macro-box kcal-box"><div class="macro-val" id="qs-kcal">0</div><div class="macro-lbl">kcal</div></div>
-          <div class="macro-box prot-box"><div class="macro-val" id="qs-prot">0g</div><div class="macro-lbl">Proteín</div><div class="macro-goal" id="qs-prot-goal">/ 100g</div></div>
-          <div class="macro-box"><div class="macro-val" id="qs-carbs">0g</div><div class="macro-lbl">Sacharidy</div></div>
-          <div class="macro-box"><div class="macro-val" id="qs-fat">0g</div><div class="macro-lbl">Tuky</div></div>
-        </div>
-        <div class="food-btn-grid" id="food-btn-grid"></div>
-        <div class="food-log-list" id="qs-food-log"></div>
-        <div class="vit-grid" id="qs-vit-grid"></div>
-      </div>
     </div>
 
-    <!-- RIGHT: Weekly + Monthly -->
+    <!-- RIGHT: Monthly button + Weekly + Food -->
     <div class="qs-col">
+
+      <!-- Open monthly modal button -->
+      <button class="btn-open-month" onclick="openQsMonthModal()">📅 Mesačný prehľad</button>
 
       <!-- Weekly Calendar -->
       <div class="qs-card">
@@ -763,8 +753,19 @@
         <div class="qs-week-stats" id="qs-week-stats"></div>
       </div>
 
-      <!-- Open monthly modal button -->
-      <button class="btn-open-month" onclick="openQsMonthModal()">📅 Mesačný prehľad</button>
+      <!-- Food Tracker -->
+      <div class="qs-card">
+        <div class="qs-card-title"><span class="dot" style="background:#F59E0B"></span>Jedlo</div>
+        <div class="macro-row">
+          <div class="macro-box kcal-box"><div class="macro-val" id="qs-kcal">0</div><div class="macro-lbl">kcal</div></div>
+          <div class="macro-box prot-box"><div class="macro-val" id="qs-prot">0g</div><div class="macro-lbl">Proteín</div><div class="macro-goal" id="qs-prot-goal">/ 100g</div></div>
+          <div class="macro-box"><div class="macro-val" id="qs-carbs">0g</div><div class="macro-lbl">Sacharidy</div></div>
+          <div class="macro-box"><div class="macro-val" id="qs-fat">0g</div><div class="macro-lbl">Tuky</div></div>
+        </div>
+        <div class="food-btn-grid" id="food-btn-grid"></div>
+        <div class="food-log-list" id="qs-food-log"></div>
+        <div class="vit-grid" id="qs-vit-grid"></div>
+      </div>
 
     </div>
   </div>
@@ -1555,7 +1556,8 @@ const VITAMIN_GOALS = {
   Zn:    { goal:11,   unit:'mg',  label:'Zinok'     },
 };
 
-let qsDay = new Date().toISOString().slice(0,10);
+function toDateKey(d) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+let qsDay = toDateKey(new Date());
 let qsMonthDate = new Date();
 
 function qsDayData() {
@@ -1574,7 +1576,7 @@ function setXanax(mg)   { qsDayData().xanax   = mg; renderQsDay(); scheduleSave(
 function vitDoseOf(qs)  { return (qs.vitDose !== undefined ? qs.vitDose : (qs.vitamin ? 10 : 0)); }
 function qsSaveField(field, val) { qsDayData()[field] = val; scheduleSave(); renderQsStats(); }
 function qsToggle(field) { const q = qsDayData(); q[field] = !q[field]; renderQsDay(); scheduleSave(); renderQsWeek(); renderQsStats(); }
-function qsGoToday() { qsDay = new Date().toISOString().slice(0,10); renderQsDay(); renderQsCal(); }
+function qsGoToday() { qsDay = toDateKey(new Date()); renderQsDay(); renderQsCal(); }
 
 function qsMacros(q) {
   let kcal=0,fat=0,prot=0,carbs=0;
@@ -1735,10 +1737,20 @@ function renderQsCal() {
 function renderQsStats() {
   const year = qsMonthDate.getFullYear(), month = qsMonthDate.getMonth();
   const days = new Date(year,month+1,0).getDate();
-  let vitC=0, outC=0, exC=0, sleepC=0, sleepSum=0, kcalC=0, kcalSum=0, protSum=0, dwd=0, sleepGoodC=0;
+  // days elapsed: today's date if current month, full month if past, 0 if future
+  const today = new Date();
+  let daysElapsed;
+  if (year === today.getFullYear() && month === today.getMonth()) {
+    daysElapsed = today.getDate();
+  } else if (new Date(year,month,1) < today) {
+    daysElapsed = days;
+  } else {
+    daysElapsed = 0;
+  }
+  let vitC=0, outC=0, exC=0, sleepC=0, sleepSum=0, kcalC=0, kcalSum=0, protSum=0, sleepGoodC=0;
   for (let d=1;d<=days;d++) {
     const dk = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const qs = STORE.days[dk]?.qs; if(!qs) continue; dwd++;
+    const qs = STORE.days[dk]?.qs; if(!qs) continue;
     if (vitDoseOf(qs)>0) vitC++; if (qs.outside) outC++; if (qs.exercise) exC++;
     if (qs.sleepH)  { sleepSum+=parseFloat(qs.sleepH); sleepC++; if(parseFloat(qs.sleepH)>=7) sleepGoodC++; }
     if (qs.food?.length) { const m=qsMacros(qs); kcalSum+=m.kcal; protSum+=m.prot; kcalC++; }
@@ -1746,14 +1758,14 @@ function renderQsStats() {
   const avgSleep = sleepC ? (sleepSum/sleepC).toFixed(1)+'h' : '—';
   const avgKcal  = kcalC  ? Math.round(kcalSum/kcalC) : '—';
   const avgProt  = kcalC  ? Math.round(protSum/kcalC)+'g' : '—';
-  const base = dwd || 1;
+  const base = daysElapsed || 1;
   document.getElementById('qs-stat-sleep').textContent   = avgSleep;
   document.getElementById('qs-stat-kcal').textContent    = avgKcal;
   document.getElementById('qs-stat-prot').textContent    = avgProt;
-  document.getElementById('qs-stat-vitamin').textContent  = `${vitC}/${dwd}`;
-  document.getElementById('qs-stat-outside').textContent  = `${outC}/${dwd}`;
-  document.getElementById('qs-stat-exercise').textContent = `${exC}/${dwd}`;
-  const pct = k => dwd>0 ? Math.round(k/dwd*100) : 0;
+  document.getElementById('qs-stat-vitamin').textContent  = `${vitC}/${daysElapsed}`;
+  document.getElementById('qs-stat-outside').textContent  = `${outC}/${daysElapsed}`;
+  document.getElementById('qs-stat-exercise').textContent = `${exC}/${daysElapsed}`;
+  const pct = k => daysElapsed>0 ? Math.round(k/daysElapsed*100) : 0;
   [['vitamin',vitC],['outside',outC],['exercise',exC],['sleep',sleepGoodC]].forEach(([k,v]) => {
     const p = pct(v);
     const bar = document.getElementById('qs-bar-'+k); if (bar) bar.style.width=p+'%';
@@ -1773,10 +1785,10 @@ function renderQsWeek() {
   const grid = document.getElementById('qs-week-grid'); if (!grid) return;
   grid.innerHTML = '';
   const dows = ['Po','Ut','St','Št','Pi','So','Ne'];
-  const todayKey = new Date().toISOString().slice(0,10);
+  const todayKey = toDateKey(new Date());
   for (let i=0; i<7; i++) {
     const d = new Date(qsWeekStart); d.setDate(d.getDate()+i);
-    const dk = d.toISOString().slice(0,10);
+    const dk = toDateKey(d);
     const qs = STORE.days[dk]?.qs;
     const el = document.createElement('div');
     el.className = 'qs-wday' + (dk===qsDay?' qs-wsel':'') + (dk===todayKey?' qs-wtoday':'');
@@ -1802,7 +1814,7 @@ function renderQsWeek() {
   let vitC=0,outC=0,exC=0,slpSum=0,slpC=0,kcalSum=0,kcalC=0,dwd=0;
   for (let i=0;i<7;i++) {
     const d2=new Date(qsWeekStart); d2.setDate(d2.getDate()+i);
-    const qs2=STORE.days[d2.toISOString().slice(0,10)]?.qs; if(!qs2) continue; dwd++;
+    const qs2=STORE.days[toDateKey(d2)]?.qs; if(!qs2) continue; dwd++;
     if(vitDoseOf(qs2)>0) vitC++; if(qs2.outside) outC++; if(qs2.exercise) exC++;
     if(qs2.sleepH) { slpSum+=parseFloat(qs2.sleepH); slpC++; }
     if(qs2.food?.length) { const m=qsMacros(qs2); kcalSum+=m.kcal; kcalC++; }
