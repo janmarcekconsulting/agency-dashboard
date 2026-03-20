@@ -75,7 +75,14 @@
       position: sticky; top: 0; z-index: 100;
       box-shadow: var(--shadow-sm);
     }
-    .logo { color: var(--blue); font-size: 20px; font-weight: 800; letter-spacing: -.5px; white-space: nowrap; }
+    .logo { color: var(--blue); font-size: 20px; font-weight: 800; letter-spacing: -.5px; white-space: nowrap; cursor: pointer; user-select: none; }
+    .logo:hover { opacity: .8; }
+    .nav-quick-btn {
+      background: var(--bg); border: 1.5px solid var(--border);
+      color: var(--mid); padding: 6px 12px; border-radius: 8px;
+      cursor: pointer; font-size: 12px; font-weight: 600; transition: all .15s; font-family: inherit; white-space: nowrap;
+    }
+    .nav-quick-btn:hover { background: var(--blue-light); border-color: var(--blue-bdr); color: var(--blue); }
 
     /* Day nav */
     .day-nav { display: flex; align-items: center; justify-content: center; gap: 4px; }
@@ -310,7 +317,7 @@
 </div>
 
 <header>
-  <span class="logo">Dashboard</span>
+  <span class="logo" onclick="goHome()">Dashboard</span>
 
   <div class="day-nav" id="day-nav">
     <button class="day-arrow" onclick="shiftView(-1)">‹</button>
@@ -320,6 +327,8 @@
   <div class="header-r">
     <div class="sync-dot" id="sync-dot" title="GitHub sync"></div>
     <span class="header-date" id="header-date"></span>
+    <button class="nav-quick-btn" onclick="window.location.href='transcendence.html'">📖 Transcendence</button>
+    <button class="nav-quick-btn" onclick="window.open('https://janmarcekconsulting.github.io/fashion-daily/','_blank')">👗 Fashion Daily</button>
     <button class="cal-btn" id="cal-toggle-btn" onclick="toggleCalPage()">📅 Kalendár</button>
   </div>
 </header>
@@ -328,6 +337,8 @@
 <div id="page-main">
 <main>
 
+  <!-- LEFT COLUMN: ZD + Dočasné úlohy -->
+  <div style="display:flex;flex-direction:column;gap:16px;">
   <!-- ZÍSKAJ DOPYT -->
   <div class="card">
     <div class="card-title"><span class="dot"></span>Získaj Dopyt — Denné úlohy</div>
@@ -359,6 +370,17 @@
       <div class="pbar-wrap"><div class="pbar-fill" id="ag-bar" style="width:0%"></div></div>
     </div>
   </div>
+
+  <!-- Dočasné úlohy (under ZD) -->
+  <div class="card temp-card">
+    <div class="card-title"><span class="dot" style="background:#3b82f6"></span>Dočasné úlohy</div>
+    <div class="temp-add-row">
+      <input class="temp-input" id="temp-input" type="text" placeholder="Pridať úlohu..." onkeydown="if(event.key==='Enter')addTemp()">
+      <button class="btn-add" onclick="addTemp()">+</button>
+    </div>
+    <div class="temp-list" id="temp-list"></div>
+  </div>
+  </div><!-- end left column -->
 
   <!-- JÁN MARČEK CONSULTING -->
   <div class="card">
@@ -459,17 +481,8 @@
     </div>
   </div>
 
-  <!-- BOTTOM ROW -->
-  <div class="full-row">
-    <div class="card temp-card">
-      <div class="card-title"><span class="dot" style="background:#3b82f6"></span>Dočasné úlohy</div>
-      <div class="temp-add-row">
-        <input class="temp-input" id="temp-input" type="text" placeholder="Pridať úlohu..." onkeydown="if(event.key==='Enter')addTemp()">
-        <button class="btn-add" onclick="addTemp()">+</button>
-      </div>
-      <div class="temp-list" id="temp-list"></div>
-    </div>
-
+  <!-- PITCHES FULL ROW -->
+  <div class="full-row" style="grid-template-columns:1fr;">
     <div class="card pitch-card">
       <div class="card-title"><span class="dot" style="background:var(--gold)"></span>Pitche &amp; Prompty</div>
       <div class="pitch-list" id="pitch-list"></div>
@@ -1024,6 +1037,7 @@ function renderDayNav() {
 // ══════════════════════════════════════════
 // PAGE TOGGLE
 // ══════════════════════════════════════════
+function goHome() { showPage('main'); }
 function toggleCalPage() {
   const calVisible = document.getElementById('page-cal').style.display !== 'none';
   showPage(calVisible ? 'main' : 'cal');
