@@ -1589,11 +1589,11 @@ function qsDayData() {
   if (d.qs.energetak  === undefined) d.qs.energetak = false;
   return d.qs;
 }
-function setVitDose(ml) { qsDayData().vitDose = ml; renderQsDay(); scheduleSave(); renderQsWeek(); renderQsStats(); }
-function setXanax(mg)   { qsDayData().xanax   = mg; renderQsDay(); scheduleSave(); renderQsWeek(); }
+function setVitDose(ml) { qsDayData().vitDose = ml; renderQsDay(); saveStore(); renderQsWeek(); renderQsStats(); }
+function setXanax(mg)   { qsDayData().xanax   = mg; renderQsDay(); saveStore(); renderQsWeek(); }
 function vitDoseOf(qs)  { return (qs.vitDose !== undefined ? qs.vitDose : (qs.vitamin ? 10 : 0)); }
-function qsSaveField(field, val) { qsDayData()[field] = val; scheduleSave(); renderQsStats(); }
-function qsToggle(field) { const q = qsDayData(); q[field] = !q[field]; renderQsDay(); scheduleSave(); renderQsWeek(); renderQsStats(); }
+function qsSaveField(field, val) { qsDayData()[field] = val; saveStore(); renderQsStats(); }
+function qsToggle(field) { const q = qsDayData(); q[field] = !q[field]; renderQsDay(); saveStore(); renderQsWeek(); renderQsStats(); }
 function qsGoToday() { qsDay = toDateKey(new Date()); renderQsDay(); renderQsCal(); }
 
 function qsMacros(q) {
@@ -1645,13 +1645,13 @@ function qsAddFood(id) {
   const q = qsDayData();
   const existing = q.food.find(f => f.id === id && !QS_FOODS[id].per100);
   if (existing) { existing.qty++; } else { q.food.push({ id, qty: QS_FOODS[id].dq }); }
-  renderQsDay(); scheduleSave();
+  renderQsDay(); saveStore();
 }
-function qsDelFood(i) { qsDayData().food.splice(i,1); renderQsDay(); scheduleSave(); }
+function qsDelFood(i) { qsDayData().food.splice(i,1); renderQsDay(); saveStore(); }
 function qsQtyChange(i, delta) {
   const q = qsDayData(); const item = q.food[i]; const f = QS_FOODS[item.id];
   item.qty = f.per100 ? Math.max(10, item.qty + delta*10) : Math.max(1, item.qty + delta);
-  renderQsDay(); scheduleSave();
+  renderQsDay(); saveStore();
 }
 
 function renderQsDay() {
