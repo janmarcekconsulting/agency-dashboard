@@ -1064,6 +1064,9 @@ function setSyncDot(state) {
 async function loadFromGithub() {
   try {
     setSyncDot('saving');
+    // snapshot localStorage before async fetch — protects locally-entered data
+    const localRaw = JSON.parse(localStorage.getItem('agency-dash-v2') || '{}');
+    const localDays = localRaw.days || {};
     const res = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`, {
       headers: { 'Authorization': `token ${GH_TOKEN}`, 'Accept': 'application/vnd.github+json' }
     });
@@ -1076,6 +1079,17 @@ async function loadFromGithub() {
     STORE.temps       = STORE.temps       || [];
     STORE.colorIdx    = STORE.colorIdx    || 0;
     STORE.globalPages = STORE.globalPages || { ceo:10, cloth:10, shoptet:5, solar:1 };
+    // Merge local days — prefer local when it has more data (recently entered before reload)
+    for (const dk of Object.keys(localDays)) {
+      if (!STORE.days[dk]) {
+        STORE.days[dk] = localDays[dk];
+      } else {
+        const ghSize = JSON.stringify(STORE.days[dk]).length;
+        const lcSize = JSON.stringify(localDays[dk]).length;
+        if (lcSize > ghSize) STORE.days[dk] = localDays[dk];
+      }
+    }
+    saveStore(); // push merged data back to localStorage + GitHub
     setSyncDot('ok');
     return true;
   } catch(e) { setSyncDot('error'); return false; }
