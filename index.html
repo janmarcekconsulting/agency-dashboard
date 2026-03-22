@@ -133,8 +133,22 @@
     #page-cal  { display: none;  }
 
     /* ── LAYOUT ── */
-    main { max-width: 1320px; margin: 0 auto; padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    main { padding: 20px; display: grid; grid-template-columns: 220px 1fr 1fr; gap: 16px; }
     .full-row { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    /* ── MORNING ROUTINE SIDEBAR ── */
+    .mr-sidebar { background: #0F172A; border-radius: 14px; padding: 18px 14px; display: flex; flex-direction: column; gap: 0; align-self: start; position: sticky; top: 80px; }
+    .mr-title { font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: .9px; color: #475569; margin-bottom: 12px; }
+    .mr-item { display: flex; align-items: center; gap: 9px; padding: 8px 8px; border-radius: 8px; cursor: pointer; transition: background .15s; color: #94A3B8; font-size: 12.5px; font-weight: 500; user-select: none; }
+    .mr-item:hover { background: #1E293B; }
+    .mr-item.mr-done { color: #10B981; }
+    .mr-item.mr-done .mr-check { background: #10B981; border-color: #10B981; }
+    .mr-item.mr-done .mr-check::after { content: '✓'; display: block; font-size: 9px; color: #fff; line-height: 1; }
+    .mr-check { width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid #334155; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all .15s; }
+    .mr-progress { margin-top: 12px; padding-top: 12px; border-top: 1px solid #1E293B; }
+    .mr-progress-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .mr-progress-txt { font-size: 11px; color: #475569; font-weight: 600; }
+    .mr-bar-wrap { height: 5px; background: #1E293B; border-radius: 3px; overflow: hidden; }
+    .mr-bar-fill { height: 100%; background: #10B981; border-radius: 3px; transition: width .4s; }
 
     /* ── CARD ── */
     .card { background: var(--card); border-radius: 14px; padding: 18px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
@@ -479,6 +493,26 @@
 <div id="page-main">
 <main>
 
+  <!-- MORNING ROUTINE SIDEBAR -->
+  <div class="mr-sidebar">
+    <div class="mr-title">☀️ Morning Routine</div>
+    <div class="mr-item" id="mr-bed"       onclick="toggleMR('mr-bed')">      <div class="mr-check"></div><span>🛏️ Make a bed</span></div>
+    <div class="mr-item" id="mr-teeth"     onclick="toggleMR('mr-teeth')">    <div class="mr-check"></div><span>🪥 Brush teeth</span></div>
+    <div class="mr-item" id="mr-groceries" onclick="toggleMR('mr-groceries')"><div class="mr-check"></div><span>🛒 Groceries</span></div>
+    <div class="mr-item" id="mr-eat"       onclick="toggleMR('mr-eat')">      <div class="mr-check"></div><span>🍳 Eat</span></div>
+    <div class="mr-item" id="mr-read"      onclick="toggleMR('mr-read')">     <div class="mr-check"></div><span>📖 Read Transcendence</span></div>
+    <div class="mr-item" id="mr-shower"    onclick="toggleMR('mr-shower')">   <div class="mr-check"></div><span>🚿 Shower</span></div>
+    <div class="mr-item" id="mr-sleep"     onclick="toggleMR('mr-sleep')">    <div class="mr-check"></div><span>😴 Track sleep</span></div>
+    <div class="mr-item" id="mr-start"     onclick="toggleMR('mr-start')">    <div class="mr-check"></div><span>🚀 Start day</span></div>
+    <div class="mr-progress">
+      <div class="mr-progress-row">
+        <span class="mr-progress-txt" id="mr-txt">0 / 8</span>
+        <span class="mr-progress-txt" id="mr-pct">0%</span>
+      </div>
+      <div class="mr-bar-wrap"><div class="mr-bar-fill" id="mr-bar" style="width:0%"></div></div>
+    </div>
+  </div>
+
   <!-- LEFT COLUMN: ZD + Dočasné úlohy -->
   <div style="display:flex;flex-direction:column;gap:16px;">
   <!-- ZÍSKAJ DOPYT -->
@@ -528,10 +562,6 @@
   <div class="card">
     <div class="card-title"><span class="dot" style="background:#3b82f6"></span>Ján Marček Consulting</div>
 
-    <div class="task-item" id="t-read" onclick="toggle('t-read')"><div class="task-check"></div><span class="task-label">Read Transcendence</span></div>
-    <div class="sub-row">
-      <button class="btn btn-gold" onclick="window.location.href='transcendence.html'">Čítať</button>
-    </div>
 
     <div class="task-item" id="t-cloth" onclick="toggle('t-cloth')"><div class="task-check"></div><span class="task-label">LinkedIn Clothing Brands CEO</span><span class="count-pill">10</span></div>
     <div class="sub-row">
@@ -1152,7 +1182,7 @@ function savePage(key, val) {
 // TASKS
 // ══════════════════════════════════════════
 const AGENCY = ['t-calls','t-call-fu','t-email','t-email-fu','t-li-fu','t-ceo','t-blog'];
-const CLIENT = ['t-read','t-cloth','t-finstat','t-zdravotne','t-li-post','t-jmc'];
+const CLIENT = ['t-cloth','t-finstat','t-zdravotne','t-li-post','t-jmc'];
 const ALL_T  = [...AGENCY, ...CLIENT, 't-tiktok'];
 
 function toggleWorkflow() {
@@ -1289,6 +1319,35 @@ function applyDayState() {
   const d = dayData(viewDate);
   ALL_T.forEach(id => document.getElementById(id)?.classList.toggle('done', !!d.tasks[id]));
   updateProgress();
+  renderMR();
+}
+
+// ── MORNING ROUTINE ──
+const MR_IDS = ['mr-bed','mr-teeth','mr-groceries','mr-eat','mr-read','mr-shower','mr-sleep','mr-start'];
+function toggleMR(id) {
+  const d = dayData(viewDate);
+  if (!d.mr) d.mr = {};
+  d.mr[id] = !d.mr[id];
+  renderMR();
+  saveStore();
+}
+function renderMR() {
+  const mr = dayData(viewDate).mr || {};
+  let done = 0;
+  MR_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const checked = !!mr[id];
+    el.classList.toggle('mr-done', checked);
+    if (checked) done++;
+  });
+  const pct = Math.round(done / MR_IDS.length * 100);
+  const bar = document.getElementById('mr-bar');
+  const txt = document.getElementById('mr-txt');
+  const pctEl = document.getElementById('mr-pct');
+  if (bar) bar.style.width = pct + '%';
+  if (txt) txt.textContent = `${done} / ${MR_IDS.length}`;
+  if (pctEl) pctEl.textContent = pct + '%';
 }
 
 function updateProgress() {
