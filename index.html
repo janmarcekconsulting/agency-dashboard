@@ -843,6 +843,11 @@
           <div class="qs-bar-row"><span class="qs-bar-lbl">💪 Cvičenie</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-exercise" style="width:0%;background:#F59E0B"></div></div><span class="qs-bar-pct" id="qs-pct-exercise">0%</span></div>
           <div class="qs-bar-row"><span class="qs-bar-lbl">😴 Spánok 7h+</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-sleep" style="width:0%;background:#818CF8"></div></div><span class="qs-bar-pct" id="qs-pct-sleep">0%</span></div>
         </div>
+        <!-- Score chart -->
+        <div style="margin-top:16px;">
+          <div style="font-size:11px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.7px;margin-bottom:8px;">Skóre dňa</div>
+          <div id="qs-score-chart" style="background:#0F172A;border-radius:12px;padding:14px 12px 10px;overflow:hidden;"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1832,6 +1837,99 @@ function renderQsCal() {
   }
 }
 
+function dayScore(qs) {
+  if (!qs) return null;
+  let s = 0;
+  if (vitDoseOf(qs) > 0)                             s++; // vitamin
+  if (qs.outside)                                    s++; // vonku
+  if (qs.exercise)                                   s++; // cvičenie
+  if (qs.sleepH && parseFloat(qs.sleepH) >= 7)      s++; // spánok 7h+
+  if (qs.food?.length && qsMacros(qs).kcal <= 2500) s++; // kcal do 2500
+  if (qs.sleepH && parseFloat(qs.sleepH) < 7)       s--; // spánok pod 7h
+  if ((qs.xanax || 0) > 0.5)                        s--; // xanax > 0.5mg
+  if (!qs.outside)                                   s--; // nebol vonku
+  if (!qs.exercise)                                  s--; // necvičil
+  if ((qs.fap || 0) > 1)                            s--; // fap > 1x
+  return s;
+}
+
+function renderQsScoreChart() {
+  const el = document.getElementById('qs-score-chart'); if (!el) return;
+  const year = qsMonthDate.getFullYear(), month = qsMonthDate.getMonth();
+  const days = new Date(year, month+1, 0).getDate();
+  const today = new Date();
+  const limit = (year===today.getFullYear()&&month===today.getMonth()) ? today.getDate() : days;
+
+  // Collect scores (null = no data)
+  const scores = [];
+  for (let d=1; d<=limit; d++) {
+    const dk = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    scores.push({ d, score: dayScore(STORE.days[dk]?.qs) });
+  }
+  const hasData = scores.some(p => p.score !== null);
+  if (!hasData) { el.innerHTML = '<div style="text-align:center;color:#334155;font-size:11px;padding:20px 0;">Žiadne dáta</div>'; return; }
+
+  // Fill null with 0 for continuity
+  const pts = scores.map(p => ({ d: p.d, s: p.score ?? 0, hasData: p.score !== null }));
+
+  const W = 280, H = 90, PAD_X = 6, PAD_Y = 10;
+  const minS = -5, maxS = 5;
+  const toX = d  => PAD_X + (d-1) / Math.max(limit-1,1) * (W - PAD_X*2);
+  const toY = s  => PAD_Y + (1 - (s - minS) / (maxS - minS)) * (H - PAD_Y*2);
+  const zeroY = toY(0);
+
+  // Build smooth path (catmull-rom → cubic bezier)
+  function smooth(points) {
+    if (points.length < 2) return '';
+    let d = `M ${points[0].x} ${points[0].y}`;
+    for (let i=0; i<points.length-1; i++) {
+      const p0 = points[Math.max(0,i-1)];
+      const p1 = points[i];
+      const p2 = points[i+1];
+      const p3 = points[Math.min(points.length-1,i+2)];
+      const cp1x = p1.x + (p2.x-p0.x)/6;
+      const cp1y = p1.y + (p2.y-p0.y)/6;
+      const cp2x = p2.x - (p3.x-p1.x)/6;
+      const cp2y = p2.y - (p3.y-p1.y)/6;
+      d += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2.x} ${p2.y}`;
+    }
+    return d;
+  }
+
+  const svgPts = pts.map(p => ({ x: toX(p.d), y: toY(p.s) }));
+  const linePath = smooth(svgPts);
+
+  // Area fill path (close below zero line)
+  const areaPath = linePath + ` L ${svgPts[svgPts.length-1].x} ${zeroY} L ${svgPts[0].x} ${zeroY} Z`;
+
+  // Day labels (show every ~5 days)
+  const labels = pts.filter(p => p.d===1||p.d%5===0||p.d===limit)
+    .map(p => `<text x="${toX(p.d)}" y="${H+2}" text-anchor="middle" font-size="7" fill="#334155">${p.d}.</text>`).join('');
+
+  // Score dots for days with actual data
+  const dots = pts.filter(p=>p.hasData)
+    .map(p=>`<circle cx="${toX(p.d)}" cy="${toY(p.s)}" r="2.5" fill="${p.s>=0?'#10B981':'#EF4444'}" stroke="#0F172A" stroke-width="1.5"/>`).join('');
+
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H+14}" width="100%" style="overflow:visible;display:block;">
+    <defs>
+      <linearGradient id="score-grad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#10B981" stop-opacity="0.25"/>
+        <stop offset="100%" stop-color="#10B981" stop-opacity="0.02"/>
+      </linearGradient>
+    </defs>
+    <!-- Zero line -->
+    <line x1="${PAD_X}" y1="${zeroY}" x2="${W-PAD_X}" y2="${zeroY}" stroke="#1E293B" stroke-width="1" stroke-dasharray="4,4"/>
+    <!-- Area fill -->
+    <path d="${areaPath}" fill="url(#score-grad)"/>
+    <!-- Line -->
+    <path d="${linePath}" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Dots -->
+    ${dots}
+    <!-- Labels -->
+    ${labels}
+  </svg>`;
+}
+
 function renderQsStats() {
   const year = qsMonthDate.getFullYear(), month = qsMonthDate.getMonth();
   const days = new Date(year,month+1,0).getDate();
@@ -1937,9 +2035,9 @@ function shiftQsMonth(delta) {
 }
 function shiftQsMonthModal(delta) {
   qsMonthDate = new Date(qsMonthDate.getFullYear(), qsMonthDate.getMonth()+delta, 1);
-  renderQsMonthModal(); renderQsStats();
+  renderQsMonthModal(); renderQsStats(); renderQsScoreChart();
 }
-function openQsMonthModal()  { document.getElementById('qs-month-modal').style.display='flex'; renderQsMonthModal(); renderQsStats(); }
+function openQsMonthModal()  { document.getElementById('qs-month-modal').style.display='flex'; renderQsMonthModal(); renderQsStats(); renderQsScoreChart(); }
 function closeQsMonthModal() { document.getElementById('qs-month-modal').style.display='none'; }
 
 function renderQsMonthModal() {
