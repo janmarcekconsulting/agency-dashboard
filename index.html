@@ -759,6 +759,15 @@
             <div class="qs-toggle-left"><span class="qs-toggle-emoji">💪</span>Cvičil som</div>
             <div class="qs-switch"></div>
           </div>
+          <div class="dose-row">
+            <div class="qs-toggle-left"><span class="qs-toggle-emoji">🍆</span>Fap</div>
+            <div class="dose-btns" id="fap-dose-btns">
+              <button class="dose-btn" onclick="setFap(0)">0</button>
+              <button class="dose-btn" onclick="setFap(1)">1x</button>
+              <button class="dose-btn" onclick="setFap(2)">2x</button>
+              <button class="dose-btn" onclick="setFap(3)">3x</button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1604,7 +1613,7 @@ const QS_FOODS = {
     vit:{ vitB1:0.1, Fe:1.3, vitFo:7, Mg:53, Ka:215 } },
   kura:     { name:'Kuracie prsia GymBeam',    emoji:'🍗', dq:100, unit:'g',  per100:true,  kcal:126, fat:2.0, satFat:0.6, carbs:0.5, sugars:0.1, fiber:0,   prot:26.9, salt:0.51,
     vit:{ vitB6:0.6, vitB12:0.3, Ka:350, Mg:30, Fe:0.5, Zn:1.0 } },
-  milka:    { name:'Milka čokoláda',           emoji:'🍫', dq:30,  unit:'g',  per100:true,  kcal:539, fat:31,  satFat:19,  carbs:57,  sugars:55,  fiber:2.3, prot:6.5,  salt:0.28,
+  milka:    { name:'Milka čokoláda',           emoji:'🍫', dq:100, unit:'g',  per100:true,  kcal:539, fat:31,  satFat:19,  carbs:57,  sugars:55,  fiber:2.3, prot:6.5,  salt:0.28,
     vit:{ Ca:200, Ka:350, Mg:40, Fe:1.5 } },
   chips:    { name:'Tesco Salted Chips',        emoji:'🥔', dq:100, unit:'g',  per100:true,  kcal:518, fat:28,  satFat:3.0, carbs:61,  sugars:0.6, fiber:3.2, prot:4.0,  salt:0.90,
     vit:{ vitB6:0.4, Ka:1200, Mg:50, Fe:1.5 } },
@@ -1648,10 +1657,12 @@ function qsDayData() {
   if (d.qs.vitDose    === undefined) d.qs.vitDose = 0;
   if (d.qs.xanax      === undefined) d.qs.xanax = 0;
   if (d.qs.energetak  === undefined) d.qs.energetak = false;
+  if (d.qs.fap        === undefined) d.qs.fap = 0;
   return d.qs;
 }
 function setVitDose(ml) { qsDayData().vitDose = ml; renderQsDay(); saveStore(); renderQsWeek(); renderQsStats(); }
 function setXanax(mg)   { qsDayData().xanax   = mg; renderQsDay(); saveStore(); renderQsWeek(); }
+function setFap(n)      { qsDayData().fap     = n;  renderQsDay(); saveStore(); }
 function vitDoseOf(qs)  { return (qs.vitDose !== undefined ? qs.vitDose : (qs.vitamin ? 10 : 0)); }
 function qsSaveField(field, val) { qsDayData()[field] = val; saveStore(); renderQsStats(); }
 function qsToggle(field) { const q = qsDayData(); q[field] = !q[field]; renderQsDay(); saveStore(); renderQsWeek(); renderQsStats(); }
@@ -1740,6 +1751,12 @@ function renderQsDay() {
   const xv = q.xanax || 0;
   document.querySelectorAll('#xanax-dose-btns .dose-btn').forEach(b => {
     b.classList.toggle('xanax-on', parseFloat(b.dataset.val) === xv);
+  });
+
+  // Fap buttons
+  const fv = q.fap || 0;
+  document.querySelectorAll('#fap-dose-btns .dose-btn').forEach((b,i) => {
+    b.classList.toggle('dose-on', i === fv);
   });
 
   const m = qsMacros(q);
