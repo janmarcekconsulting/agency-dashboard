@@ -1904,7 +1904,7 @@ function renderQsScoreChart() {
 
   // Day labels (show every ~5 days)
   const labels = pts.filter(p => p.d===1||p.d%5===0||p.d===limit)
-    .map(p => `<text x="${toX(p.d)}" y="${H+2}" text-anchor="middle" font-size="7" fill="#334155">${p.d}.</text>`).join('');
+    .map(p => `<text x="${toX(p.d)}" y="${H+2}" text-anchor="middle" font-size="7" fill="#94A3B8">${p.d}.</text>`).join('');
 
   // Score dots for days with actual data
   const dots = pts.filter(p=>p.hasData)
