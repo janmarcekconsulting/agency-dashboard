@@ -409,8 +409,9 @@
     .wd-ex  { color: #92400E; background: #FEF3C7; }
     .wd-nrg { color: #78350F; background: #FEF9C3; }
     .wd-xan { color: #5B21B6; background: #EDE9FE; }
+    .wd-fap { color: #5B21B6; background: #FCE7F3; }
     /* Weekly stats row */
-    .qs-week-stats { display: grid; grid-template-columns: repeat(5,1fr); gap: 6px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+    .qs-week-stats { display: grid; grid-template-columns: repeat(6,1fr); gap: 6px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
     /* Open monthly button */
     .btn-open-month { width: 100%; padding: 12px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; font-size: 13px; font-weight: 700; color: var(--blue); cursor: pointer; font-family: inherit; transition: all .15s; }
     .btn-open-month:hover { background: var(--blue-light); border-color: var(--blue-bdr); }
@@ -439,6 +440,7 @@
     .qs-mday-tag { font-size: 9px; font-weight: 700; padding: 2px 5px; border-radius: 4px; margin-top: 2px; display: inline-block; }
     .qs-mday-vit { color: #065F46; background: #D1FAE5; }
     .qs-mday-xan { color: #5B21B6; background: #EDE9FE; }
+    .qs-mday-fap { color: #9D174D; background: #FCE7F3; }
     .qs-mday-out { color: #1E40AF; background: #DBEAFE; }
     .qs-mday-ex  { color: #92400E; background: #FEF3C7; }
     /* Dose / Xanax buttons */
@@ -1898,6 +1900,7 @@ function renderQsWeek() {
         ${qs?.exercise?'<span class="wd-tag wd-ex">💪 Cvič.</span>':''}
         ${qs?.energetak?'<span class="wd-tag wd-nrg">⚡ Energ.</span>':''}
         ${qs?.xanax>0?`<span class="wd-tag wd-xan">🟣 ${qs.xanax}mg</span>`:''}
+        ${qs?.fap>0?`<span class="wd-tag wd-fap">🍆 ${qs.fap}x</span>`:''}
       </div>`;
     el.onclick = () => { qsDay = dk; renderQsDay(); renderQsWeek(); };
     grid.appendChild(el);
@@ -1907,13 +1910,14 @@ function renderQsWeek() {
   if (lbl) lbl.textContent = `${qsWeekStart.getDate()}. – ${end.getDate()}. ${end.toLocaleDateString('sk-SK',{month:'long',year:'numeric'})}`;
 
   // Weekly stats
-  let vitC=0,outC=0,exC=0,slpSum=0,slpC=0,kcalSum=0,kcalC=0,dwd=0;
+  let vitC=0,outC=0,exC=0,slpSum=0,slpC=0,kcalSum=0,kcalC=0,fapSum=0,dwd=0;
   for (let i=0;i<7;i++) {
     const d2=new Date(qsWeekStart); d2.setDate(d2.getDate()+i);
     const qs2=STORE.days[toDateKey(d2)]?.qs; if(!qs2) continue; dwd++;
     if(vitDoseOf(qs2)>0) vitC++; if(qs2.outside) outC++; if(qs2.exercise) exC++;
     if(qs2.sleepH) { slpSum+=parseFloat(qs2.sleepH); slpC++; }
     if(qs2.food?.length) { const m=qsMacros(qs2); kcalSum+=m.kcal; kcalC++; }
+    fapSum += (qs2.fap||0);
   }
   const ws = document.getElementById('qs-week-stats'); if (!ws) return;
   ws.innerHTML = [
@@ -1922,6 +1926,7 @@ function renderQsWeek() {
     ['💊', vitC+'/'+dwd,'Vitamín'],
     ['🌿', outC+'/'+dwd,'Vonku'],
     ['💪', exC+'/'+dwd,'Cvičenie'],
+    ['🍆', fapSum+'x','Fap'],
   ].map(([e,v,l])=>`<div class="qs-stat"><div class="qs-stat-val" style="font-size:14px;">${e} ${v}</div><div class="qs-stat-lbl">${l}</div></div>`).join('');
 }
 
@@ -1960,7 +1965,8 @@ function renderQsMonthModal() {
       ${mvd>0?`<div class="qs-mday-tag qs-mday-vit">💊 ${mvd}ml</div>`:''}
       ${qs?.xanax>0?`<div class="qs-mday-tag qs-mday-xan">🟣 ${qs.xanax}mg</div>`:''}
       ${qs?.outside?'<div class="qs-mday-tag qs-mday-out">🌿 Vonku</div>':''}
-      ${qs?.exercise?'<div class="qs-mday-tag qs-mday-ex">💪 Cvičenie</div>':''}`;
+      ${qs?.exercise?'<div class="qs-mday-tag qs-mday-ex">💪 Cvičenie</div>':''}
+      ${qs?.fap>0?`<div class="qs-mday-tag qs-mday-fap">🍆 ${qs.fap}x</div>`:''}`;
     el.onclick=()=>{ qsDay=dk; closeQsMonthModal(); renderQsDay(); renderQsWeek(); };
     grid.appendChild(el);
   }
