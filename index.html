@@ -565,11 +565,11 @@
     <div class="card-title"><span class="dot" style="background:#3b82f6"></span>Ján Marček Consulting</div>
 
 
-    <div class="task-item" id="t-cloth" onclick="toggle('t-cloth')"><div class="task-check"></div><span class="task-label">LinkedIn Clothing Brands CEO</span><span class="count-pill">10</span></div>
-    <div class="sub-row">
-      <span class="page-label">Strana:</span>
-      <input class="page-input" type="number" id="pg-cloth" value="10" min="1" onchange="savePage('cloth',this.value)">
-      <button class="btn btn-dark" onclick="openLink('cloth')">Otvoriť</button>
+    <div class="task-item" id="t-cloth" onclick="toggle('t-cloth')"><div class="task-check"></div><span class="task-label">Google LinkedIn Clothing Brands CEO</span><span class="count-pill">10</span></div>
+    <div class="sub-row" style="flex-wrap:wrap;gap:6px;">
+      <input class="page-input" type="text" id="cloth-url-input" placeholder="Vlož Google URL…" style="flex:1;min-width:180px;font-size:11px;" oninput="saveClothUrl(this.value)">
+      <button class="btn btn-dark" onclick="openClothUrl()">Otvoriť</button>
+      <button class="btn btn-gold" onclick="copyClothUrl()">Kopírovať URL</button>
       <button class="btn btn-gold" id="cp-cloth" onclick="doCopy('clothing-brands','cp-cloth')">Kopírovať pitch</button>
     </div>
 
@@ -736,6 +736,10 @@
               <button class="dose-btn" onclick="setVitDose(10)">10 ml</button>
               <button class="dose-btn" onclick="setVitDose(15)">15 ml</button>
             </div>
+          </div>
+          <div class="qs-toggle" id="qs-t-elektrolyty" onclick="qsToggle('elektrolyty')">
+            <div class="qs-toggle-left"><span class="qs-toggle-emoji">💧</span>Elektrolyty</div>
+            <div class="qs-switch"></div>
           </div>
           <div class="dose-row">
             <div class="qs-toggle-left"><span class="qs-toggle-emoji">🟣</span>Xanax (mg)</div>
@@ -1080,6 +1084,15 @@ function openLink(type) {
     solar:   `https://www.google.com/search?q=solarne+panely&start=${(pg - 1) * 10}`
   };
   if (urls[type]) window.open(urls[type], '_blank');
+}
+function saveClothUrl(url) { STORE.clothUrl = url; saveStore(); }
+function openClothUrl() { const u = STORE.clothUrl||''; if(u) window.open(u,'_blank'); }
+function copyClothUrl() {
+  const u = STORE.clothUrl||'';
+  navigator.clipboard.writeText(u).then(() => {
+    const btn = event.target; btn.textContent='✓ Skopírované'; btn.classList.add('ok');
+    setTimeout(()=>{ btn.textContent='Kopírovať URL'; btn.classList.remove('ok'); },2000);
+  });
 }
 
 // ══════════════════════════════════════════
@@ -1657,14 +1670,15 @@ let qsMonthDate = new Date();
 
 function qsDayData() {
   const d = STORE.days[qsDay] || (STORE.days[qsDay] = { tasks:{} });
-  if (!d.qs) d.qs = { sleepH:'', bedtime:'', wakeTime:'', nightAwake:false, vitDose:0, xanax:0, outside:false, exercise:false, energetak:false, food:[] };
+  if (!d.qs) d.qs = { sleepH:'', bedtime:'', wakeTime:'', nightAwake:false, vitDose:0, xanax:0, outside:false, exercise:false, energetak:false, elektrolyty:false, food:[] };
   // backwards compat: old boolean vitamin → vitDose
   if (d.qs.vitamin === true  && d.qs.vitDose === undefined) d.qs.vitDose = 10;
   if (d.qs.vitamin === false && d.qs.vitDose === undefined) d.qs.vitDose = 0;
   if (d.qs.vitDose    === undefined) d.qs.vitDose = 0;
   if (d.qs.xanax      === undefined) d.qs.xanax = 0;
-  if (d.qs.energetak  === undefined) d.qs.energetak = false;
-  if (d.qs.fap        === undefined) d.qs.fap = 0;
+  if (d.qs.energetak   === undefined) d.qs.energetak = false;
+  if (d.qs.elektrolyty === undefined) d.qs.elektrolyty = false;
+  if (d.qs.fap         === undefined) d.qs.fap = 0;
   return d.qs;
 }
 function setVitDose(ml) { qsDayData().vitDose = ml; renderQsDay(); saveStore(); renderQsWeek(); renderQsStats(); }
@@ -1696,6 +1710,11 @@ function qsVitamins(q) {
   if (dose > 0) {
     const mult = dose / 15;
     Object.entries(VITAMIN_SUPPLEMENT).forEach(([k,v]) => { totals[k]=(totals[k]||0)+v*mult; });
+  }
+  if (q.elektrolyty) {
+    totals.Mg = (totals.Mg||0) + 56;
+    totals.Ka = (totals.Ka||0) + 100;
+    totals.Ca = (totals.Ca||0) + 80;
   }
   return totals;
 }
@@ -1744,7 +1763,7 @@ function renderQsDay() {
   const bt = document.getElementById('qs-bedtime'); if (bt) bt.value = q.bedtime || '';
   const wt = document.getElementById('qs-waketime'); if (wt) wt.value = q.wakeTime || '';
 
-  ['nightAwake','outside','exercise','energetak'].forEach(f => {
+  ['nightAwake','outside','exercise','energetak','elektrolyty'].forEach(f => {
     const el = document.getElementById('qs-t-'+f); if (el) el.classList.toggle('on', !!q[f]);
   });
 
@@ -2106,6 +2125,8 @@ async function init() {
   Object.entries(STORE.globalPages).forEach(([k, v]) => {
     const el = document.getElementById('pg-' + k); if (el) el.value = v;
   });
+  if (!STORE.clothUrl) STORE.clothUrl = 'https://www.google.com/search?q=site:linkedin.com/in+intitle:%22clothing+brand+owner%22';
+  const clothInp = document.getElementById('cloth-url-input'); if (clothInp) clothInp.value = STORE.clothUrl;
   showPage('main');
   renderDayNav();
   applyDayState();
