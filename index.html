@@ -410,8 +410,9 @@
     .wd-nrg { color: #78350F; background: #FEF9C3; }
     .wd-xan { color: #5B21B6; background: #EDE9FE; }
     .wd-fap { color: #5B21B6; background: #FCE7F3; }
+    .wd-elk { color: #0E7490; background: #CFFAFE; }
     /* Weekly stats row */
-    .qs-week-stats { display: grid; grid-template-columns: repeat(6,1fr); gap: 6px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+    .qs-week-stats { display: grid; grid-template-columns: repeat(7,1fr); gap: 6px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
     /* Open monthly button */
     .btn-open-month { width: 100%; padding: 12px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; font-size: 13px; font-weight: 700; color: var(--blue); cursor: pointer; font-family: inherit; transition: all .15s; }
     .btn-open-month:hover { background: var(--blue-light); border-color: var(--blue-bdr); }
@@ -441,6 +442,7 @@
     .qs-mday-vit { color: #065F46; background: #D1FAE5; }
     .qs-mday-xan { color: #5B21B6; background: #EDE9FE; }
     .qs-mday-fap { color: #9D174D; background: #FCE7F3; }
+    .qs-mday-elk { color: #0E7490; background: #CFFAFE; }
     .qs-mday-out { color: #1E40AF; background: #DBEAFE; }
     .qs-mday-ex  { color: #92400E; background: #FEF3C7; }
     /* Dose / Xanax buttons */
@@ -838,11 +840,13 @@
           <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-kcal">—</div><div class="qs-stat-lbl">Avg kcal</div></div>
           <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-prot">—</div><div class="qs-stat-lbl">Avg proteín</div></div>
           <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-vitamin">0/0</div><div class="qs-stat-lbl">💊 Vitamín</div></div>
+          <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-elektrolyty">0/0</div><div class="qs-stat-lbl">💧 Elektrolyty</div></div>
           <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-outside">0/0</div><div class="qs-stat-lbl">🌿 Vonku</div></div>
           <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-exercise">0/0</div><div class="qs-stat-lbl">💪 Cvičenie</div></div>
         </div>
         <div class="qs-bar-group" style="margin-top:16px;">
           <div class="qs-bar-row"><span class="qs-bar-lbl">💊 Vitamín</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-vitamin" style="width:0%;background:#10B981"></div></div><span class="qs-bar-pct" id="qs-pct-vitamin">0%</span></div>
+          <div class="qs-bar-row"><span class="qs-bar-lbl">💧 Elektrolyty</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-elektrolyty" style="width:0%;background:#06B6D4"></div></div><span class="qs-bar-pct" id="qs-pct-elektrolyty">0%</span></div>
           <div class="qs-bar-row"><span class="qs-bar-lbl">🌿 Vonku</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-outside" style="width:0%;background:#3B82F6"></div></div><span class="qs-bar-pct" id="qs-pct-outside">0%</span></div>
           <div class="qs-bar-row"><span class="qs-bar-lbl">💪 Cvičenie</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-exercise" style="width:0%;background:#F59E0B"></div></div><span class="qs-bar-pct" id="qs-pct-exercise">0%</span></div>
           <div class="qs-bar-row"><span class="qs-bar-lbl">😴 Spánok 7h+</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-sleep" style="width:0%;background:#818CF8"></div></div><span class="qs-bar-pct" id="qs-pct-sleep">0%</span></div>
@@ -1962,11 +1966,11 @@ function renderQsStats() {
   } else {
     daysElapsed = 0;
   }
-  let vitC=0, outC=0, exC=0, sleepC=0, sleepSum=0, kcalC=0, kcalSum=0, protSum=0, sleepGoodC=0;
+  let vitC=0, outC=0, exC=0, elkC=0, sleepC=0, sleepSum=0, kcalC=0, kcalSum=0, protSum=0, sleepGoodC=0;
   for (let d=1;d<=days;d++) {
     const dk = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const qs = STORE.days[dk]?.qs; if(!qs) continue;
-    if (vitDoseOf(qs)>0) vitC++; if (qs.outside) outC++; if (qs.exercise) exC++;
+    if (vitDoseOf(qs)>0) vitC++; if (qs.outside) outC++; if (qs.exercise) exC++; if (qs.elektrolyty) elkC++;
     if (qs.sleepH)  { sleepSum+=parseFloat(qs.sleepH); sleepC++; if(parseFloat(qs.sleepH)>=7) sleepGoodC++; }
     if (qs.food?.length) { const m=qsMacros(qs); kcalSum+=m.kcal; protSum+=m.prot; kcalC++; }
   }
@@ -1977,11 +1981,12 @@ function renderQsStats() {
   document.getElementById('qs-stat-sleep').textContent   = avgSleep;
   document.getElementById('qs-stat-kcal').textContent    = avgKcal;
   document.getElementById('qs-stat-prot').textContent    = avgProt;
-  document.getElementById('qs-stat-vitamin').textContent  = `${vitC}/${daysElapsed}`;
-  document.getElementById('qs-stat-outside').textContent  = `${outC}/${daysElapsed}`;
-  document.getElementById('qs-stat-exercise').textContent = `${exC}/${daysElapsed}`;
+  document.getElementById('qs-stat-vitamin').textContent     = `${vitC}/${daysElapsed}`;
+  document.getElementById('qs-stat-elektrolyty').textContent = `${elkC}/${daysElapsed}`;
+  document.getElementById('qs-stat-outside').textContent     = `${outC}/${daysElapsed}`;
+  document.getElementById('qs-stat-exercise').textContent    = `${exC}/${daysElapsed}`;
   const pct = k => daysElapsed>0 ? Math.round(k/daysElapsed*100) : 0;
-  [['vitamin',vitC],['outside',outC],['exercise',exC],['sleep',sleepGoodC]].forEach(([k,v]) => {
+  [['vitamin',vitC],['elektrolyty',elkC],['outside',outC],['exercise',exC],['sleep',sleepGoodC]].forEach(([k,v]) => {
     const p = pct(v);
     const bar = document.getElementById('qs-bar-'+k); if (bar) bar.style.width=p+'%';
     const lbl = document.getElementById('qs-pct-'+k); if (lbl) lbl.textContent=p+'%';
@@ -2017,6 +2022,7 @@ function renderQsWeek() {
         ${qs?.exercise?'<span class="wd-tag wd-ex">💪 Cvič.</span>':''}
         ${qs?.energetak?'<span class="wd-tag wd-nrg">⚡ Energ.</span>':''}
         ${qs?.xanax>0?`<span class="wd-tag wd-xan">🟣 ${qs.xanax}mg</span>`:''}
+        ${qs?.elektrolyty?'<span class="wd-tag wd-elk">💧 Elk.</span>':''}
         ${qs?.fap>0?`<span class="wd-tag wd-fap">🍆 ${qs.fap}x</span>`:''}
       </div>`;
     el.onclick = () => { qsDay = dk; renderQsDay(); renderQsWeek(); };
@@ -2027,11 +2033,11 @@ function renderQsWeek() {
   if (lbl) lbl.textContent = `${qsWeekStart.getDate()}. – ${end.getDate()}. ${end.toLocaleDateString('sk-SK',{month:'long',year:'numeric'})}`;
 
   // Weekly stats
-  let vitC=0,outC=0,exC=0,slpSum=0,slpC=0,kcalSum=0,kcalC=0,fapSum=0,dwd=0;
+  let vitC=0,outC=0,exC=0,elkC=0,slpSum=0,slpC=0,kcalSum=0,kcalC=0,fapSum=0,dwd=0;
   for (let i=0;i<7;i++) {
     const d2=new Date(qsWeekStart); d2.setDate(d2.getDate()+i);
     const qs2=STORE.days[toDateKey(d2)]?.qs; if(!qs2) continue; dwd++;
-    if(vitDoseOf(qs2)>0) vitC++; if(qs2.outside) outC++; if(qs2.exercise) exC++;
+    if(vitDoseOf(qs2)>0) vitC++; if(qs2.outside) outC++; if(qs2.exercise) exC++; if(qs2.elektrolyty) elkC++;
     if(qs2.sleepH) { slpSum+=parseFloat(qs2.sleepH); slpC++; }
     if(qs2.food?.length) { const m=qsMacros(qs2); kcalSum+=m.kcal; kcalC++; }
     fapSum += (qs2.fap||0);
@@ -2041,6 +2047,7 @@ function renderQsWeek() {
     ['😴', slpC?(slpSum/slpC).toFixed(1)+'h':'—','Avg spánok'],
     ['🍽', kcalC?Math.round(kcalSum/kcalC)+'':'—','Avg kcal'],
     ['💊', vitC+'/'+dwd,'Vitamín'],
+    ['💧', elkC+'/'+dwd,'Elektrolyty'],
     ['🌿', outC+'/'+dwd,'Vonku'],
     ['💪', exC+'/'+dwd,'Cvičenie'],
     ['🍆', fapSum+'x','Fap'],
@@ -2081,6 +2088,7 @@ function renderQsMonthModal() {
       ${m?`<div class="qs-mday-kcal">🍽 ${m.kcal} kcal</div>`:''}
       ${mvd>0?`<div class="qs-mday-tag qs-mday-vit">💊 ${mvd}ml</div>`:''}
       ${qs?.xanax>0?`<div class="qs-mday-tag qs-mday-xan">🟣 ${qs.xanax}mg</div>`:''}
+      ${qs?.elektrolyty?'<div class="qs-mday-tag qs-mday-elk">💧 Elk.</div>':''}
       ${qs?.outside?'<div class="qs-mday-tag qs-mday-out">🌿 Vonku</div>':''}
       ${qs?.exercise?'<div class="qs-mday-tag qs-mday-ex">💪 Cvičenie</div>':''}
       ${qs?.fap>0?`<div class="qs-mday-tag qs-mday-fap">🍆 ${qs.fap}x</div>`:''}`;
