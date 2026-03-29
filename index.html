@@ -412,7 +412,7 @@
     .wd-fap { color: #5B21B6; background: #FCE7F3; }
     .wd-elk { color: #0E7490; background: #CFFAFE; }
     /* Weekly stats row */
-    .qs-week-stats { display: grid; grid-template-columns: repeat(7,1fr); gap: 6px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+    .qs-week-stats { display: grid; grid-template-columns: repeat(8,1fr); gap: 6px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
     /* Open monthly button */
     .btn-open-month { width: 100%; padding: 12px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; font-size: 13px; font-weight: 700; color: var(--blue); cursor: pointer; font-family: inherit; transition: all .15s; }
     .btn-open-month:hover { background: var(--blue-light); border-color: var(--blue-bdr); }
@@ -2063,11 +2063,11 @@ function renderQsWeek() {
   if (lbl) lbl.textContent = `${qsWeekStart.getDate()}. – ${end.getDate()}. ${end.toLocaleDateString('sk-SK',{month:'long',year:'numeric'})}`;
 
   // Weekly stats
-  let vitC=0,outC=0,exC=0,elkC=0,slpSum=0,slpC=0,kcalSum=0,kcalC=0,fapSum=0,dwd=0;
+  let vitC=0,outC=0,exC=0,elkC=0,nrgC=0,slpSum=0,slpC=0,kcalSum=0,kcalC=0,fapSum=0,dwd=0;
   for (let i=0;i<7;i++) {
     const d2=new Date(qsWeekStart); d2.setDate(d2.getDate()+i);
     const qs2=STORE.days[toDateKey(d2)]?.qs; if(!qs2) continue; dwd++;
-    if(vitDoseOf(qs2)>0) vitC++; if(qs2.outside) outC++; if(qs2.exercise) exC++; if((qs2.elektrolyty||0)>0) elkC++;
+    if(vitDoseOf(qs2)>0) vitC++; if(qs2.outside) outC++; if(qs2.exercise) exC++; if((qs2.elektrolyty||0)>0) elkC++; if(qs2.energetak) nrgC++;
     if(qs2.sleepH) { slpSum+=parseFloat(qs2.sleepH); slpC++; }
     if(qs2.food?.length) { const m=qsMacros(qs2); kcalSum+=m.kcal; kcalC++; }
     fapSum += (qs2.fap||0);
@@ -2080,6 +2080,7 @@ function renderQsWeek() {
     ['💧', elkC+'/'+dwd,'Elektrolyty'],
     ['🌿', outC+'/'+dwd,'Vonku'],
     ['💪', exC+'/'+dwd,'Cvičenie'],
+    ['⚡', nrgC+'x','Energeťak'],
     ['🍆', fapSum+'x','Fap'],
   ].map(([e,v,l])=>`<div class="qs-stat"><div class="qs-stat-val" style="font-size:14px;">${e} ${v}</div><div class="qs-stat-lbl">${l}</div></div>`).join('');
 }
