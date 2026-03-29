@@ -1892,6 +1892,7 @@ function dayScore(qs) {
   if (!qs.outside)                                   s--; // nebol vonku
   if (!qs.exercise)                                  s--; // necvičil
   if ((qs.fap || 0) > 1)                            s--; // fap > 1x
+  if (qs.energetak)                                  s--; // energetak
   return s;
 }
 
@@ -2099,7 +2100,9 @@ function renderQsMonthModal() {
   for(let d=1;d<=days;d++){
     const dk=`${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const qs=STORE.days[dk]?.qs;
-    const el=document.createElement('div'); el.className='qs-mday'+(dk===qsDay?' qs-msel':'');
+    const sc = dayScore(qs);
+    const scoreBorder = sc === null ? '' : sc <= -2 ? 'border-color:#EF4444;' : sc <= 1 ? 'border-color:#F97316;' : 'border-color:#22C55E;';
+    const el=document.createElement('div'); el.className='qs-mday'+(dk===qsDay?' qs-msel':''); el.style.cssText=scoreBorder;
     const m = qs?.food?.length ? qsMacros(qs) : null;
     const mvd = vitDoseOf(qs||{});
     el.innerHTML=`<div class="qs-mday-num">${d}.</div>
