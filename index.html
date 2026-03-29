@@ -847,6 +847,9 @@
           <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-elektrolyty">0/0</div><div class="qs-stat-lbl">💧 Elektrolyty</div></div>
           <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-outside">0/0</div><div class="qs-stat-lbl">🌿 Vonku</div></div>
           <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-exercise">0/0</div><div class="qs-stat-lbl">💪 Cvičenie</div></div>
+          <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-energetak">0/0</div><div class="qs-stat-lbl">⚡ Energeťak</div></div>
+          <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-xanax">0mg</div><div class="qs-stat-lbl">🟣 Xanax avg</div></div>
+          <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-fap">0x</div><div class="qs-stat-lbl">🍆 Fap total</div></div>
         </div>
         <div class="qs-bar-group" style="margin-top:16px;">
           <div class="qs-bar-row"><span class="qs-bar-lbl">💊 Vitamín</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-vitamin" style="width:0%;background:#10B981"></div></div><span class="qs-bar-pct" id="qs-pct-vitamin">0%</span></div>
@@ -854,6 +857,7 @@
           <div class="qs-bar-row"><span class="qs-bar-lbl">🌿 Vonku</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-outside" style="width:0%;background:#3B82F6"></div></div><span class="qs-bar-pct" id="qs-pct-outside">0%</span></div>
           <div class="qs-bar-row"><span class="qs-bar-lbl">💪 Cvičenie</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-exercise" style="width:0%;background:#F59E0B"></div></div><span class="qs-bar-pct" id="qs-pct-exercise">0%</span></div>
           <div class="qs-bar-row"><span class="qs-bar-lbl">😴 Spánok 7h+</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-sleep" style="width:0%;background:#818CF8"></div></div><span class="qs-bar-pct" id="qs-pct-sleep">0%</span></div>
+          <div class="qs-bar-row"><span class="qs-bar-lbl">⚡ Energeťak</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-energetak" style="width:0%;background:#EAB308"></div></div><span class="qs-bar-pct" id="qs-pct-energetak">0%</span></div>
         </div>
         <!-- Score chart -->
         <div style="margin-top:16px;">
@@ -1986,11 +1990,14 @@ function renderQsStats() {
   } else {
     daysElapsed = 0;
   }
-  let vitC=0, outC=0, exC=0, elkC=0, sleepC=0, sleepSum=0, kcalC=0, kcalSum=0, protSum=0, sleepGoodC=0;
+  let vitC=0, outC=0, exC=0, elkC=0, nrgC=0, xanaxSum=0, xanaxDays=0, fapTotal=0, sleepC=0, sleepSum=0, kcalC=0, kcalSum=0, protSum=0, sleepGoodC=0, dwd=0;
   for (let d=1;d<=days;d++) {
     const dk = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const qs = STORE.days[dk]?.qs; if(!qs) continue;
+    const qs = STORE.days[dk]?.qs; if(!qs) continue; dwd++;
     if (vitDoseOf(qs)>0) vitC++; if (qs.outside) outC++; if (qs.exercise) exC++; if ((qs.elektrolyty||0)>0) elkC++;
+    if (qs.energetak) nrgC++;
+    if ((qs.xanax||0) > 0) { xanaxSum += qs.xanax; xanaxDays++; }
+    fapTotal += (qs.fap||0);
     if (qs.sleepH)  { sleepSum+=parseFloat(qs.sleepH); sleepC++; if(parseFloat(qs.sleepH)>=7) sleepGoodC++; }
     if (qs.food?.length) { const m=qsMacros(qs); kcalSum+=m.kcal; protSum+=m.prot; kcalC++; }
   }
@@ -2005,8 +2012,11 @@ function renderQsStats() {
   document.getElementById('qs-stat-elektrolyty').textContent = `${elkC}/${daysElapsed}`;
   document.getElementById('qs-stat-outside').textContent     = `${outC}/${daysElapsed}`;
   document.getElementById('qs-stat-exercise').textContent    = `${exC}/${daysElapsed}`;
+  document.getElementById('qs-stat-energetak').textContent   = `${nrgC}/${daysElapsed}`;
+  document.getElementById('qs-stat-xanax').textContent       = xanaxDays ? (xanaxSum/xanaxDays).toFixed(2)+'mg avg' : '0mg';
+  document.getElementById('qs-stat-fap').textContent         = fapTotal+'x';
   const pct = k => daysElapsed>0 ? Math.round(k/daysElapsed*100) : 0;
-  [['vitamin',vitC],['elektrolyty',elkC],['outside',outC],['exercise',exC],['sleep',sleepGoodC]].forEach(([k,v]) => {
+  [['vitamin',vitC],['elektrolyty',elkC],['outside',outC],['exercise',exC],['sleep',sleepGoodC],['energetak',nrgC]].forEach(([k,v]) => {
     const p = pct(v);
     const bar = document.getElementById('qs-bar-'+k); if (bar) bar.style.width=p+'%';
     const lbl = document.getElementById('qs-pct-'+k); if (lbl) lbl.textContent=p+'%';
