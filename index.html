@@ -1654,24 +1654,25 @@ const QS_FOODS = {
 // Vitamin supplement — values for full 15ml dose (multiply by vitDose/15)
 const VITAMIN_SUPPLEMENT = {
   vitA:800, vitC:1000, vitD:30, vitB1:30, vitB2:30, vitB6:20,
-  vitB12:100, vitFo:400, Ca:45, Fe:3.5, Mg:13.4, Ka:107, Zn:7
+  vitB12:100, vitFo:400, Ca:45, Fe:3.5, Mg:13.4, Ka:107, Zn:7, vitK2:0
 };
 
-// Daily goals — male, 25 years, 187 cm (EU/WHO RDI)
+// Daily goals — personal supplement stack
 const VITAMIN_GOALS = {
-  vitA:  { goal:900,  unit:'mcg', label:'Vit. A'   },
-  vitC:  { goal:90,   unit:'mg',  label:'Vit. C'   },
-  vitD:  { goal:15,   unit:'mcg', label:'Vit. D'   },
-  vitB1: { goal:1.2,  unit:'mg',  label:'B1'        },
-  vitB2: { goal:1.3,  unit:'mg',  label:'B2'        },
-  vitB6: { goal:1.3,  unit:'mg',  label:'B6'        },
-  vitB12:{ goal:2.4,  unit:'mcg', label:'B12'       },
-  vitFo: { goal:400,  unit:'mcg', label:'Folát'     },
-  Ca:    { goal:1000, unit:'mg',  label:'Vápnik'    },
-  Fe:    { goal:8,    unit:'mg',  label:'Železo'    },
-  Mg:    { goal:420,  unit:'mg',  label:'Horčík'    },
-  Ka:    { goal:3500, unit:'mg',  label:'Draslík'   },
-  Zn:    { goal:11,   unit:'mg',  label:'Zinok'     },
+  vitD:  { goal:62,   unit:'mcg', label:'Vit. D3'      },  // 2500 IU
+  vitK2: { goal:100,  unit:'mcg', label:'Vit. K2'      },
+  Mg:    { goal:350,  unit:'mg',  label:'Horčík'        },  // glycinát 300–400mg
+  vitB12:{ goal:750,  unit:'mcg', label:'B12 methyl'   },  // methylcobalamin 500–1000mcg
+  vitFo: { goal:400,  unit:'mcg', label:'Methylfolát'  },
+  Zn:    { goal:15,   unit:'mg',  label:'Zinok'         },
+  vitC:  { goal:500,  unit:'mg',  label:'Vit. C'        },
+  vitB6: { goal:10,   unit:'mg',  label:'B6'            },
+  Fe:    { goal:9,    unit:'mg',  label:'Železo'        },  // 8–10mg
+  vitA:  { goal:900,  unit:'mcg', label:'Vit. A'        },
+  vitB1: { goal:1.2,  unit:'mg',  label:'B1'            },
+  vitB2: { goal:1.3,  unit:'mg',  label:'B2'            },
+  Ca:    { goal:1000, unit:'mg',  label:'Vápnik'        },
+  Ka:    { goal:3500, unit:'mg',  label:'Draslík'       },
 };
 
 function toDateKey(d) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
