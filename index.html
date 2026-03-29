@@ -739,9 +739,13 @@
               <button class="dose-btn" onclick="setVitDose(15)">15 ml</button>
             </div>
           </div>
-          <div class="qs-toggle" id="qs-t-elektrolyty" onclick="qsToggle('elektrolyty')">
+          <div class="dose-row">
             <div class="qs-toggle-left"><span class="qs-toggle-emoji">💧</span>Elektrolyty</div>
-            <div class="qs-switch"></div>
+            <div class="dose-btns" id="elk-dose-btns">
+              <button class="dose-btn" data-elkval="0"   onclick="setElektrolyty(0)">0</button>
+              <button class="dose-btn" data-elkval="0.5" onclick="setElektrolyty(0.5)">½</button>
+              <button class="dose-btn" data-elkval="1"   onclick="setElektrolyty(1)">1</button>
+            </div>
           </div>
           <div class="dose-row">
             <div class="qs-toggle-left"><span class="qs-toggle-emoji">🟣</span>Xanax (mg)</div>
@@ -1676,19 +1680,22 @@ let qsMonthDate = new Date();
 
 function qsDayData() {
   const d = STORE.days[qsDay] || (STORE.days[qsDay] = { tasks:{} });
-  if (!d.qs) d.qs = { sleepH:'', bedtime:'', wakeTime:'', nightAwake:false, vitDose:0, xanax:0, outside:false, exercise:false, energetak:false, elektrolyty:false, food:[] };
+  if (!d.qs) d.qs = { sleepH:'', bedtime:'', wakeTime:'', nightAwake:false, vitDose:0, xanax:0, outside:false, exercise:false, energetak:false, elektrolyty:0, food:[] };
   // backwards compat: old boolean vitamin → vitDose
   if (d.qs.vitamin === true  && d.qs.vitDose === undefined) d.qs.vitDose = 10;
   if (d.qs.vitamin === false && d.qs.vitDose === undefined) d.qs.vitDose = 0;
   if (d.qs.vitDose    === undefined) d.qs.vitDose = 0;
   if (d.qs.xanax      === undefined) d.qs.xanax = 0;
   if (d.qs.energetak   === undefined) d.qs.energetak = false;
-  if (d.qs.elektrolyty === undefined) d.qs.elektrolyty = false;
+  if (d.qs.elektrolyty === true)  d.qs.elektrolyty = 1;   // backwards compat
+  if (d.qs.elektrolyty === false) d.qs.elektrolyty = 0;   // backwards compat
+  if (d.qs.elektrolyty === undefined) d.qs.elektrolyty = 0;
   if (d.qs.fap         === undefined) d.qs.fap = 0;
   return d.qs;
 }
-function setVitDose(ml) { qsDayData().vitDose = ml; renderQsDay(); saveStore(); renderQsWeek(); renderQsStats(); }
-function setXanax(mg)   { qsDayData().xanax   = mg; renderQsDay(); saveStore(); renderQsWeek(); }
+function setVitDose(ml)      { qsDayData().vitDose    = ml;  renderQsDay(); saveStore(); renderQsWeek(); renderQsStats(); }
+function setXanax(mg)        { qsDayData().xanax      = mg;  renderQsDay(); saveStore(); renderQsWeek(); }
+function setElektrolyty(val) { qsDayData().elektrolyty = val; renderQsDay(); saveStore(); renderQsWeek(); renderQsStats(); }
 function setFap(n)      { qsDayData().fap     = n;  renderQsDay(); saveStore(); }
 function vitDoseOf(qs)  { return (qs.vitDose !== undefined ? qs.vitDose : (qs.vitamin ? 10 : 0)); }
 function qsSaveField(field, val) { qsDayData()[field] = val; saveStore(); renderQsStats(); }
@@ -1717,10 +1724,11 @@ function qsVitamins(q) {
     const mult = dose / 15;
     Object.entries(VITAMIN_SUPPLEMENT).forEach(([k,v]) => { totals[k]=(totals[k]||0)+v*mult; });
   }
-  if (q.elektrolyty) {
-    totals.Mg = (totals.Mg||0) + 56;
-    totals.Ka = (totals.Ka||0) + 100;
-    totals.Ca = (totals.Ca||0) + 80;
+  if (q.elektrolyty > 0) {
+    const em = q.elektrolyty; // 0.5 or 1
+    totals.Mg = (totals.Mg||0) + 56  * em;
+    totals.Ka = (totals.Ka||0) + 100 * em;
+    totals.Ca = (totals.Ca||0) + 80  * em;
   }
   return totals;
 }
@@ -1769,7 +1777,7 @@ function renderQsDay() {
   const bt = document.getElementById('qs-bedtime'); if (bt) bt.value = q.bedtime || '';
   const wt = document.getElementById('qs-waketime'); if (wt) wt.value = q.wakeTime || '';
 
-  ['nightAwake','outside','exercise','energetak','elektrolyty'].forEach(f => {
+  ['nightAwake','outside','exercise','energetak'].forEach(f => {
     const el = document.getElementById('qs-t-'+f); if (el) el.classList.toggle('on', !!q[f]);
   });
 
@@ -1783,6 +1791,12 @@ function renderQsDay() {
   const xv = q.xanax || 0;
   document.querySelectorAll('#xanax-dose-btns .dose-btn').forEach(b => {
     b.classList.toggle('xanax-on', parseFloat(b.dataset.val) === xv);
+  });
+
+  // Elektrolyty buttons
+  const ev = q.elektrolyty || 0;
+  document.querySelectorAll('#elk-dose-btns .dose-btn').forEach(b => {
+    b.classList.toggle('dose-on', parseFloat(b.dataset.elkval) === ev);
   });
 
   // Fap buttons
@@ -1972,7 +1986,7 @@ function renderQsStats() {
   for (let d=1;d<=days;d++) {
     const dk = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const qs = STORE.days[dk]?.qs; if(!qs) continue;
-    if (vitDoseOf(qs)>0) vitC++; if (qs.outside) outC++; if (qs.exercise) exC++; if (qs.elektrolyty) elkC++;
+    if (vitDoseOf(qs)>0) vitC++; if (qs.outside) outC++; if (qs.exercise) exC++; if ((qs.elektrolyty||0)>0) elkC++;
     if (qs.sleepH)  { sleepSum+=parseFloat(qs.sleepH); sleepC++; if(parseFloat(qs.sleepH)>=7) sleepGoodC++; }
     if (qs.food?.length) { const m=qsMacros(qs); kcalSum+=m.kcal; protSum+=m.prot; kcalC++; }
   }
@@ -2024,7 +2038,7 @@ function renderQsWeek() {
         ${qs?.exercise?'<span class="wd-tag wd-ex">💪 Cvič.</span>':''}
         ${qs?.energetak?'<span class="wd-tag wd-nrg">⚡ Energ.</span>':''}
         ${qs?.xanax>0?`<span class="wd-tag wd-xan">🟣 ${qs.xanax}mg</span>`:''}
-        ${qs?.elektrolyty?'<span class="wd-tag wd-elk">💧 Elk.</span>':''}
+        ${(qs?.elektrolyty||0)>0?`<span class="wd-tag wd-elk">💧 ${qs.elektrolyty===0.5?'½':'1'}</span>`:''}
         ${qs?.fap>0?`<span class="wd-tag wd-fap">🍆 ${qs.fap}x</span>`:''}
       </div>`;
     el.onclick = () => { qsDay = dk; renderQsDay(); renderQsWeek(); };
@@ -2039,7 +2053,7 @@ function renderQsWeek() {
   for (let i=0;i<7;i++) {
     const d2=new Date(qsWeekStart); d2.setDate(d2.getDate()+i);
     const qs2=STORE.days[toDateKey(d2)]?.qs; if(!qs2) continue; dwd++;
-    if(vitDoseOf(qs2)>0) vitC++; if(qs2.outside) outC++; if(qs2.exercise) exC++; if(qs2.elektrolyty) elkC++;
+    if(vitDoseOf(qs2)>0) vitC++; if(qs2.outside) outC++; if(qs2.exercise) exC++; if((qs2.elektrolyty||0)>0) elkC++;
     if(qs2.sleepH) { slpSum+=parseFloat(qs2.sleepH); slpC++; }
     if(qs2.food?.length) { const m=qsMacros(qs2); kcalSum+=m.kcal; kcalC++; }
     fapSum += (qs2.fap||0);
@@ -2090,7 +2104,7 @@ function renderQsMonthModal() {
       ${m?`<div class="qs-mday-kcal">🍽 ${m.kcal} kcal</div>`:''}
       ${mvd>0?`<div class="qs-mday-tag qs-mday-vit">💊 ${mvd}ml</div>`:''}
       ${qs?.xanax>0?`<div class="qs-mday-tag qs-mday-xan">🟣 ${qs.xanax}mg</div>`:''}
-      ${qs?.elektrolyty?'<div class="qs-mday-tag qs-mday-elk">💧 Elk.</div>':''}
+      ${(qs?.elektrolyty||0)>0?`<div class="qs-mday-tag qs-mday-elk">💧 ${qs.elektrolyty===0.5?'½':'1'}</div>`:''}
       ${qs?.outside?'<div class="qs-mday-tag qs-mday-out">🌿 Vonku</div>':''}
       ${qs?.exercise?'<div class="qs-mday-tag qs-mday-ex">💪 Cvičenie</div>':''}
       ${qs?.fap>0?`<div class="qs-mday-tag qs-mday-fap">🍆 ${qs.fap}x</div>`:''}`;
