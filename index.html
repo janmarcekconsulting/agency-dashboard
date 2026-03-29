@@ -504,24 +504,20 @@
     <div class="mr-item" id="mr-teeth"     onclick="toggleMR('mr-teeth')">    <div class="mr-check"></div><span>🪥 Brush teeth</span></div>
     <div class="mr-item" id="mr-groceries" onclick="toggleMR('mr-groceries')"><div class="mr-check"></div><span>🛒 Groceries</span></div>
     <div class="mr-item" id="mr-eat"       onclick="toggleMR('mr-eat')">      <div class="mr-check"></div><span>🍳 Eat</span></div>
-    <div class="mr-item" id="mr-read"      onclick="toggleMR('mr-read')">     <div class="mr-check"></div><span>📖 Read Transcendence</span></div>
-    <div class="mr-item" id="mr-shower"    onclick="toggleMR('mr-shower')">   <div class="mr-check"></div><span>🚿 Shower</span></div>
-    <div class="mr-item" id="mr-sleep"     onclick="toggleMR('mr-sleep')">    <div class="mr-check"></div><span>😴 Track sleep</span></div>
-    <div class="mr-item" id="mr-start"     onclick="toggleMR('mr-start')">    <div class="mr-check"></div><span>🚀 Start day</span></div>
     <div class="mr-progress">
       <div class="mr-progress-row">
-        <span class="mr-progress-txt" id="mr-txt">0 / 8</span>
+        <span class="mr-progress-txt" id="mr-txt">0 / 4</span>
         <span class="mr-progress-txt" id="mr-pct">0%</span>
       </div>
       <div class="mr-bar-wrap"><div class="mr-bar-fill" id="mr-bar" style="width:0%"></div></div>
     </div>
   </div>
 
-  <!-- LEFT COLUMN: ZD + Dočasné úlohy -->
+  <!-- LEFT COLUMN: WS1 + Dočasné úlohy -->
   <div style="display:flex;flex-direction:column;gap:16px;">
   <!-- ZÍSKAJ DOPYT -->
   <div class="card">
-    <div class="card-title"><span class="dot"></span>Získaj Dopyt — Denné úlohy</div>
+    <div class="card-title"><span class="dot"></span>Work Sheet 1</div>
 
     <div class="task-item" id="t-calls" onclick="toggle('t-calls')"><div class="task-check"></div><span class="task-label">Cold calls</span><span class="count-pill">150</span></div>
     <div class="sub-row">
@@ -530,6 +526,28 @@
     <div class="task-item" id="t-call-fu" onclick="toggle('t-call-fu')"><div class="task-check"></div><span class="task-label">Call followup</span></div>
     <div class="task-item" id="t-email" onclick="toggle('t-email')"><div class="task-check"></div><span class="task-label">Email send</span><span class="count-pill">400</span></div>
     <div class="task-item" id="t-email-fu" onclick="toggle('t-email-fu')"><div class="task-check"></div><span class="task-label">Email followup</span></div>
+
+    <div class="progress-row">
+      <span id="ag-txt">0 / 4</span>
+      <div class="pbar-wrap"><div class="pbar-fill" id="ag-bar" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <!-- Dočasné úlohy (under WS1) -->
+  <div class="card temp-card">
+    <div class="card-title"><span class="dot" style="background:#3b82f6"></span>Dočasné úlohy</div>
+    <div class="temp-add-row">
+      <input class="temp-input" id="temp-input" type="text" placeholder="Pridať úlohu..." onkeydown="if(event.key==='Enter')addTemp()">
+      <button class="btn-add" onclick="addTemp()">+</button>
+    </div>
+    <div class="temp-list" id="temp-list"></div>
+  </div>
+  </div><!-- end left column -->
+
+  <!-- WORK SHEET 2 -->
+  <div class="card">
+    <div class="card-title"><span class="dot" style="background:#3b82f6"></span>Work Sheet 2</div>
+
     <div class="task-item" id="t-li-fu" onclick="toggle('t-li-fu')"><div class="task-check"></div><span class="task-label">LinkedIn Followups</span></div>
     <div class="sub-row">
       <button class="btn btn-gold" id="cp-li-fu" onclick="doCopy('ceo-connect','cp-li-fu')">Kopírovať pitch</button>
@@ -543,29 +561,7 @@
       <button class="btn btn-gold" id="cp-ceo" onclick="doCopy('ceo-connect','cp-ceo')">Kopírovať pitch</button>
     </div>
 
-    <div class="task-item" id="t-blog" onclick="toggle('t-blog')"><div class="task-check"></div><span class="task-label">3 Blog posts — ziskajdopyt.sk</span><span class="count-pill">3</span></div>
-
-    <div class="progress-row">
-      <span id="ag-txt">0 / 7</span>
-      <div class="pbar-wrap"><div class="pbar-fill" id="ag-bar" style="width:0%"></div></div>
-    </div>
-  </div>
-
-  <!-- Dočasné úlohy (under ZD) -->
-  <div class="card temp-card">
-    <div class="card-title"><span class="dot" style="background:#3b82f6"></span>Dočasné úlohy</div>
-    <div class="temp-add-row">
-      <input class="temp-input" id="temp-input" type="text" placeholder="Pridať úlohu..." onkeydown="if(event.key==='Enter')addTemp()">
-      <button class="btn-add" onclick="addTemp()">+</button>
-    </div>
-    <div class="temp-list" id="temp-list"></div>
-  </div>
-  </div><!-- end left column -->
-
-  <!-- JÁN MARČEK CONSULTING -->
-  <div class="card">
-    <div class="card-title"><span class="dot" style="background:#3b82f6"></span>Ján Marček Consulting</div>
-
+    <div class="task-item" id="t-blog" onclick="toggle('t-blog')"><div class="task-check"></div><span class="task-label">3 Blog posts</span><span class="count-pill">3</span></div>
 
     <div class="task-item" id="t-cloth" onclick="toggle('t-cloth')"><div class="task-check"></div><span class="task-label">Google LinkedIn Clothing Brands CEO</span><span class="count-pill">10</span></div>
     <div class="sub-row" style="flex-wrap:wrap;gap:6px;">
@@ -643,7 +639,7 @@
     <div class="task-item" id="t-jmc" onclick="toggle('t-jmc')"><div class="task-check"></div><span class="task-label">Jan Marcek Consulting — followups</span></div>
 
     <div class="progress-row">
-      <span id="cl-txt">0 / 5</span>
+      <span id="cl-txt">0 / 10</span>
       <div class="pbar-wrap"><div class="pbar-fill" id="cl-bar" style="width:0%"></div></div>
     </div>
 
@@ -680,10 +676,10 @@
     </div>
     <div class="cal-grid" id="cal-grid"></div>
     <div class="cal-legend">
-      <div class="cal-legend-item"><span class="cal-score-badge zd">ZD</span> Získaj Dopyt — denné úlohy (max 7)</div>
-      <div class="cal-legend-item"><span class="cal-score-badge jmc">JMC</span> Ján Marček Consulting (max 6)</div>
-      <div class="cal-legend-item"><span class="cal-score-badge full-zd">ZD ✓</span> Všetky splnené</div>
-      <div class="cal-legend-item"><span class="cal-score-badge full-jmc">JMC ✓</span> Všetky splnené</div>
+      <div class="cal-legend-item"><span class="cal-score-badge zd">WS1</span> Work Sheet 1 (max 4)</div>
+      <div class="cal-legend-item"><span class="cal-score-badge jmc">WS2</span> Work Sheet 2 (max 10)</div>
+      <div class="cal-legend-item"><span class="cal-score-badge full-zd">WS1 ✓</span> Všetky splnené</div>
+      <div class="cal-legend-item"><span class="cal-score-badge full-jmc">WS2 ✓</span> Všetky splnené</div>
     </div>
   </div>
 </div>
@@ -1222,8 +1218,8 @@ function savePage(key, val) {
 // ══════════════════════════════════════════
 // TASKS
 // ══════════════════════════════════════════
-const AGENCY = ['t-calls','t-call-fu','t-email','t-email-fu','t-li-fu','t-ceo','t-blog'];
-const CLIENT = ['t-cloth','t-finstat','t-zdravotne','t-li-post','t-jmc'];
+const AGENCY = ['t-calls','t-call-fu','t-email','t-email-fu'];
+const CLIENT = ['t-li-fu','t-ceo','t-blog','t-cloth','t-shoptet','t-solar','t-finstat','t-zdravotne','t-li-post','t-jmc'];
 const ALL_T  = [...AGENCY, ...CLIENT, 't-tiktok'];
 
 function toggleWorkflow() {
@@ -1364,7 +1360,7 @@ function applyDayState() {
 }
 
 // ── MORNING ROUTINE ──
-const MR_IDS = ['mr-bed','mr-teeth','mr-groceries','mr-eat','mr-read','mr-shower','mr-sleep','mr-start'];
+const MR_IDS = ['mr-bed','mr-teeth','mr-groceries','mr-eat'];
 function toggleMR(id) {
   const d = dayData(viewDate);
   if (!d.mr) d.mr = {};
@@ -1525,9 +1521,9 @@ function renderCal() {
           const row = document.createElement('div'); row.className = 'cal-score-row';
           const badge = document.createElement('span');
           badge.className = `cal-score-badge ${zd === AGENCY.length ? 'full-zd' : 'zd'}`;
-          badge.textContent = zd === AGENCY.length ? 'ZD ✓' : `ZD ${zd}/${AGENCY.length}`;
+          badge.textContent = zd === AGENCY.length ? 'WS1 ✓' : `WS1 ${zd}/${AGENCY.length}`;
           const lbl = document.createElement('span'); lbl.className = 'cal-score-label';
-          lbl.textContent = 'Denné úlohy';
+          lbl.textContent = 'Work Sheet 1';
           row.appendChild(badge); row.appendChild(lbl);
           block.appendChild(row);
         }
@@ -1535,9 +1531,9 @@ function renderCal() {
           const row = document.createElement('div'); row.className = 'cal-score-row';
           const badge = document.createElement('span');
           badge.className = `cal-score-badge ${jmc === CLIENT.length ? 'full-jmc' : 'jmc'}`;
-          badge.textContent = jmc === CLIENT.length ? 'JMC ✓' : `JMC ${jmc}/${CLIENT.length}`;
+          badge.textContent = jmc === CLIENT.length ? 'WS2 ✓' : `WS2 ${jmc}/${CLIENT.length}`;
           const lbl = document.createElement('span'); lbl.className = 'cal-score-label';
-          lbl.textContent = 'Consulting';
+          lbl.textContent = 'Work Sheet 2';
           row.appendChild(badge); row.appendChild(lbl);
           block.appendChild(row);
         }
