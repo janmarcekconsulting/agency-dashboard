@@ -428,7 +428,7 @@
     .qs-modal-stats-area { flex: 0 0 calc(20% - 20px); min-width: 180px; }
     .qs-mgrid { display: grid; grid-template-columns: repeat(7,1fr); gap: 5px; }
     .qs-mdow { font-size: 9px; font-weight: 700; text-transform: uppercase; color: var(--muted); text-align: center; padding: 4px 0; }
-    .qs-mday { border: 1.5px solid var(--border); border-radius: 9px; padding: 8px 9px; min-height: 110px; cursor: pointer; transition: border-color .15s; background: var(--bg); }
+    .qs-mday { border: 2px solid var(--border); border-radius: 9px; padding: 8px 9px; min-height: 110px; cursor: pointer; transition: border-color .15s; background: var(--bg); }
     .qs-mday:hover { border-color: var(--blue-bdr); }
     .qs-mday.qs-msel { border-color: var(--blue); background: var(--blue-light); }
     .qs-mday.qs-mempty { border-color: transparent; background: transparent; cursor: default; min-height: unset; }
@@ -2101,7 +2101,7 @@ function renderQsMonthModal() {
     const dk=`${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const qs=STORE.days[dk]?.qs;
     const sc = dayScore(qs);
-    const scoreBorder = sc === null ? '' : sc <= -2 ? 'border-color:#EF4444;' : sc <= 1 ? 'border-color:#F97316;' : 'border-color:#22C55E;';
+    const scoreBorder = sc === null ? '' : sc <= -2 ? 'border-color:#EF4444;border-width:3px;' : sc <= 1 ? 'border-color:#3B82F6;border-width:3px;' : 'border-color:#22C55E;border-width:3px;';
     const el=document.createElement('div'); el.className='qs-mday'+(dk===qsDay?' qs-msel':''); el.style.cssText=scoreBorder;
     const m = qs?.food?.length ? qsMacros(qs) : null;
     const mvd = vitDoseOf(qs||{});
