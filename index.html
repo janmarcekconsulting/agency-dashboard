@@ -565,6 +565,8 @@
 
     <div class="task-item" id="t-blog" onclick="toggle('t-blog')"><div class="task-check"></div><span class="task-label">3 Blog posts</span><span class="count-pill">3</span></div>
 
+    <div class="task-item" id="t-jmc" onclick="toggle('t-jmc')"><div class="task-check"></div><span class="task-label">Jan Marcek Consulting — followups</span></div>
+
     <div class="task-item" id="t-cloth" onclick="toggle('t-cloth')"><div class="task-check"></div><span class="task-label">Google LinkedIn Clothing Brands CEO</span><span class="count-pill">10</span></div>
     <div class="sub-row" style="flex-wrap:wrap;gap:6px;">
       <input class="page-input" type="text" id="cloth-url-input" placeholder="Vlož Google URL…" style="flex:1;min-width:180px;font-size:11px;" oninput="saveClothUrl(this.value)">
@@ -637,8 +639,6 @@
     <div class="sub-row">
       <button class="btn btn-gold" id="cp-li" onclick="doCopy('linkedin-prompt','cp-li')">Kopírovať prompt pre Claude</button>
     </div>
-
-    <div class="task-item" id="t-jmc" onclick="toggle('t-jmc')"><div class="task-check"></div><span class="task-label">Jan Marcek Consulting — followups</span></div>
 
     <div class="progress-row">
       <span id="cl-txt">0 / 11</span>
@@ -1221,7 +1221,7 @@ function savePage(key, val) {
 // TASKS
 // ══════════════════════════════════════════
 const AGENCY = ['t-calls','t-call-fu','t-email','t-email-fu'];
-const CLIENT = ['t-read','t-li-fu','t-ceo','t-blog','t-cloth','t-shoptet','t-solar','t-finstat','t-zdravotne','t-li-post','t-jmc'];
+const CLIENT = ['t-read','t-li-fu','t-ceo','t-blog','t-jmc','t-cloth','t-shoptet','t-solar','t-finstat','t-zdravotne','t-li-post'];
 const ALL_T  = [...AGENCY, ...CLIENT, 't-tiktok'];
 
 function toggleWorkflow() {
