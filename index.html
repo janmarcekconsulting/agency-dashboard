@@ -2108,6 +2108,7 @@ function renderQsMonthModal() {
       ${mvd>0?`<div class="qs-mday-tag qs-mday-vit">💊 ${mvd}ml</div>`:''}
       ${qs?.xanax>0?`<div class="qs-mday-tag qs-mday-xan">🟣 ${qs.xanax}mg</div>`:''}
       ${(qs?.elektrolyty||0)>0?`<div class="qs-mday-tag qs-mday-elk">💧 ${qs.elektrolyty===0.5?'½':'1'}</div>`:''}
+      ${qs?.energetak?'<div class="qs-mday-tag" style="color:#78350F;background:#FEF9C3;">⚡ Energ.</div>':''}
       ${qs?.outside?'<div class="qs-mday-tag qs-mday-out">🌿 Vonku</div>':''}
       ${qs?.exercise?'<div class="qs-mday-tag qs-mday-ex">💪 Cvičenie</div>':''}
       ${qs?.fap>0?`<div class="qs-mday-tag qs-mday-fap">🍆 ${qs.fap}x</div>`:''}`;
