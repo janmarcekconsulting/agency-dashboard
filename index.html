@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg:        #F1F4F8;
+      --bg:        #F8FAFC;
       --surface:   #FFFFFF;
       --card:      #FFFFFF;
       --card-temp: #F0F7FF;
@@ -28,13 +28,13 @@
       --task-bg:   #F8FAFC;
       --task-hov:  #F0F4FF;
       --task-done: #F8FAFC;
-      --shadow-sm: 0 1px 2px rgba(15,23,42,.04), 0 4px 16px rgba(15,23,42,.05);
+      --shadow-sm: 0 1px 2px rgba(15,23,42,.03), 0 4px 16px rgba(15,23,42,.04);
       --shadow-md: 0 8px 32px rgba(15,23,42,.10), 0 2px 8px rgba(15,23,42,.05);
       --radius:    16px;
       --radius-sm: 10px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; background: #FFFFFF; color: var(--text); min-height: 100vh; }
 
     /* ── LOGIN ── */
     #login-screen {
@@ -86,10 +86,10 @@
       background: linear-gradient(135deg, #3B82F6, #6366F1);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
-      font-size: 19px; font-weight: 800; letter-spacing: -.5px;
+      font-size: 20px; font-weight: 800; letter-spacing: -.6px;
       white-space: nowrap; cursor: pointer; user-select: none;
     }
-    .logo:hover { opacity: .8; }
+    .logo:hover { opacity: .75; }
     .nav-quick-btn {
       background: var(--bg); border: 1px solid var(--border);
       color: var(--mid); padding: 6px 13px; border-radius: var(--radius-sm);
@@ -161,41 +161,55 @@
     #page-cal  { display: none;  }
 
     /* ── LAYOUT ── */
-    main { padding: 20px; display: grid; grid-template-columns: 210px 1fr 1fr; gap: 14px; }
+    main { padding: 16px 20px 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .full-row { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 
-    /* ── MORNING ROUTINE SIDEBAR ── */
+    /* ── MORNING ROUTINE STRIP (horizontal) ── */
     .mr-sidebar {
-      background: linear-gradient(160deg, #0F172A 0%, #1E2A3B 100%);
-      border-radius: var(--radius); padding: 18px 14px;
-      display: flex; flex-direction: column; gap: 0;
-      align-self: start; position: sticky; top: 76px;
-      border: 1px solid rgba(255,255,255,.05);
-      box-shadow: 0 8px 32px rgba(0,0,0,.2);
+      grid-column: 1 / -1;
+      background: #FFFFFF;
+      border-radius: var(--radius);
+      padding: 14px 20px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
     }
     .mr-title {
       font-size: 10px; font-weight: 800; text-transform: uppercase;
-      letter-spacing: 1px; color: #4A6080; margin-bottom: 14px;
+      letter-spacing: 1px; color: var(--muted);
+      white-space: nowrap; margin-right: 16px; flex-shrink: 0;
+    }
+    .mr-items-row {
+      display: flex; flex-direction: row; align-items: center;
+      gap: 4px; flex: 1; flex-wrap: wrap;
     }
     .mr-item {
-      display: flex; align-items: center; gap: 10px; padding: 9px 8px;
-      border-radius: 9px; cursor: pointer; transition: background .18s;
-      color: #64788F; font-size: 12.5px; font-weight: 500; user-select: none;
+      display: flex; align-items: center; gap: 8px; padding: 8px 12px;
+      border-radius: 9px; cursor: pointer; transition: all .18s;
+      color: var(--mid); font-size: 12.5px; font-weight: 600; user-select: none;
+      border: 1.5px solid transparent;
+      background: var(--bg);
     }
-    .mr-item:hover { background: rgba(255,255,255,.06); color: #94A3B8; }
-    .mr-item.mr-done { color: #34D399; }
-    .mr-item.mr-done .mr-check { background: #10B981; border-color: #10B981; box-shadow: 0 0 6px rgba(16,185,129,.4); }
-    .mr-item.mr-done .mr-check::after { content: '✓'; display: block; font-size: 9px; color: #fff; line-height: 1; }
+    .mr-item:hover { background: var(--blue-light); border-color: var(--blue-bdr); color: var(--blue); }
+    .mr-item.mr-done { color: #059669; background: #ECFDF5; border-color: #A7F3D0; }
+    .mr-item.mr-done .mr-check { background: #10B981; border-color: #10B981; box-shadow: 0 0 0 3px rgba(16,185,129,.12); }
+    .mr-item.mr-done .mr-check::after { content: '✓'; display: block; font-size: 9px; color: #fff; line-height: 1; font-weight: 800; }
     .mr-check {
-      width: 16px; height: 16px; border-radius: 5px; border: 1.5px solid #2A3F55;
+      width: 16px; height: 16px; border-radius: 5px; border: 1.5px solid var(--border-med);
       flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-      transition: all .2s;
+      background: #fff; transition: all .2s;
     }
-    .mr-progress { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,.06); }
-    .mr-progress-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; }
-    .mr-progress-txt { font-size: 10.5px; color: #4A6080; font-weight: 700; }
-    .mr-bar-wrap { height: 4px; background: rgba(255,255,255,.07); border-radius: 3px; overflow: hidden; }
-    .mr-bar-fill { height: 100%; background: linear-gradient(90deg, #10B981, #34D399); border-radius: 3px; transition: width .4s cubic-bezier(.4,0,.2,1); }
+    .mr-progress {
+      margin-left: auto; padding-left: 16px; border-left: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+    }
+    .mr-progress-row { display: flex; align-items: center; gap: 6px; }
+    .mr-progress-txt { font-size: 11px; color: var(--mid); font-weight: 700; white-space: nowrap; }
+    .mr-bar-wrap { width: 80px; height: 6px; background: var(--border); border-radius: 6px; overflow: hidden; }
+    .mr-bar-fill { height: 100%; background: linear-gradient(90deg, #10B981, #34D399); border-radius: 6px; transition: width .4s cubic-bezier(.4,0,.2,1); }
 
     /* ── CARD ── */
     .card {
@@ -204,23 +218,28 @@
     }
     .card.temp-card  { background: var(--card-temp); border-color: #BFDBFE; }
     .card.pitch-card { background: var(--card-pitch); border-color: #FDE68A; }
+    .card.pitch-card .card-title { border-left-color: var(--gold); }
+    .card.temp-card  .card-title { border-left-color: var(--blue); }
 
     .card-title {
       font-size: 10.5px; font-weight: 800; text-transform: uppercase;
-      letter-spacing: 1.1px; color: var(--muted); margin-bottom: 14px;
+      letter-spacing: 1.1px; color: var(--mid); margin-bottom: 16px;
       display: flex; align-items: center; gap: 8px;
+      padding-left: 10px;
+      border-left: 3px solid var(--blue);
+      border-radius: 1px;
     }
     .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--signal); flex-shrink: 0; }
 
     /* ── TASK ── */
     .task-item {
-      display: flex; align-items: center; gap: 10px; padding: 9px 12px;
-      border-radius: var(--radius-sm); margin-bottom: 4px;
+      display: flex; align-items: center; gap: 10px; padding: 10px 13px;
+      border-radius: var(--radius-sm); margin-bottom: 5px;
       background: var(--task-bg); border: 1px solid var(--border);
       cursor: pointer; user-select: none; transition: all .18s;
     }
     .task-item:hover { background: var(--task-hov); border-color: var(--blue-bdr); }
-    .task-item.done { background: var(--task-done); border-color: var(--border); opacity: .6; }
+    .task-item.done { background: var(--task-done); border-color: var(--border); opacity: .55; }
     .task-item.done .task-label { text-decoration: line-through; color: var(--muted); }
     .task-check {
       width: 18px; height: 18px; border: 1.5px solid var(--border-med); border-radius: 6px;
@@ -253,22 +272,22 @@
     .page-input:focus { border-color: var(--blue); }
 
     /* ── BUTTONS ── */
-    .btn { padding: 6px 13px; border-radius: 8px; border: none; cursor: pointer; font-size: 11.5px; font-weight: 700; transition: all .18s; white-space: nowrap; font-family: inherit; }
-    .btn-dark { background: var(--bg); color: var(--mid); border: 1px solid var(--border); }
+    .btn { padding: 7px 14px; border-radius: 8px; border: none; cursor: pointer; font-size: 11.5px; font-weight: 700; transition: all .18s; white-space: nowrap; font-family: inherit; }
+    .btn-dark { background: #fff; color: var(--mid); border: 1.5px solid var(--border-med); }
     .btn-dark:hover { background: var(--task-hov); border-color: var(--blue-bdr); color: var(--blue); }
-    .btn-gold { background: var(--blue); color: #fff; box-shadow: 0 2px 6px rgba(59,130,246,.25); }
-    .btn-gold:hover { background: #2563EB; box-shadow: 0 2px 10px rgba(59,130,246,.35); }
-    .btn-gold.ok, .btn-gold.copied { background: var(--green); box-shadow: none; color: #fff; }
+    .btn-gold { background: var(--blue); color: #fff; border: 1.5px solid var(--blue); box-shadow: 0 2px 8px rgba(59,130,246,.25); }
+    .btn-gold:hover { background: #2563EB; border-color: #2563EB; box-shadow: 0 2px 12px rgba(59,130,246,.35); }
+    .btn-gold.ok, .btn-gold.copied { background: var(--green); border-color: var(--green); box-shadow: none; color: #fff; }
 
     /* ── PROGRESS ── */
     .progress-row {
-      margin-top: 14px; padding: 9px 14px; background: var(--bg);
+      margin-top: 14px; padding: 10px 14px; background: var(--blue-light);
       border-radius: var(--radius-sm); display: flex; align-items: center;
-      gap: 10px; font-size: 11.5px; font-weight: 600; color: var(--mid);
-      border: 1px solid var(--border);
+      gap: 10px; font-size: 11.5px; font-weight: 700; color: var(--blue);
+      border: 1px solid var(--blue-bdr);
     }
-    .pbar-wrap { flex: 1; height: 6px; background: var(--border); border-radius: 6px; overflow: hidden; }
-    .pbar-fill { height: 100%; background: linear-gradient(90deg, #3B82F6, #818CF8); border-radius: 6px; transition: width .45s cubic-bezier(.4,0,.2,1); }
+    .pbar-wrap { flex: 1; height: 8px; background: rgba(59,130,246,.12); border-radius: 8px; overflow: hidden; }
+    .pbar-fill { height: 100%; background: linear-gradient(90deg, #3B82F6, #6366F1); border-radius: 8px; transition: width .45s cubic-bezier(.4,0,.2,1); }
 
     /* ── PITCHES ── */
     .pitch-list { display: flex; flex-direction: column; gap: 6px; }
@@ -693,10 +712,6 @@
   </div>
 
   <div class="header-r">
-    <div class="header-links">
-      <button class="nav-quick-btn" onclick="window.location.href='transcendence.html'">Transcendence</button>
-      <button class="nav-quick-btn" onclick="window.open('https://janmarcekconsulting.github.io/fashion-daily/','_blank')">Fashion Daily</button>
-    </div>
     <div class="header-nav-group">
       <button class="hnav-btn" id="qs-toggle-btn" onclick="toggleQsPage()">QS</button>
       <button class="hnav-btn" id="cal-toggle-btn" onclick="toggleCalPage()">Kalendár</button>
@@ -712,24 +727,26 @@
 <div id="page-main">
 <main>
 
-  <!-- MORNING ROUTINE SIDEBAR -->
+  <!-- MORNING ROUTINE STRIP -->
   <div class="mr-sidebar">
-    <div class="mr-title">☀️ Morning Routine</div>
-    <div class="mr-item" id="mr-bed"       onclick="toggleMR('mr-bed')">      <div class="mr-check"></div><span>🛏️ Make a bed</span></div>
-    <div class="mr-item" id="mr-teeth"     onclick="toggleMR('mr-teeth')">    <div class="mr-check"></div><span>🪥 Brush teeth</span></div>
-    <div class="mr-item" id="mr-groceries" onclick="toggleMR('mr-groceries')"><div class="mr-check"></div><span>🛒 Groceries</span></div>
-    <div class="mr-item" id="mr-eat"       onclick="toggleMR('mr-eat')">      <div class="mr-check"></div><span>🍳 Eat</span></div>
+    <div class="mr-title">☀️ Morning</div>
+    <div class="mr-items-row">
+      <div class="mr-item" id="mr-bed"       onclick="toggleMR('mr-bed')">      <div class="mr-check"></div><span>🛏️ Make a bed</span></div>
+      <div class="mr-item" id="mr-teeth"     onclick="toggleMR('mr-teeth')">    <div class="mr-check"></div><span>🪥 Brush teeth</span></div>
+      <div class="mr-item" id="mr-groceries" onclick="toggleMR('mr-groceries')"><div class="mr-check"></div><span>🛒 Groceries</span></div>
+      <div class="mr-item" id="mr-eat"       onclick="toggleMR('mr-eat')">      <div class="mr-check"></div><span>🍳 Eat</span></div>
+    </div>
     <div class="mr-progress">
       <div class="mr-progress-row">
         <span class="mr-progress-txt" id="mr-txt">0 / 4</span>
-        <span class="mr-progress-txt" id="mr-pct">0%</span>
+        <span class="mr-progress-txt" id="mr-pct" style="color:var(--muted);font-size:10px;font-weight:600;margin-left:4px;">0%</span>
       </div>
       <div class="mr-bar-wrap"><div class="mr-bar-fill" id="mr-bar" style="width:0%"></div></div>
     </div>
   </div>
 
   <!-- LEFT COLUMN: WS1 + Dočasné úlohy -->
-  <div style="display:flex;flex-direction:column;gap:16px;">
+  <div style="display:flex;flex-direction:column;gap:14px;">
   <!-- ZÍSKAJ DOPYT -->
   <div class="card">
     <div class="card-title"><span class="dot"></span>Work Sheet 1</div>
@@ -832,8 +849,8 @@
       <div class="pbar-wrap"><div class="pbar-fill" id="cl-bar" style="width:0%"></div></div>
     </div>
 
-    <div style="height:1px;background:rgba(255,255,255,.06);margin:10px 0;"></div>
-    <div style="font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;padding:4px 0 2px;">Voliteľné</div>
+    <div style="height:1px;background:var(--border);margin:12px 0 10px;"></div>
+    <div style="font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;padding:4px 0 6px;opacity:.7;">Voliteľné</div>
     <div class="task-item" id="t-tiktok" onclick="toggle('t-tiktok')">
       <div class="task-check"></div>
       <span class="task-label" style="color:var(--mid)">TikTok Clothing Brand — video make</span>
@@ -875,6 +892,14 @@
   </div>
 
 </main>
+
+<!-- QUICK LINKS FOOTER -->
+<div style="padding:8px 20px 20px;display:flex;align-items:center;gap:8px;">
+  <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-right:4px;">Odkazy</span>
+  <button class="nav-quick-btn" onclick="window.location.href='transcendence.html'">Transcendence</button>
+  <button class="nav-quick-btn" onclick="window.open('https://janmarcekconsulting.github.io/fashion-daily/','_blank')">Fashion Daily</button>
+</div>
+
 </div>
 
 <!-- ══ CALENDAR PAGE ══ -->
