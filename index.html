@@ -360,6 +360,13 @@
     .food-log-name { font-size: 12px; font-weight: 600; color: var(--text); flex: 1; }
     .food-log-right { display: flex; align-items: center; gap: 7px; flex-shrink: 0; }
     .food-log-kcal { font-size: 11px; color: var(--muted); white-space: nowrap; }
+    .food-manual-row { display: flex; gap: 6px; align-items: center; margin-bottom: 8px; }
+    .food-manual-input { flex: 1; min-width: 0; padding: 6px 10px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 12px; font-family: inherit; color: var(--text); background: var(--bg); outline: none; }
+    .food-manual-input:focus { border-color: var(--blue); }
+    .food-manual-kcal { width: 72px; padding: 6px 8px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 12px; font-family: inherit; color: var(--text); background: var(--bg); outline: none; }
+    .food-manual-kcal:focus { border-color: var(--blue); }
+    .food-manual-btn { padding: 6px 12px; background: var(--blue); color: #fff; border: none; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; white-space: nowrap; }
+    .food-manual-btn:hover { background: #2563EB; }
     .fqty-btn { background: var(--border); border: none; border-radius: 4px; width: 19px; height: 19px; cursor: pointer; font-size: 13px; display: flex; align-items: center; justify-content: center; color: var(--text); transition: background .15s; padding: 0; font-family: inherit; }
     .fqty-btn:hover { background: var(--blue-light); }
     .fqty-num { font-size: 11.5px; font-weight: 700; color: var(--text); min-width: 28px; text-align: center; }
@@ -550,20 +557,13 @@
 
     <div class="task-item" id="t-read" onclick="toggle('t-read')"><div class="task-check"></div><span class="task-label">📖 Read Transcendence</span></div>
 
-    <div class="task-item" id="t-li-fu" onclick="toggle('t-li-fu')"><div class="task-check"></div><span class="task-label">LinkedIn Followups</span></div>
-    <div class="sub-row">
-      <button class="btn btn-gold" id="cp-li-fu" onclick="doCopy('ceo-connect','cp-li-fu')">Kopírovať pitch</button>
-    </div>
-
     <div class="task-item" id="t-ceo" onclick="toggle('t-ceo')"><div class="task-check"></div><span class="task-label">LinkedIn CEO connects</span><span class="count-pill">15</span></div>
-    <div class="sub-row">
-      <span class="page-label">Strana:</span>
-      <input class="page-input" type="number" id="pg-ceo" value="10" min="1" onchange="savePage('ceo',this.value)">
-      <button class="btn btn-dark" onclick="openLink('ceo')">Otvoriť</button>
+    <div class="sub-row" style="flex-wrap:wrap;gap:6px;">
+      <input class="page-input" type="text" id="ceo-url-input" placeholder="Vlož LinkedIn URL…" style="flex:1;min-width:180px;font-size:11px;" oninput="saveCeoUrl(this.value)">
+      <button class="btn btn-dark" onclick="openCeoUrl()">Otvoriť</button>
+      <button class="btn btn-gold" onclick="copyCeoUrl()">Kopírovať URL</button>
       <button class="btn btn-gold" id="cp-ceo" onclick="doCopy('ceo-connect','cp-ceo')">Kopírovať pitch</button>
     </div>
-
-    <div class="task-item" id="t-blog" onclick="toggle('t-blog')"><div class="task-check"></div><span class="task-label">3 Blog posts</span><span class="count-pill">3</span></div>
 
     <div class="task-item" id="t-jmc" onclick="toggle('t-jmc')"><div class="task-check"></div><span class="task-label">Jan Marcek Consulting — followups</span></div>
 
@@ -573,14 +573,6 @@
       <button class="btn btn-dark" onclick="openClothUrl()">Otvoriť</button>
       <button class="btn btn-gold" onclick="copyClothUrl()">Kopírovať URL</button>
       <button class="btn btn-gold" id="cp-cloth" onclick="doCopy('clothing-brands','cp-cloth')">Kopírovať pitch</button>
-    </div>
-
-    <div class="task-item" id="t-shoptet" onclick="toggle('t-shoptet')"><div class="task-check"></div><span class="task-label" style="color:var(--mid)">Email Chatbot — Shoptet pitch</span><span class="count-pill">10</span></div>
-    <div class="sub-row">
-      <span class="page-label">Strana:</span>
-      <input class="page-input" type="number" id="pg-shoptet" value="5" min="1" onchange="savePage('shoptet',this.value)">
-      <button class="btn btn-dark" onclick="openLink('shoptet')">Otvoriť</button>
-      <button class="btn btn-gold" id="cp-shoptet" onclick="doCopy('shoptet','cp-shoptet')">Kopírovať pitch</button>
     </div>
 
     <div class="task-item" id="t-solar" onclick="toggle('t-solar')"><div class="task-check"></div><span class="task-label" style="color:var(--mid)">Solárne panely — scrape</span><span class="count-pill">10</span></div>
@@ -635,17 +627,13 @@
       </div>
     </div>
 
-    <div class="task-item" id="t-li-post" onclick="toggle('t-li-post')"><div class="task-check"></div><span class="task-label">LinkedIn Post — vytvoriť</span></div>
-    <div class="sub-row">
-      <button class="btn btn-gold" id="cp-li" onclick="doCopy('linkedin-prompt','cp-li')">Kopírovať prompt pre Claude</button>
-    </div>
-
     <div class="progress-row">
-      <span id="cl-txt">0 / 11</span>
+      <span id="cl-txt">0 / 7</span>
       <div class="pbar-wrap"><div class="pbar-fill" id="cl-bar" style="width:0%"></div></div>
     </div>
 
     <div style="height:1px;background:rgba(255,255,255,.06);margin:10px 0;"></div>
+    <div style="font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;padding:4px 0 2px;">Voliteľné</div>
     <div class="task-item" id="t-tiktok" onclick="toggle('t-tiktok')">
       <div class="task-check"></div>
       <span class="task-label" style="color:var(--mid)">TikTok Clothing Brand — video make</span>
@@ -653,6 +641,21 @@
     <div class="sub-row">
       <button class="btn btn-gold" onclick="window.open('https://janmarcekconsulting.github.io/fashion-daily/','_blank')">Otvoriť fashion-daily</button>
     </div>
+
+    <div class="task-item" id="t-shoptet" onclick="toggle('t-shoptet')"><div class="task-check"></div><span class="task-label" style="color:var(--mid)">Email Chatbot — Shoptet pitch</span></div>
+    <div class="sub-row">
+      <span class="page-label">Strana:</span>
+      <input class="page-input" type="number" id="pg-shoptet" value="5" min="1" onchange="savePage('shoptet',this.value)">
+      <button class="btn btn-dark" onclick="openLink('shoptet')">Otvoriť</button>
+      <button class="btn btn-gold" id="cp-shoptet" onclick="doCopy('shoptet','cp-shoptet')">Kopírovať pitch</button>
+    </div>
+
+    <div class="task-item" id="t-li-post" onclick="toggle('t-li-post')"><div class="task-check"></div><span class="task-label" style="color:var(--mid)">LinkedIn Post — vytvoriť</span></div>
+    <div class="sub-row">
+      <button class="btn btn-gold" id="cp-li" onclick="doCopy('linkedin-prompt','cp-li')">Kopírovať prompt pre Claude</button>
+    </div>
+
+    <div class="task-item" id="t-blog" onclick="toggle('t-blog')"><div class="task-check"></div><span class="task-label" style="color:var(--mid)">3 Blog posts</span><span class="count-pill">3</span></div>
   </div>
 
   <!-- PITCHES FULL ROW -->
@@ -679,7 +682,7 @@
     <div class="cal-grid" id="cal-grid"></div>
     <div class="cal-legend">
       <div class="cal-legend-item"><span class="cal-score-badge zd">WS1</span> Work Sheet 1 (max 4)</div>
-      <div class="cal-legend-item"><span class="cal-score-badge jmc">WS2</span> Work Sheet 2 (max 11)</div>
+      <div class="cal-legend-item"><span class="cal-score-badge jmc">WS2</span> Work Sheet 2 (max 7)</div>
       <div class="cal-legend-item"><span class="cal-score-badge full-zd">WS1 ✓</span> Všetky splnené</div>
       <div class="cal-legend-item"><span class="cal-score-badge full-jmc">WS2 ✓</span> Všetky splnené</div>
     </div>
@@ -812,6 +815,11 @@
           <div class="macro-box"><div class="macro-val" id="qs-fat">0g</div><div class="macro-lbl">Tuky</div></div>
         </div>
         <div class="food-btn-grid" id="food-btn-grid"></div>
+        <div class="food-manual-row">
+          <input class="food-manual-input" id="food-manual-label" type="text" placeholder="Názov (voliteľné)">
+          <input class="food-manual-kcal" id="food-manual-kcal" type="number" placeholder="kcal" min="1" onkeydown="if(event.key==='Enter')qsAddManual()">
+          <button class="food-manual-btn" onclick="qsAddManual()">+ kcal</button>
+        </div>
         <div class="food-log-list" id="qs-food-log"></div>
         <div class="vit-grid" id="qs-vit-grid"></div>
       </div>
@@ -1097,6 +1105,15 @@ function openLink(type) {
 }
 function saveClothUrl(url) { STORE.clothUrl = url; saveStore(); }
 function openClothUrl() { const u = STORE.clothUrl||''; if(u) window.open(u,'_blank'); }
+function saveCeoUrl(url) { STORE.ceoUrl = url; saveStore(); }
+function openCeoUrl() { const u = STORE.ceoUrl||''; if(u) window.open(u,'_blank'); }
+function copyCeoUrl() {
+  const u = STORE.ceoUrl||'';
+  navigator.clipboard.writeText(u).then(() => {
+    const btn = event.target; btn.textContent='✓ Skopírované'; btn.classList.add('ok');
+    setTimeout(()=>{ btn.textContent='Kopírovať URL'; btn.classList.remove('ok'); },2000);
+  });
+}
 function copyClothUrl() {
   const u = STORE.clothUrl||'';
   navigator.clipboard.writeText(u).then(() => {
@@ -1221,7 +1238,7 @@ function savePage(key, val) {
 // TASKS
 // ══════════════════════════════════════════
 const AGENCY = ['t-calls','t-call-fu','t-email','t-email-fu'];
-const CLIENT = ['t-read','t-li-fu','t-ceo','t-blog','t-jmc','t-cloth','t-shoptet','t-solar','t-finstat','t-zdravotne','t-li-post'];
+const CLIENT = ['t-read','t-ceo','t-jmc','t-cloth','t-solar','t-finstat','t-zdravotne'];
 const ALL_T  = [...AGENCY, ...CLIENT, 't-tiktok'];
 
 function toggleWorkflow() {
@@ -1709,9 +1726,10 @@ function qsGoToday() { qsDay = toDateKey(new Date()); renderQsDay(); renderQsCal
 
 function qsMacros(q) {
   let kcal=0,fat=0,prot=0,carbs=0;
-  (q.food||[]).forEach(({id,qty}) => {
-    const f=QS_FOODS[id]; if(!f) return;
-    const m = f.per100 ? qty/100 : qty;
+  (q.food||[]).forEach(item => {
+    if (item.id === '__manual__') { kcal += item.kcal||0; return; }
+    const f=QS_FOODS[item.id]; if(!f) return;
+    const m = f.per100 ? item.qty/100 : item.qty;
     kcal+=f.kcal*m; fat+=f.fat*m; prot+=f.prot*m; carbs+=f.carbs*m;
   });
   return { kcal:Math.round(kcal), fat:Math.round(fat*10)/10, prot:Math.round(prot*10)/10, carbs:Math.round(carbs*10)/10 };
@@ -1720,6 +1738,7 @@ function qsMacros(q) {
 function qsVitamins(q) {
   const totals = {};
   (q.food||[]).forEach(({id,qty}) => {
+    if (id === '__manual__') return;
     const f=QS_FOODS[id]; if(!f||!f.vit) return;
     const m = f.per100 ? qty/100 : qty;
     Object.entries(f.vit).forEach(([k,v]) => { totals[k]=(totals[k]||0)+v*m; });
@@ -1758,6 +1777,16 @@ function renderQsVit(q) {
   });
 }
 
+function qsAddManual() {
+  const kcalEl = document.getElementById('food-manual-kcal');
+  const labelEl = document.getElementById('food-manual-label');
+  const kcal = parseInt(kcalEl.value);
+  if (!kcal || kcal <= 0) return;
+  const label = labelEl.value.trim() || 'Manuálne';
+  qsDayData().food.push({ id: '__manual__', label, kcal });
+  kcalEl.value = ''; labelEl.value = '';
+  renderQsDay(); saveStore();
+}
 function qsAddFood(id) {
   const q = qsDayData();
   const existing = q.food.find(f => f.id === id && !QS_FOODS[id].per100);
@@ -1821,19 +1850,27 @@ function renderQsDay() {
 
   const log = document.getElementById('qs-food-log'); log.innerHTML = '';
   (q.food||[]).forEach((item,i) => {
-    const f = QS_FOODS[item.id]; if (!f) return;
-    const mult = f.per100 ? item.qty/100 : item.qty;
-    const kcal = Math.round(f.kcal*mult);
-    const prot = Math.round(f.prot*mult*10)/10;
     const div = document.createElement('div'); div.className = 'food-log-item';
-    div.innerHTML = `<span class="food-log-name">${f.emoji} ${f.name}</span>
-      <div class="food-log-right">
-        <button class="fqty-btn" onclick="qsQtyChange(${i},-1)">−</button>
-        <span class="fqty-num">${item.qty}${f.unit}</span>
-        <button class="fqty-btn" onclick="qsQtyChange(${i},1)">+</button>
-        <span class="food-log-kcal">${kcal} kcal · <b style="color:var(--blue)">${prot}g P</b></span>
-        <button class="food-del" onclick="qsDelFood(${i})">✕</button>
-      </div>`;
+    if (item.id === '__manual__') {
+      div.innerHTML = `<span class="food-log-name">✏️ ${item.label||'Manuálne'}</span>
+        <div class="food-log-right">
+          <span class="food-log-kcal">${item.kcal} kcal</span>
+          <button class="food-del" onclick="qsDelFood(${i})">✕</button>
+        </div>`;
+    } else {
+      const f = QS_FOODS[item.id]; if (!f) return;
+      const mult = f.per100 ? item.qty/100 : item.qty;
+      const kcal = Math.round(f.kcal*mult);
+      const prot = Math.round(f.prot*mult*10)/10;
+      div.innerHTML = `<span class="food-log-name">${f.emoji} ${f.name}</span>
+        <div class="food-log-right">
+          <button class="fqty-btn" onclick="qsQtyChange(${i},-1)">−</button>
+          <span class="fqty-num">${item.qty}${f.unit}</span>
+          <button class="fqty-btn" onclick="qsQtyChange(${i},1)">+</button>
+          <span class="food-log-kcal">${kcal} kcal · <b style="color:var(--blue)">${prot}g P</b></span>
+          <button class="food-del" onclick="qsDelFood(${i})">✕</button>
+        </div>`;
+    }
     log.appendChild(div);
   });
   renderQsVit(q);
@@ -2167,6 +2204,8 @@ async function init() {
   });
   if (!STORE.clothUrl) STORE.clothUrl = 'https://www.google.com/search?q=site:linkedin.com/in+intitle:%22clothing+brand+owner%22';
   const clothInp = document.getElementById('cloth-url-input'); if (clothInp) clothInp.value = STORE.clothUrl;
+  if (!STORE.ceoUrl) STORE.ceoUrl = 'https://www.linkedin.com/search/results/people/?keywords=CEO&origin=GLOBAL_SEARCH_HEADER';
+  const ceoInp = document.getElementById('ceo-url-input'); if (ceoInp) ceoInp.value = STORE.ceoUrl;
   showPage('main');
   renderDayNav();
   applyDayState();
