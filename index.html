@@ -755,13 +755,10 @@
   <div class="card">
     <div class="card-title"><span class="dot"></span>Work Sheet 1</div>
 
-    <div class="task-item" id="t-calls" onclick="toggle('t-calls')"><div class="task-check"></div><span class="task-label">Cold calls</span><span class="count-pill">150</span></div>
-    <div class="sub-row">
-      <button class="btn btn-gold" onclick="openColdCall()">📞 Cold call script</button>
-    </div>
-    <div class="task-item" id="t-call-fu" onclick="toggle('t-call-fu')"><div class="task-check"></div><span class="task-label">Call followup</span></div>
     <div class="task-item" id="t-email" onclick="toggle('t-email')"><div class="task-check"></div><span class="task-label">Email send</span><span class="count-pill">400</span></div>
     <div class="task-item" id="t-email-fu" onclick="toggle('t-email-fu')"><div class="task-check"></div><span class="task-label">Email followup</span></div>
+    <div class="task-item" id="t-jmc-fu" onclick="toggle('t-jmc-fu')"><div class="task-check"></div><span class="task-label">Ján Marček Consulting followups</span></div>
+    <div class="task-item" id="t-contact" onclick="toggle('t-contact')"><div class="task-check"></div><span class="task-label">Contact finding</span><span class="count-pill">30 min</span></div>
 
     <div class="progress-row">
       <span id="ag-txt">0 / 4</span>
@@ -1468,7 +1465,7 @@ function savePage(key, val) {
 // ══════════════════════════════════════════
 // TASKS
 // ══════════════════════════════════════════
-const AGENCY = ['t-calls','t-call-fu','t-email','t-email-fu'];
+const AGENCY = ['t-email','t-email-fu','t-jmc-fu','t-contact'];
 const CLIENT = ['t-read','t-ceo','t-jmc','t-cloth','t-finstat','t-zdravotne'];
 const ALL_T  = [...AGENCY, ...CLIENT, 't-tiktok'];
 
