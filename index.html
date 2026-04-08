@@ -731,23 +731,6 @@
 <div id="page-main">
 <main>
 
-  <!-- MORNING ROUTINE STRIP -->
-  <div class="mr-sidebar">
-    <div class="mr-title">☀️ Morning</div>
-    <div class="mr-items-row">
-      <div class="mr-item" id="mr-bed"       onclick="toggleMR('mr-bed')">      <div class="mr-check"></div><span>🛏️ Make a bed</span></div>
-      <div class="mr-item" id="mr-teeth"     onclick="toggleMR('mr-teeth')">    <div class="mr-check"></div><span>🪥 Brush teeth</span></div>
-      <div class="mr-item" id="mr-groceries" onclick="toggleMR('mr-groceries')"><div class="mr-check"></div><span>🛒 Groceries</span></div>
-      <div class="mr-item" id="mr-eat"       onclick="toggleMR('mr-eat')">      <div class="mr-check"></div><span>🍳 Eat</span></div>
-    </div>
-    <div class="mr-progress">
-      <div class="mr-progress-row">
-        <span class="mr-progress-txt" id="mr-txt">0 / 4</span>
-        <span class="mr-progress-txt" id="mr-pct" style="color:var(--muted);font-size:10px;font-weight:600;margin-left:4px;">0%</span>
-      </div>
-      <div class="mr-bar-wrap"><div class="mr-bar-fill" id="mr-bar" style="width:0%"></div></div>
-    </div>
-  </div>
 
   <!-- LEFT COLUMN: WS1 + Dočasné úlohy -->
   <div style="display:flex;flex-direction:column;gap:14px;">
@@ -793,14 +776,7 @@
 
     <div class="task-item" id="t-jmc" onclick="toggle('t-jmc')"><div class="task-check"></div><span class="task-label">Jan Marcek Consulting — followups</span></div>
 
-    <div class="task-item" id="t-cloth" onclick="toggle('t-cloth')"><div class="task-check"></div><span class="task-label">Google LinkedIn Clothing Brands CEO</span><span class="count-pill">10</span></div>
-    <div class="sub-row" style="flex-wrap:wrap;gap:6px;">
-      <input class="page-input" type="text" id="cloth-url-input" placeholder="Vlož Google URL…" style="flex:1;min-width:180px;font-size:11px;" oninput="saveClothUrl(this.value)">
-      <button class="btn btn-dark" onclick="openClothUrl()">Otvoriť</button>
-      <button class="btn btn-gold" onclick="copyClothUrl()">Kopírovať URL</button>
-      <button class="btn btn-gold" id="cp-cloth" onclick="doCopy('clothing-brands','cp-cloth')">Kopírovať pitch</button>
-    </div>
-
+    <div style="padding-left:14px;border-left:2px solid rgba(255,255,255,0.1);margin-left:4px;">
     <div class="task-item" id="t-finstat" onclick="toggle('t-finstat')"><div class="task-check"></div><span class="task-label">Finstat 1mil–5mil€ — Web + Pitch</span><span class="count-pill">10</span></div>
     <div class="sub-row" style="flex-direction:column;align-items:flex-start;gap:0;">
       <button class="btn btn-dark" style="margin-bottom:8px;font-size:11px;" onclick="toggleWorkflow()">▼ Workflow</button>
@@ -843,6 +819,15 @@
           <button class="btn btn-gold" id="cp-zdravotne" onclick="genZdravotnePrompt()">Generovať prompt pre Claude</button>
         </div>
       </div>
+    </div>
+    </div><!-- end JMC sub-group -->
+
+    <div class="task-item" id="t-cloth" onclick="toggle('t-cloth')"><div class="task-check"></div><span class="task-label">Google LinkedIn Clothing Brands CEO</span><span class="count-pill">10</span></div>
+    <div class="sub-row" style="flex-wrap:wrap;gap:6px;">
+      <input class="page-input" type="text" id="cloth-url-input" placeholder="Vlož Google URL…" style="flex:1;min-width:180px;font-size:11px;" oninput="saveClothUrl(this.value)">
+      <button class="btn btn-dark" onclick="openClothUrl()">Otvoriť</button>
+      <button class="btn btn-gold" onclick="copyClothUrl()">Kopírovať URL</button>
+      <button class="btn btn-gold" id="cp-cloth" onclick="doCopy('clothing-brands','cp-cloth')">Kopírovať pitch</button>
     </div>
 
     <div class="progress-row">
