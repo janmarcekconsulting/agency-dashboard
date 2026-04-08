@@ -774,64 +774,8 @@
       <button class="btn btn-gold" id="cp-ceo" onclick="doCopy('ceo-connect','cp-ceo')">Kopírovať pitch</button>
     </div>
 
-    <div class="task-item" id="t-jmc" onclick="toggle('t-jmc')"><div class="task-check"></div><span class="task-label">Jan Marcek Consulting — followups</span></div>
-
-    <div style="padding-left:14px;border-left:2px solid rgba(255,255,255,0.1);margin-left:4px;">
-    <div class="task-item" id="t-finstat" onclick="toggle('t-finstat')"><div class="task-check"></div><span class="task-label">Finstat 1mil–5mil€ — Web + Pitch</span><span class="count-pill">10</span></div>
-    <div class="sub-row" style="flex-direction:column;align-items:flex-start;gap:0;">
-      <button class="btn btn-dark" style="margin-bottom:8px;font-size:11px;" onclick="toggleWorkflow()">▼ Workflow</button>
-      <div id="workflow-box" style="display:none;width:100%;">
-        <div class="workflow-steps">
-          <div class="wstep"><span class="wnum">1</span><span>Nájdi web firmy na Finstate / Google</span></div>
-          <div class="warrow">↓</div>
-          <div class="wstep"><span class="wnum">2</span><span>Vlož URL → Claude analyzuje chyby a čo stráca</span></div>
-          <div class="warrow">↓</div>
-          <div class="wstep"><span class="wnum">3</span><span>Claude vyberie čo im NAJVIAC pomôže (chatbot / workflow / redesign)</span></div>
-          <div class="warrow">↓</div>
-          <div class="wstep"><span class="wnum">4</span><span>Pred → po pre každé odporúčané riešenie</span></div>
-          <div class="warrow">↓</div>
-          <div class="wstep"><span class="wnum">5</span><span>Odošli personalizovaný pitch email</span></div>
-        </div>
-        <div style="display:flex;gap:6px;align-items:center;margin-top:10px;flex-wrap:wrap;">
-          <input id="finstat-url" type="text" class="page-input" style="width:220px;font-size:12px;" placeholder="https://firma.sk">
-          <button class="btn btn-gold" id="cp-finstat" onclick="genFinstatPrompt()">Generovať prompt pre Claude</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="task-item" id="t-zdravotne" onclick="toggle('t-zdravotne')"><div class="task-check"></div><span class="task-label">Zdravotné firmy Finstat — Web + Pitch</span><span class="count-pill">10</span></div>
-    <div class="sub-row" style="flex-direction:column;align-items:flex-start;gap:0;">
-      <button class="btn btn-dark" style="margin-bottom:8px;font-size:11px;" onclick="toggleWorkflow2()">▼ Workflow</button>
-      <div id="workflow-box2" style="display:none;width:100%;">
-        <div class="workflow-steps">
-          <div class="wstep"><span class="wnum">1</span><span>Nájdi web firmy na Finstate / Google</span></div>
-          <div class="warrow">↓</div>
-          <div class="wstep"><span class="wnum">2</span><span>Vlož URL → Claude analyzuje chyby a čo stráca</span></div>
-          <div class="warrow">↓</div>
-          <div class="wstep"><span class="wnum">3</span><span>Claude vyberie čo im NAJVIAC pomôže (chatbot / workflow / redesign)</span></div>
-          <div class="warrow">↓</div>
-          <div class="wstep"><span class="wnum">4</span><span>Pred → po pre každé odporúčané riešenie</span></div>
-          <div class="warrow">↓</div>
-          <div class="wstep"><span class="wnum">5</span><span>Odošli personalizovaný pitch email</span></div>
-        </div>
-        <div style="display:flex;gap:6px;align-items:center;margin-top:10px;flex-wrap:wrap;">
-          <input id="zdravotne-url" type="text" class="page-input" style="width:220px;font-size:12px;" placeholder="https://firma.sk">
-          <button class="btn btn-gold" id="cp-zdravotne" onclick="genZdravotnePrompt()">Generovať prompt pre Claude</button>
-        </div>
-      </div>
-    </div>
-    </div><!-- end JMC sub-group -->
-
-    <div class="task-item" id="t-cloth" onclick="toggle('t-cloth')"><div class="task-check"></div><span class="task-label">Google LinkedIn Clothing Brands CEO</span><span class="count-pill">10</span></div>
-    <div class="sub-row" style="flex-wrap:wrap;gap:6px;">
-      <input class="page-input" type="text" id="cloth-url-input" placeholder="Vlož Google URL…" style="flex:1;min-width:180px;font-size:11px;" oninput="saveClothUrl(this.value)">
-      <button class="btn btn-dark" onclick="openClothUrl()">Otvoriť</button>
-      <button class="btn btn-gold" onclick="copyClothUrl()">Kopírovať URL</button>
-      <button class="btn btn-gold" id="cp-cloth" onclick="doCopy('clothing-brands','cp-cloth')">Kopírovať pitch</button>
-    </div>
-
     <div class="progress-row">
-      <span id="cl-txt">0 / 6</span>
+      <span id="cl-txt">0 / 2</span>
       <div class="pbar-wrap"><div class="pbar-fill" id="cl-bar" style="width:0%"></div></div>
     </div>
 
@@ -845,28 +789,12 @@
       <button class="btn btn-gold" onclick="window.open('https://janmarcekconsulting.github.io/fashion-daily/','_blank')">Otvoriť fashion-daily</button>
     </div>
 
-    <div class="task-item" id="t-shoptet" onclick="toggle('t-shoptet')"><div class="task-check"></div><span class="task-label" style="color:var(--mid)">Email Chatbot — Shoptet pitch</span></div>
-    <div class="sub-row">
-      <span class="page-label">Strana:</span>
-      <input class="page-input" type="number" id="pg-shoptet" value="5" min="1" onchange="savePage('shoptet',this.value)">
-      <button class="btn btn-dark" onclick="openLink('shoptet')">Otvoriť</button>
-      <button class="btn btn-gold" id="cp-shoptet" onclick="doCopy('shoptet','cp-shoptet')">Kopírovať pitch</button>
-    </div>
-
     <div class="task-item" id="t-li-post" onclick="toggle('t-li-post')"><div class="task-check"></div><span class="task-label" style="color:var(--mid)">LinkedIn Post — vytvoriť</span></div>
     <div class="sub-row">
       <button class="btn btn-gold" id="cp-li" onclick="doCopy('linkedin-prompt','cp-li')">Kopírovať prompt pre Claude</button>
     </div>
 
-    <div class="task-item" id="t-blog" onclick="toggle('t-blog')"><div class="task-check"></div><span class="task-label" style="color:var(--mid)">3 Blog posts</span><span class="count-pill">3</span></div>
-
-    <div class="task-item" id="t-solar" onclick="toggle('t-solar')"><div class="task-check"></div><span class="task-label" style="color:var(--mid)">Solárne panely — scrape</span></div>
-    <div class="sub-row">
-      <span class="page-label">Strana:</span>
-      <input class="page-input" type="number" id="pg-solar" value="1" min="1" onchange="savePage('solar',this.value)">
-      <button class="btn btn-dark" onclick="openLink('solar')">Otvoriť</button>
-      <button class="btn btn-gold" id="cp-solar" onclick="doCopy('solar','cp-solar')">Kopírovať pitch</button>
-    </div>
+    <div class="task-item" id="t-blog" onclick="toggle('t-blog')"><div class="task-check"></div><span class="task-label" style="color:var(--mid)">Blog post Získaj Dopyt</span></div>
   </div>
 
   <!-- PITCHES FULL ROW -->
@@ -1451,7 +1379,7 @@ function savePage(key, val) {
 // TASKS
 // ══════════════════════════════════════════
 const AGENCY = ['t-email','t-email-fu','t-jmc-fu','t-contact'];
-const CLIENT = ['t-read','t-ceo','t-jmc','t-cloth','t-finstat','t-zdravotne'];
+const CLIENT = ['t-read','t-ceo'];
 const ALL_T  = [...AGENCY, ...CLIENT, 't-tiktok'];
 
 function toggleWorkflow() {
