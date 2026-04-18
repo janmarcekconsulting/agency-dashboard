@@ -160,136 +160,6 @@
     #page-main { display: block; }
     #page-cal  { display: none;  }
 
-    /* ══ NEW DASHBOARD LAYOUT ══ */
-    .dm-layout { padding: 16px 20px 32px; display: flex; flex-direction: column; gap: 14px; max-width: 1600px; margin: 0 auto; }
-
-    /* ─ Top row: iOS widgets ─ */
-    .dm-top-row { display: grid; grid-template-columns: 140px 120px 1fr 1fr; gap: 10px; }
-    .dm-widget {
-      background: var(--card); border: 1px solid var(--border); border-radius: 16px;
-      padding: 16px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; gap: 4px;
-    }
-    .dm-w-label {
-      font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px;
-      color: var(--muted);
-    }
-    .dm-w-bignum {
-      font-size: 36px; font-weight: 800; color: var(--text); letter-spacing: -2px; line-height: 1;
-    }
-    .dm-w-daynum { color: var(--blue); }
-    .dm-w-sublbl { font-size: 10.5px; color: var(--muted); font-weight: 600; }
-    .dm-mini-bar-wrap { height: 4px; background: var(--border); border-radius: 4px; margin-top: 6px; overflow: hidden; }
-    .dm-mini-bar-fill { height: 100%; background: linear-gradient(90deg, #3B82F6, #6366F1); border-radius: 4px; transition: width .4s ease; width: 0%; }
-    .dm-w-split { flex-direction: row; gap: 0; padding: 0; overflow: hidden; }
-    .dm-mf-left, .dm-mf-right { padding: 16px; flex: 1; display: flex; flex-direction: column; gap: 4px; }
-    .dm-mf-divider { width: 1px; background: var(--border); align-self: stretch; }
-    .dm-mf-stat-row { display: flex; align-items: baseline; gap: 5px; }
-    .dm-mf-val { font-size: 18px; font-weight: 800; color: var(--text); letter-spacing: -.5px; }
-    .dm-mf-lbl { font-size: 9.5px; color: var(--muted); font-weight: 600; }
-    .dm-fashion-btn {
-      padding: 7px 12px; background: var(--blue); color: #fff; border: none; border-radius: 8px;
-      font-size: 11px; font-weight: 700; cursor: pointer; font-family: inherit;
-      transition: all .18s; margin-top: 6px;
-    }
-    .dm-fashion-btn:hover { background: #2563EB; }
-    .dm-day-pills { display: flex; gap: 4px; flex-wrap: wrap; }
-    .dm-day-pill {
-      padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600;
-      background: var(--bg); border: 1px solid var(--border); color: var(--muted);
-      cursor: pointer; transition: all .15s; font-family: inherit;
-    }
-    .dm-day-pill.active { background: var(--blue-light); border-color: var(--blue-bdr); color: var(--blue); }
-
-    /* ─ Split rows ─ */
-    .dm-row { display: grid; gap: 14px; }
-    .dm-r25-75 { grid-template-columns: 1fr 3fr; }
-    .dm-r60-40 { grid-template-columns: 3fr 2fr; }
-    .dm-col { display: flex; flex-direction: column; gap: 14px; }
-
-    /* ─ Vision ─ */
-    .dm-vision-card { padding: 0; overflow: hidden; border-radius: 16px; }
-    .dm-vision-img { width: 100%; height: 100%; object-fit: cover; display: block; min-height: 200px; max-height: 380px; }
-
-    /* ─ Transcendence slides ─ */
-    .dm-trans-card { display: flex; flex-direction: column; }
-    .dm-slides-wrap { flex: 1; position: relative; min-height: 220px; overflow: hidden; }
-    .dm-slide { display: none; flex-direction: column; gap: 8px; }
-    .dm-slide-active { display: flex; }
-    .dm-slide-img { width: 100%; border-radius: 10px; object-fit: cover; max-height: 200px; }
-    .dm-slide-cover { text-align: center; padding: 20px 0; }
-    .dm-slide-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; }
-    .dm-slide-title { font-size: 22px; font-weight: 800; color: var(--text); letter-spacing: -1px; line-height: 1.1; }
-    .dm-slide-sub { font-size: 11px; color: var(--muted); font-weight: 600; margin-top: 6px; }
-    .dm-slide-date { font-size: 10px; color: var(--muted); margin-top: 4px; }
-    .dm-slide-chapter { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--blue); }
-    .dm-slide-h { font-size: 16px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
-    .dm-slide-p { font-size: 12px; line-height: 1.6; color: var(--mid); margin-bottom: 8px; }
-    .dm-slide-scroll { max-height: 220px; overflow-y: auto; padding-right: 4px; }
-    .dm-beliefs { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 3px; }
-    .dm-beliefs li { font-size: 11.5px; color: var(--mid); line-height: 1.4; padding: 4px 8px; background: var(--bg); border-radius: 6px; border: 1px solid var(--border); }
-    .dm-beliefs li::before { content: counter(li) '. '; counter-increment: li; color: var(--blue); font-weight: 700; font-size: 10px; }
-    .dm-beliefs { counter-reset: li; }
-    .dm-slide-nav { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; }
-    .dm-slide-btn {
-      width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--border);
-      background: var(--bg); color: var(--mid); cursor: pointer; font-size: 13px;
-      display: flex; align-items: center; justify-content: center; transition: all .15s;
-      font-family: inherit;
-    }
-    .dm-slide-btn:hover:not(:disabled) { background: var(--blue-light); border-color: var(--blue-bdr); color: var(--blue); }
-    .dm-slide-btn:disabled { opacity: .35; cursor: default; }
-    .dm-slide-dots { display: flex; gap: 5px; align-items: center; }
-    .dm-slide-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border); cursor: pointer; transition: all .2s; }
-    .dm-slide-dot.active { background: var(--blue); width: 16px; border-radius: 3px; }
-
-    /* ─ Sleep 3-col ─ */
-    .dm-sleep-card { display: flex; flex-direction: column; }
-    .dm-sleep-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 6px; }
-    .dm-sleep-item { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-    .dm-sleep-lbl { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .8px; color: var(--muted); }
-
-    /* ─ Daily grid ─ */
-    .dm-daily-r3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 10px; }
-    .dm-daily-r4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 10px; }
-    .dm-daily-item {
-      background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
-      padding: 12px 10px; display: flex; flex-direction: column; align-items: center; gap: 8px;
-    }
-    .dm-daily-lbl { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .8px; color: var(--muted); text-align: center; }
-    .dm-daily-item .dose-btns { flex-wrap: wrap; justify-content: center; }
-    .dm-xanax-btns { flex-wrap: wrap !important; }
-    .dm-num-input {
-      width: 64px; padding: 7px 10px; border: 1px solid var(--border); border-radius: 9px;
-      font-size: 18px; font-weight: 700; text-align: center; color: var(--text);
-      background: var(--bg); font-family: inherit; outline: none; transition: all .18s;
-    }
-    .dm-num-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,246,.09); }
-    .dm-worktime-wrap { display: flex; align-items: center; gap: 4px; }
-    .dm-unit { font-size: 13px; font-weight: 700; color: var(--muted); }
-    .dm-check-item { cursor: pointer; transition: all .18s; }
-    .dm-check-item:hover { border-color: var(--blue-bdr); background: var(--blue-light); }
-    .dm-yn-check { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 10px; font-size: 16px; }
-    .dm-yn-n { background: #FEF2F2; color: #EF4444; border-radius: 10px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
-    .dm-yn-y { background: #ECFDF5; color: #10B981; border-radius: 10px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
-    .dm-toggle-item { cursor: pointer; }
-    .dm-toggle-item:hover { border-color: var(--blue-bdr); background: var(--blue-light); }
-
-    /* ─ Food panel ─ */
-    .dm-food-outer { position: relative; }
-    .dm-food-card { min-height: 300px; }
-    .dm-add-kcal-btn {
-      padding: 8px 16px; background: var(--blue); color: #fff; border: none; border-radius: 10px;
-      font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit;
-      transition: all .18s; box-shadow: 0 2px 8px rgba(59,130,246,.25);
-    }
-    .dm-add-kcal-btn:hover { background: #2563EB; }
-    .dm-back-btn {
-      padding: 7px 14px; background: var(--bg); color: var(--mid); border: 1px solid var(--border);
-      border-radius: 9px; font-size: 12px; font-weight: 700; cursor: pointer;
-      font-family: inherit; transition: all .18s;
-    }
-    .dm-back-btn:hover { border-color: var(--blue-bdr); color: var(--blue); background: var(--blue-light); }
-
     /* ── LAYOUT ── */
     main { padding: 16px 20px 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .full-row { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
@@ -859,390 +729,84 @@
 
 <!-- ══ MAIN PAGE ══ -->
 <div id="page-main">
-<div class="dm-layout">
+<main>
 
-  <!-- ─── ROW 1: iOS top widgets ─── -->
-  <div class="dm-top-row">
 
-    <!-- Widget: Dashboard -->
-    <div class="dm-widget dm-w-sm">
-      <div class="dm-w-label">Dashboard</div>
-      <div class="dm-w-bignum" id="dm-ws1-done">0<span style="font-size:16px;font-weight:600;color:var(--muted)">/4</span></div>
-      <div class="dm-w-sublbl">WS1 hotovo</div>
-      <div class="dm-mini-bar-wrap"><div class="dm-mini-bar-fill" id="dm-ws1-bar"></div></div>
-    </div>
+  <!-- LEFT COLUMN: WS1 + Dočasné úlohy -->
+  <div style="display:flex;flex-direction:column;gap:14px;">
+  <!-- ZÍSKAJ DOPYT -->
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>Work Sheet 1</div>
 
-    <!-- Widget: Day -->
-    <div class="dm-widget dm-w-sm">
-      <div class="dm-w-label" id="dm-day-month-lbl">Apríl</div>
-      <div class="dm-w-bignum dm-w-daynum" id="dm-day-num-lbl">18</div>
-      <div class="dm-w-sublbl" id="dm-day-dow-lbl">piatok</div>
-    </div>
+    <div class="task-item" id="t-email" onclick="toggle('t-email')"><div class="task-check"></div><span class="task-label">Email send</span><span class="count-pill">400</span></div>
+    <div class="task-item" id="t-email-fu" onclick="toggle('t-email-fu')"><div class="task-check"></div><span class="task-label">Email followup</span></div>
+    <div class="task-item" id="t-jmc-fu" onclick="toggle('t-jmc-fu')"><div class="task-check"></div><span class="task-label">Ján Marček Consulting followups</span></div>
+    <div class="task-item" id="t-contact" onclick="toggle('t-contact')"><div class="task-check"></div><span class="task-label">Contact finding</span><span class="count-pill">30 min</span></div>
 
-    <!-- Widget: Prepinač -->
-    <div class="dm-widget dm-w-md">
-      <div class="dm-w-label">Prepinač</div>
-      <div id="day-nav" class="day-nav" style="justify-content:center;">
-        <button class="day-arrow" onclick="shiftView(-1)">‹</button>
-        <button class="day-arrow" onclick="shiftView(1)">›</button>
-      </div>
-      <div style="display:flex;gap:4px;justify-content:center;margin-top:6px;" id="dm-day-pills"></div>
-    </div>
-
-    <!-- Widget: Monthly + Fashion (split) -->
-    <div class="dm-widget dm-w-lg dm-w-split">
-      <div class="dm-mf-left">
-        <div class="dm-w-label">Monthly Stats</div>
-        <div class="dm-mf-stat-row">
-          <span class="dm-mf-val" id="dm-mo-sleep">—</span>
-          <span class="dm-mf-lbl">spánok</span>
-        </div>
-        <div class="dm-mf-stat-row">
-          <span class="dm-mf-val" id="dm-mo-kcal">—</span>
-          <span class="dm-mf-lbl">kcal avg</span>
-        </div>
-        <div class="dm-mf-stat-row">
-          <span class="dm-mf-val" id="dm-mo-exout">—</span>
-          <span class="dm-mf-lbl">vonku / cvič.</span>
-        </div>
-      </div>
-      <div class="dm-mf-divider"></div>
-      <div class="dm-mf-right">
-        <div class="dm-w-label">Fashion Daily</div>
-        <button class="dm-fashion-btn" onclick="window.open('https://janmarcekconsulting.github.io/fashion-daily/','_blank')">fashion-daily →</button>
-        <button class="dm-fashion-btn" style="margin-top:6px;background:var(--bg);color:var(--mid);border-color:var(--border);" onclick="openQsMonthModal()">Mesačný prehľad</button>
-      </div>
+    <div class="progress-row">
+      <span id="ag-txt">0 / 4</span>
+      <div class="pbar-wrap"><div class="pbar-fill" id="ag-bar" style="width:0%"></div></div>
     </div>
   </div>
 
-  <!-- ─── ROW 2: Vision (25%) + Monthly Stats (75%) ─── -->
-  <div class="dm-row dm-r25-75">
-    <div class="dm-col">
-      <div class="card dm-vision-card">
-        <img src="images/page5-vision.png" alt="Vision" class="dm-vision-img">
-      </div>
+  <!-- Dočasné úlohy (under WS1) -->
+  <div class="card temp-card">
+    <div class="card-title"><span class="dot" style="background:#3b82f6"></span>Dočasné úlohy</div>
+    <div class="temp-add-row">
+      <input class="temp-input" id="temp-input" type="text" placeholder="Pridať úlohu..." onkeydown="if(event.key==='Enter')addTemp()">
+      <button class="btn-add" onclick="addTemp()">+</button>
     </div>
-    <div class="dm-col">
-      <div class="card">
-        <div class="card-title" style="justify-content:space-between;">
-          <span><span class="dot" style="background:#6366F1"></span>Monthly Stats</span>
-          <span id="dm-month-label" style="font-size:10px;font-weight:600;color:var(--muted);text-transform:none;letter-spacing:0;"></span>
-        </div>
-        <div class="qs-stat-grid" style="grid-template-columns:repeat(3,1fr);gap:8px;">
-          <div class="qs-stat"><div class="qs-stat-val" id="dm-stat-sleep">—</div><div class="qs-stat-lbl">Avg spánok</div></div>
-          <div class="qs-stat"><div class="qs-stat-val" id="dm-stat-kcal">—</div><div class="qs-stat-lbl">Avg kcal</div></div>
-          <div class="qs-stat"><div class="qs-stat-val" id="dm-stat-prot">—</div><div class="qs-stat-lbl">Avg proteín</div></div>
-          <div class="qs-stat"><div class="qs-stat-val" id="dm-stat-vitamin">0/0</div><div class="qs-stat-lbl">Vitamín</div></div>
-          <div class="qs-stat"><div class="qs-stat-val" id="dm-stat-elektrolyty">0/0</div><div class="qs-stat-lbl">Elektrolyty</div></div>
-          <div class="qs-stat"><div class="qs-stat-val" id="dm-stat-outside">0/0</div><div class="qs-stat-lbl">Vonku</div></div>
-          <div class="qs-stat"><div class="qs-stat-val" id="dm-stat-exercise">0/0</div><div class="qs-stat-lbl">Cvičenie</div></div>
-          <div class="qs-stat"><div class="qs-stat-val" id="dm-stat-xanax">0mg</div><div class="qs-stat-lbl">Xanax avg</div></div>
-          <div class="qs-stat"><div class="qs-stat-val" id="dm-stat-fap">0x</div><div class="qs-stat-lbl">Fap total</div></div>
-        </div>
-        <div class="qs-bar-group" style="margin-top:12px;">
-          <div class="qs-bar-row"><span class="qs-bar-lbl">Vitamín</span><div class="qs-bar-track"><div class="qs-bar-fill" id="dm-bar-vitamin" style="width:0%;background:#10B981"></div></div><span class="qs-bar-pct" id="dm-pct-vitamin">0%</span></div>
-          <div class="qs-bar-row"><span class="qs-bar-lbl">Vonku</span><div class="qs-bar-track"><div class="qs-bar-fill" id="dm-bar-outside" style="width:0%;background:#3B82F6"></div></div><span class="qs-bar-pct" id="dm-pct-outside">0%</span></div>
-          <div class="qs-bar-row"><span class="qs-bar-lbl">Cvičenie</span><div class="qs-bar-track"><div class="qs-bar-fill" id="dm-bar-exercise" style="width:0%;background:#F59E0B"></div></div><span class="qs-bar-pct" id="dm-pct-exercise">0%</span></div>
-          <div class="qs-bar-row"><span class="qs-bar-lbl">Spánok 7h+</span><div class="qs-bar-track"><div class="qs-bar-fill" id="dm-bar-sleep" style="width:0%;background:#818CF8"></div></div><span class="qs-bar-pct" id="dm-pct-sleep">0%</span></div>
-        </div>
-      </div>
+    <div class="temp-list" id="temp-list"></div>
+  </div>
+  </div><!-- end left column -->
+
+  <!-- WORK SHEET 2 -->
+  <div class="card">
+    <div class="card-title"><span class="dot" style="background:#3b82f6"></span>Work Sheet 2</div>
+
+    <div class="task-item" id="t-read" onclick="toggle('t-read')"><div class="task-check"></div><span class="task-label">📖 Read Transcendence</span></div>
+
+    <div class="task-item" id="t-ceo" onclick="toggle('t-ceo')"><div class="task-check"></div><span class="task-label">LinkedIn CEO connects</span><span class="count-pill">15</span></div>
+    <div class="sub-row" style="flex-wrap:wrap;gap:6px;">
+      <input class="page-input" type="text" id="ceo-url-input" placeholder="Vlož LinkedIn URL…" style="flex:1;min-width:180px;font-size:11px;" oninput="saveCeoUrl(this.value)">
+      <button class="btn btn-dark" onclick="openCeoUrl()">Otvoriť</button>
+      <button class="btn btn-gold" onclick="copyCeoUrl()">Kopírovať URL</button>
+      <button class="btn btn-gold" id="cp-ceo" onclick="doCopy('ceo-connect','cp-ceo')">Kopírovať pitch</button>
+    </div>
+
+    <div class="progress-row">
+      <span id="cl-txt">0 / 2</span>
+      <div class="pbar-wrap"><div class="pbar-fill" id="cl-bar" style="width:0%"></div></div>
+    </div>
+
+    <div style="height:1px;background:var(--border);margin:12px 0 10px;"></div>
+    <div style="font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;padding:4px 0 6px;opacity:.7;">Voliteľné</div>
+    <div class="task-item" id="t-tiktok" onclick="toggle('t-tiktok')">
+      <div class="task-check"></div>
+      <span class="task-label" style="color:var(--mid)">TikTok Clothing Brand — video make</span>
+    </div>
+    <div class="sub-row">
+      <button class="btn btn-gold" onclick="window.open('https://janmarcekconsulting.github.io/fashion-daily/','_blank')">Otvoriť fashion-daily</button>
+    </div>
+
+    <div class="task-item" id="t-li-post" onclick="toggle('t-li-post')"><div class="task-check"></div><span class="task-label" style="color:var(--mid)">LinkedIn Post — vytvoriť</span></div>
+    <div class="sub-row">
+      <button class="btn btn-gold" id="cp-li" onclick="doCopy('linkedin-prompt','cp-li')">Kopírovať prompt pre Claude</button>
+    </div>
+
+    <div class="task-item" id="t-blog" onclick="toggle('t-blog')"><div class="task-check"></div><span class="task-label" style="color:var(--mid)">Blog post Získaj Dopyt</span></div>
+  </div>
+
+  <!-- PITCHES FULL ROW -->
+  <div class="full-row" style="grid-template-columns:1fr;">
+    <div class="card pitch-card">
+      <div class="card-title"><span class="dot" style="background:var(--gold)"></span>Pitche &amp; Prompty</div>
+      <div class="pitch-list" id="pitch-list"></div>
     </div>
   </div>
 
-  <!-- ─── ROW 3: Transcendence (25%) + Weekly stats (75%) ─── -->
-  <div class="dm-row dm-r25-75">
-    <div class="dm-col">
-      <div class="card dm-trans-card">
-        <div class="card-title"><span class="dot" style="background:#6366F1"></span>Self Transcendence</div>
-        <div class="dm-slides-wrap">
-          <!-- Slide 0 -->
-          <div class="dm-slide dm-slide-active">
-            <img src="images/page1-cover.png" alt="Cover" class="dm-slide-img">
-          </div>
-          <!-- Slide 1 -->
-          <div class="dm-slide">
-            <div class="dm-slide-cover">
-              <div class="dm-slide-label">Ján Marček</div>
-              <div class="dm-slide-title">Self<br>Transcendence</div>
-              <div class="dm-slide-sub">Workbook v1.1</div>
-              <div class="dm-slide-date">19th March 2026</div>
-            </div>
-          </div>
-          <!-- Slide 2: Beliefs -->
-          <div class="dm-slide dm-slide-scroll">
-            <div class="dm-slide-chapter">Chapter I</div>
-            <div class="dm-slide-h">My Beliefs</div>
-            <ol class="dm-beliefs">
-              <li>I am disciplined.</li><li>I am worthy of earning bigger money.</li><li>I am very intelligent.</li><li>I am young and I can change.</li><li>I have a lot of energy to change.</li><li>I deserve a better life.</li><li>I am a winner.</li><li>I have good luck.</li><li>My willpower is strong.</li><li>I am beautiful.</li><li>I am strong.</li><li>I am strong-minded.</li><li>I love myself.</li><li>I can achieve anything.</li><li>Cold calling is easy.</li><li>Having a business is chill.</li><li>People trust service offers.</li><li>Businesses need my help.</li>
-            </ol>
-          </div>
-          <!-- Slide 3: Vision -->
-          <div class="dm-slide">
-            <img src="images/page5-vision.png" alt="Vision" class="dm-slide-img">
-          </div>
-          <!-- Slide 4: Chapters -->
-          <div class="dm-slide">
-            <img src="images/page6-chapters.png" alt="Chapters" class="dm-slide-img">
-          </div>
-          <!-- Slide 5: Story -->
-          <div class="dm-slide dm-slide-scroll">
-            <div class="dm-slide-chapter">Chapter II</div>
-            <div class="dm-slide-h">The Story of Hnxty</div>
-            <p class="dm-slide-p">Hnxty bol 25-ročný muž, ktorý bojoval s peniazmi, zdravím a životom. Rozhodol sa zmeniť všetko.</p>
-            <p class="dm-slide-p">Zreformoval svoje mentálne aj fyzické zdravie. Vybudoval agentúru na <strong>€5 000/mesiac</strong>, potom <strong>€10 000</strong>, potom <strong>€25 000</strong>.</p>
-            <p class="dm-slide-p">Kúpil si auto, presťahoval sa do lepšieho bytu a stal sa rešpektovaným menom v marketingovom odvetví.</p>
-          </div>
-        </div>
-        <div class="dm-slide-nav">
-          <button class="dm-slide-btn" id="dm-slide-prev" onclick="dmSlideNav(-1)" disabled>←</button>
-          <div class="dm-slide-dots" id="dm-slide-dots"></div>
-          <button class="dm-slide-btn" id="dm-slide-next" onclick="dmSlideNav(1)">→</button>
-        </div>
-      </div>
-    </div>
-    <div class="dm-col">
-      <div class="card">
-        <div class="card-title" style="justify-content:space-between;">
-          <span><span class="dot" style="background:#10B981"></span>Weekly Stats</span>
-          <div style="display:flex;gap:5px;">
-            <button class="cal-nav-btn" onclick="shiftQsWeek(-1)">‹</button>
-            <span id="qs-week-label" style="font-size:10.5px;font-weight:600;color:var(--mid);white-space:nowrap;align-self:center;"></span>
-            <button class="cal-nav-btn" onclick="shiftQsWeek(1)">›</button>
-          </div>
-        </div>
-        <div class="qs-week-grid" id="qs-week-grid"></div>
-        <div class="qs-stat-grid" id="qs-week-stats" style="grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px;"></div>
-      </div>
-    </div>
-  </div>
+</main>
 
-  <!-- ─── ROW 4: Todo (60%) + Sleep (40%) ─── -->
-  <div class="dm-row dm-r60-40">
-    <div class="dm-col" style="display:flex;flex-direction:column;gap:14px;">
-
-      <!-- WS1 -->
-      <div class="card">
-        <div class="card-title"><span class="dot"></span>Work Sheet 1</div>
-        <div class="task-item" id="t-email" onclick="toggle('t-email')"><div class="task-check"></div><span class="task-label">Email send</span><span class="count-pill">400</span></div>
-        <div class="task-item" id="t-email-fu" onclick="toggle('t-email-fu')"><div class="task-check"></div><span class="task-label">Email followup</span></div>
-        <div class="task-item" id="t-jmc-fu" onclick="toggle('t-jmc-fu')"><div class="task-check"></div><span class="task-label">Ján Marček Consulting followups</span></div>
-        <div class="task-item" id="t-contact" onclick="toggle('t-contact')"><div class="task-check"></div><span class="task-label">Contact finding</span><span class="count-pill">30 min</span></div>
-        <div class="progress-row">
-          <span id="ag-txt">0 / 4</span>
-          <div class="pbar-wrap"><div class="pbar-fill" id="ag-bar" style="width:0%"></div></div>
-        </div>
-      </div>
-
-      <!-- WS2 -->
-      <div class="card">
-        <div class="card-title"><span class="dot" style="background:#3b82f6"></span>Work Sheet 2</div>
-        <div class="task-item" id="t-read" onclick="toggle('t-read')"><div class="task-check"></div><span class="task-label">Read Transcendence</span></div>
-        <div class="task-item" id="t-ceo" onclick="toggle('t-ceo')"><div class="task-check"></div><span class="task-label">LinkedIn CEO connects</span><span class="count-pill">15</span></div>
-        <div class="sub-row" style="flex-wrap:wrap;gap:6px;">
-          <input class="page-input" type="text" id="ceo-url-input" placeholder="Vlož LinkedIn URL…" style="flex:1;min-width:180px;font-size:11px;" oninput="saveCeoUrl(this.value)">
-          <button class="btn btn-dark" onclick="openCeoUrl()">Otvoriť</button>
-          <button class="btn btn-gold" onclick="copyCeoUrl()">Kopírovať URL</button>
-          <button class="btn btn-gold" id="cp-ceo" onclick="doCopy('ceo-connect','cp-ceo')">Kopírovať pitch</button>
-        </div>
-        <div class="progress-row">
-          <span id="cl-txt">0 / 2</span>
-          <div class="pbar-wrap"><div class="pbar-fill" id="cl-bar" style="width:0%"></div></div>
-        </div>
-        <div style="height:1px;background:var(--border);margin:12px 0 10px;"></div>
-        <div style="font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;padding:4px 0 6px;opacity:.7;">Voliteľné</div>
-        <div class="task-item" id="t-tiktok" onclick="toggle('t-tiktok')"><div class="task-check"></div><span class="task-label" style="color:var(--mid)">TikTok Clothing Brand — video</span></div>
-        <div class="sub-row"><button class="btn btn-gold" onclick="window.open('https://janmarcekconsulting.github.io/fashion-daily/','_blank')">Otvoriť fashion-daily</button></div>
-        <div class="task-item" id="t-li-post" onclick="toggle('t-li-post')"><div class="task-check"></div><span class="task-label" style="color:var(--mid)">LinkedIn Post — vytvoriť</span></div>
-        <div class="sub-row"><button class="btn btn-gold" id="cp-li" onclick="doCopy('linkedin-prompt','cp-li')">Kopírovať prompt pre Claude</button></div>
-        <div class="task-item" id="t-blog" onclick="toggle('t-blog')"><div class="task-check"></div><span class="task-label" style="color:var(--mid)">Blog post Získaj Dopyt</span></div>
-      </div>
-
-      <!-- Dočasné úlohy -->
-      <div class="card temp-card">
-        <div class="card-title"><span class="dot" style="background:#3b82f6"></span>Dočasné úlohy</div>
-        <div class="temp-add-row">
-          <input class="temp-input" id="temp-input" type="text" placeholder="Pridať úlohu..." onkeydown="if(event.key==='Enter')addTemp()">
-          <button class="btn-add" onclick="addTemp()">+</button>
-        </div>
-        <div class="temp-list" id="temp-list"></div>
-      </div>
-
-      <!-- Pitches -->
-      <div class="card pitch-card">
-        <div class="card-title"><span class="dot" style="background:var(--gold)"></span>Pitche &amp; Prompty</div>
-        <div class="pitch-list" id="pitch-list"></div>
-      </div>
-    </div>
-
-    <!-- SLEEP column -->
-    <div class="dm-col">
-      <div class="card dm-sleep-card">
-        <div class="card-title"><span class="dot" style="background:#818CF8"></span>Spánok</div>
-        <div class="dm-sleep-3col">
-          <div class="dm-sleep-item">
-            <div class="dm-sleep-lbl">Hodiny spánku</div>
-            <div class="sleep-big" id="qs-sleep-display">—</div>
-            <input type="number" class="sleep-input" id="qs-sleep-h" min="0" max="16" step="0.5" placeholder="7.5"
-              oninput="qsSaveField('sleepH',this.value);document.getElementById('qs-sleep-display').textContent=this.value?this.value+'h':'—'">
-          </div>
-          <div class="dm-sleep-item">
-            <div class="dm-sleep-lbl">Zaspal</div>
-            <input type="time" class="sleep-input" id="qs-bedtime" onchange="qsSaveField('bedtime',this.value)">
-          </div>
-          <div class="dm-sleep-item">
-            <div class="dm-sleep-lbl">Zobudil sa</div>
-            <input type="time" class="sleep-input" id="qs-waketime" onchange="qsSaveField('wakeTime',this.value)">
-          </div>
-        </div>
-        <div class="qs-toggle" id="qs-t-nightAwake" onclick="qsToggle('nightAwake')" style="margin-top:12px;">
-          <div class="qs-toggle-left">Zobudil som sa v noci</div>
-          <div class="qs-switch"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ─── ROW 5: Daily (60%) + Food (40%) ─── -->
-  <div class="dm-row dm-r60-40">
-
-    <!-- DAILY column -->
-    <div class="dm-col">
-      <div class="card">
-        <div class="card-title"><span class="dot" style="background:#10B981"></span>Daily</div>
-
-        <!-- Row A: 3 cols — Work time, Transcendence, Meditate -->
-        <div class="dm-daily-r3">
-          <div class="dm-daily-item">
-            <div class="dm-daily-lbl">Work time</div>
-            <div class="dm-worktime-wrap">
-              <input type="number" id="qs-worktime" class="dm-num-input" min="0" max="24" step="0.5" placeholder="0"
-                oninput="dmSaveWorkTime(this.value)">
-              <span class="dm-unit">h</span>
-            </div>
-          </div>
-          <div class="dm-daily-item dm-check-item" id="qs-t-transcendence" onclick="qsToggle('transcendence')">
-            <div class="dm-daily-lbl">Transcendence</div>
-            <div class="dm-yn-check" id="dm-trans-yn">
-              <span class="dm-yn-n dm-yn-active">✕</span>
-            </div>
-          </div>
-          <div class="dm-daily-item dm-check-item" id="qs-t-meditate" onclick="qsToggle('meditate')">
-            <div class="dm-daily-lbl">Meditate</div>
-            <div class="dm-yn-check" id="dm-med-yn">
-              <span class="dm-yn-n dm-yn-active">✕</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Row B: 4 cols — Vitamín, Elektrolyty, Xanax, Energeťak -->
-        <div class="dm-daily-r4">
-          <div class="dm-daily-item">
-            <div class="dm-daily-lbl">Vitamín</div>
-            <div class="dose-btns" id="vit-dose-btns">
-              <button class="dose-btn" onclick="setVitDose(0)">0</button>
-              <button class="dose-btn" onclick="setVitDose(10)">10</button>
-              <button class="dose-btn" onclick="setVitDose(15)">15ml</button>
-            </div>
-          </div>
-          <div class="dm-daily-item">
-            <div class="dm-daily-lbl">Elektrolyty</div>
-            <div class="dose-btns" id="elk-dose-btns">
-              <button class="dose-btn" data-elkval="0" onclick="setElektrolyty(0)">0</button>
-              <button class="dose-btn" data-elkval="0.5" onclick="setElektrolyty(0.5)">½</button>
-              <button class="dose-btn" data-elkval="1" onclick="setElektrolyty(1)">1</button>
-            </div>
-          </div>
-          <div class="dm-daily-item">
-            <div class="dm-daily-lbl">Xanax (mg)</div>
-            <div class="dose-btns dm-xanax-btns" id="xanax-dose-btns">
-              <button class="dose-btn" data-val="0" onclick="setXanax(0)">0</button>
-              <button class="dose-btn" data-val="0.25" onclick="setXanax(0.25)">.25</button>
-              <button class="dose-btn" data-val="0.5" onclick="setXanax(0.5)">.5</button>
-              <button class="dose-btn" data-val="0.75" onclick="setXanax(0.75)">.75</button>
-              <button class="dose-btn" data-val="1" onclick="setXanax(1)">1</button>
-              <button class="dose-btn" data-val="1.25" onclick="setXanax(1.25)">1.25</button>
-              <button class="dose-btn" data-val="1.5" onclick="setXanax(1.5)">1.5</button>
-            </div>
-          </div>
-          <div class="dm-daily-item dm-toggle-item qs-toggle" id="qs-t-energetak" onclick="qsToggle('energetak')" style="border:none;padding:0;background:none;">
-            <div>
-              <div class="dm-daily-lbl">Energeťak</div>
-              <div class="qs-switch" style="margin-top:8px;"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Row C: 3 cols — Vonku, Cvičenie, Fap -->
-        <div class="dm-daily-r3">
-          <div class="dm-daily-item dm-toggle-item qs-toggle" id="qs-t-outside" onclick="qsToggle('outside')" style="border:none;padding:0;background:none;">
-            <div>
-              <div class="dm-daily-lbl">Bol som vonku</div>
-              <div class="qs-switch" style="margin-top:8px;"></div>
-            </div>
-          </div>
-          <div class="dm-daily-item dm-toggle-item qs-toggle" id="qs-t-exercise" onclick="qsToggle('exercise')" style="border:none;padding:0;background:none;">
-            <div>
-              <div class="dm-daily-lbl">Cvičil som</div>
-              <div class="qs-switch" style="margin-top:8px;"></div>
-            </div>
-          </div>
-          <div class="dm-daily-item">
-            <div class="dm-daily-lbl">Fap</div>
-            <div class="dose-btns" id="fap-dose-btns">
-              <button class="dose-btn" onclick="setFap(0)">0</button>
-              <button class="dose-btn" onclick="setFap(1)">1x</button>
-              <button class="dose-btn" onclick="setFap(2)">2x</button>
-              <button class="dose-btn" onclick="setFap(3)">3x</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- FOOD column with slide-in Add KCAL -->
-    <div class="dm-col dm-food-outer">
-      <div class="card dm-food-card">
-
-        <!-- STATS VIEW -->
-        <div id="dm-food-stats">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-            <div class="card-title" style="margin-bottom:0;"><span class="dot" style="background:#F59E0B"></span>Jedlo</div>
-            <button class="dm-add-kcal-btn" onclick="dmShowFoodAdd()">+ Add KCAL</button>
-          </div>
-          <div class="macro-row">
-            <div class="macro-box kcal-box"><div class="macro-val" id="qs-kcal">0</div><div class="macro-lbl">kcal</div></div>
-            <div class="macro-box prot-box"><div class="macro-val" id="qs-prot">0g</div><div class="macro-lbl">Proteín</div><div class="macro-goal" id="qs-prot-goal">/ 100g</div></div>
-            <div class="macro-box"><div class="macro-val" id="qs-carbs">0g</div><div class="macro-lbl">Sacharidy</div></div>
-            <div class="macro-box"><div class="macro-val" id="qs-fat">0g</div><div class="macro-lbl">Tuky</div></div>
-          </div>
-          <div class="food-log-list" id="qs-food-log"></div>
-          <div class="vit-grid" id="qs-vit-grid"></div>
-        </div>
-
-        <!-- ADD KCAL VIEW -->
-        <div id="dm-food-add" style="display:none;">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-            <button class="dm-back-btn" onclick="dmHideFoodAdd()">← Späť</button>
-            <span style="font-size:13px;font-weight:700;color:var(--text);">Pridať jedlo</span>
-          </div>
-          <div class="food-btn-grid" id="food-btn-grid"></div>
-          <div class="food-manual-row">
-            <input class="food-manual-input" id="food-manual-label" type="text" placeholder="Názov (voliteľné)">
-            <input class="food-manual-kcal" id="food-manual-kcal" type="number" placeholder="kcal" min="1" onkeydown="if(event.key==='Enter')qsAddManual()">
-            <button class="food-manual-btn" onclick="qsAddManual()">+ kcal</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-</div><!-- end dm-layout -->
-
-<!-- Hidden elements for JS compatibility -->
-<span id="qs-day-label" style="display:none;"></span>
-<div id="qs-cal-grid" style="display:none;"></div>
-<span id="qs-cal-month" style="display:none;"></span>
 
 </div>
 
@@ -1266,10 +830,143 @@
   </div>
 </div>
 
-<!-- ══ QS PAGE (archived — dáta sú na hlavnom dashboarde) ══ -->
-<div id="page-qs" style="display:none;padding:60px 24px;text-align:center;">
-  <p style="font-size:14px;color:var(--mid);margin-bottom:16px;">QS dáta sú teraz integrované na hlavnom dashboarde.</p>
-  <button class="btn btn-gold" onclick="showPage('main')">← Späť na Dashboard</button>
+<!-- ══ QUANTIFIED SELF PAGE ══ -->
+<div id="page-qs">
+  <div class="qs-layout">
+
+    <!-- LEFT: Daily Entry -->
+    <div class="qs-col">
+      <div class="qs-day-nav">
+        <span class="qs-day-label" id="qs-day-label"></span>
+        <button class="cal-btn" onclick="qsGoToday()" style="font-size:11px;padding:5px 10px;">Dnes</button>
+      </div>
+
+      <!-- Sleep -->
+      <div class="qs-card">
+        <div class="qs-card-title"><span class="dot" style="background:#818CF8"></span>Spánok</div>
+        <div class="sleep-grid">
+          <div class="sleep-field">
+            <label>Hodín spánku</label>
+            <div class="sleep-big" id="qs-sleep-display">—</div>
+            <input type="number" class="sleep-input" id="qs-sleep-h" min="0" max="16" step="0.5" placeholder="7.5"
+              style="margin-top:6px;text-align:center;"
+              oninput="qsSaveField('sleepH',this.value);document.getElementById('qs-sleep-display').textContent=this.value?this.value+'h':'—'">
+          </div>
+          <div>
+            <div class="sleep-field" style="margin-bottom:10px;">
+              <label>Zaspal</label>
+              <input type="time" class="sleep-input" id="qs-bedtime" onchange="qsSaveField('bedtime',this.value)">
+            </div>
+            <div class="sleep-field">
+              <label>Zobudil sa</label>
+              <input type="time" class="sleep-input" id="qs-waketime" onchange="qsSaveField('wakeTime',this.value)">
+            </div>
+          </div>
+        </div>
+        <div class="qs-toggle" id="qs-t-nightAwake" onclick="qsToggle('nightAwake')">
+          <div class="qs-toggle-left"><span class="qs-toggle-emoji">🌙</span>Zobudil som sa v noci</div>
+          <div class="qs-switch"></div>
+        </div>
+      </div>
+
+      <!-- Wellness -->
+      <div class="qs-card">
+        <div class="qs-card-title"><span class="dot" style="background:#10B981"></span>Wellness</div>
+        <div class="toggle-group">
+          <div class="dose-row">
+            <div class="qs-toggle-left"><span class="qs-toggle-emoji">💊</span>Vitamín</div>
+            <div class="dose-btns" id="vit-dose-btns">
+              <button class="dose-btn" onclick="setVitDose(0)">0 ml</button>
+              <button class="dose-btn" onclick="setVitDose(10)">10 ml</button>
+              <button class="dose-btn" onclick="setVitDose(15)">15 ml</button>
+            </div>
+          </div>
+          <div class="dose-row">
+            <div class="qs-toggle-left"><span class="qs-toggle-emoji">💧</span>Elektrolyty</div>
+            <div class="dose-btns" id="elk-dose-btns">
+              <button class="dose-btn" data-elkval="0"   onclick="setElektrolyty(0)">0</button>
+              <button class="dose-btn" data-elkval="0.5" onclick="setElektrolyty(0.5)">½</button>
+              <button class="dose-btn" data-elkval="1"   onclick="setElektrolyty(1)">1</button>
+            </div>
+          </div>
+          <div class="dose-row">
+            <div class="qs-toggle-left"><span class="qs-toggle-emoji">🟣</span>Xanax (mg)</div>
+            <div class="dose-btns" id="xanax-dose-btns">
+              <button class="dose-btn" data-val="0"    onclick="setXanax(0)">0</button>
+              <button class="dose-btn" data-val="0.25" onclick="setXanax(0.25)">0.25</button>
+              <button class="dose-btn" data-val="0.5"  onclick="setXanax(0.5)">0.5</button>
+              <button class="dose-btn" data-val="0.75" onclick="setXanax(0.75)">0.75</button>
+              <button class="dose-btn" data-val="1"    onclick="setXanax(1)">1</button>
+              <button class="dose-btn" data-val="1.25" onclick="setXanax(1.25)">1.25</button>
+              <button class="dose-btn" data-val="1.5"  onclick="setXanax(1.5)">1.5</button>
+            </div>
+          </div>
+          <div class="qs-toggle" id="qs-t-energetak" onclick="qsToggle('energetak')">
+            <div class="qs-toggle-left"><span class="qs-toggle-emoji">⚡</span>Energeťak</div>
+            <div class="qs-switch"></div>
+          </div>
+          <div class="qs-toggle" id="qs-t-outside" onclick="qsToggle('outside')">
+            <div class="qs-toggle-left"><span class="qs-toggle-emoji">🌿</span>Bol som vonku</div>
+            <div class="qs-switch"></div>
+          </div>
+          <div class="qs-toggle" id="qs-t-exercise" onclick="qsToggle('exercise')">
+            <div class="qs-toggle-left"><span class="qs-toggle-emoji">💪</span>Cvičil som</div>
+            <div class="qs-switch"></div>
+          </div>
+          <div class="dose-row">
+            <div class="qs-toggle-left"><span class="qs-toggle-emoji">🍆</span>Fap</div>
+            <div class="dose-btns" id="fap-dose-btns">
+              <button class="dose-btn" onclick="setFap(0)">0</button>
+              <button class="dose-btn" onclick="setFap(1)">1x</button>
+              <button class="dose-btn" onclick="setFap(2)">2x</button>
+              <button class="dose-btn" onclick="setFap(3)">3x</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: Monthly button + Weekly + Food -->
+    <div class="qs-col">
+
+      <!-- Open monthly modal button -->
+      <button class="btn-open-month" onclick="openQsMonthModal()">📅 Mesačný prehľad</button>
+
+      <!-- Weekly Calendar -->
+      <div class="qs-card">
+        <div class="qs-cal-hdr">
+          <span style="font-size:13px;font-weight:700;color:var(--text);" id="qs-week-label"></span>
+          <div style="display:flex;gap:5px;">
+            <button class="cal-nav-btn" onclick="shiftQsWeek(-1)">‹</button>
+            <button class="cal-nav-btn" onclick="shiftQsWeek(1)">›</button>
+          </div>
+        </div>
+        <div class="qs-week-grid" id="qs-week-grid"></div>
+        <div class="qs-week-stats" id="qs-week-stats"></div>
+      </div>
+
+      <!-- Food Tracker -->
+      <div class="qs-card">
+        <div class="qs-card-title"><span class="dot" style="background:#F59E0B"></span>Jedlo</div>
+        <div class="macro-row">
+          <div class="macro-box kcal-box"><div class="macro-val" id="qs-kcal">0</div><div class="macro-lbl">kcal</div></div>
+          <div class="macro-box prot-box"><div class="macro-val" id="qs-prot">0g</div><div class="macro-lbl">Proteín</div><div class="macro-goal" id="qs-prot-goal">/ 100g</div></div>
+          <div class="macro-box"><div class="macro-val" id="qs-carbs">0g</div><div class="macro-lbl">Sacharidy</div></div>
+          <div class="macro-box"><div class="macro-val" id="qs-fat">0g</div><div class="macro-lbl">Tuky</div></div>
+        </div>
+        <div class="food-btn-grid" id="food-btn-grid"></div>
+        <div class="food-manual-row">
+          <input class="food-manual-input" id="food-manual-label" type="text" placeholder="Názov (voliteľné)">
+          <input class="food-manual-kcal" id="food-manual-kcal" type="number" placeholder="kcal" min="1" onkeydown="if(event.key==='Enter')qsAddManual()">
+          <button class="food-manual-btn" onclick="qsAddManual()">+ kcal</button>
+        </div>
+        <div class="food-log-list" id="qs-food-log"></div>
+        <div class="vit-grid" id="qs-vit-grid"></div>
+      </div>
+
+    </div>
+  </div>
 </div>
 
 <!-- ══ QS MONTHLY DETAIL MODAL ══ -->
@@ -1412,164 +1109,6 @@
 </div>
 
 <script>
-// ══════════════════════════════════════════
-// ══════════════════════════════════════════
-// NEW DASHBOARD — transcendence slides
-// ══════════════════════════════════════════
-let dmSlideIdx = 0;
-function dmSlideInit() {
-  const slides = document.querySelectorAll('.dm-slide');
-  const dotsWrap = document.getElementById('dm-slide-dots');
-  if (!slides.length || !dotsWrap) return;
-  dotsWrap.innerHTML = '';
-  slides.forEach((_, i) => {
-    const d = document.createElement('div');
-    d.className = 'dm-slide-dot' + (i === 0 ? ' active' : '');
-    d.onclick = () => dmSlideGo(i);
-    dotsWrap.appendChild(d);
-  });
-  dmSlideGo(0);
-}
-function dmSlideGo(idx) {
-  const slides = document.querySelectorAll('.dm-slide');
-  slides.forEach(s => s.classList.remove('dm-slide-active'));
-  slides[idx]?.classList.add('dm-slide-active');
-  dmSlideIdx = idx;
-  document.querySelectorAll('.dm-slide-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
-  const prev = document.getElementById('dm-slide-prev');
-  const next = document.getElementById('dm-slide-next');
-  if (prev) prev.disabled = idx === 0;
-  if (next) next.disabled = idx === slides.length - 1;
-}
-function dmSlideNav(dir) { dmSlideGo(dmSlideIdx + dir); }
-
-// ══════════════════════════════════════════
-// NEW DASHBOARD — day pills in widget
-// ══════════════════════════════════════════
-function dmRenderDayPills() {
-  const wrap = document.getElementById('dm-day-pills');
-  if (!wrap) return;
-  wrap.innerHTML = '';
-  [-1, 0, 1].forEach(offset => {
-    const d = addDays(viewDate, offset);
-    const btn = document.createElement('button');
-    btn.className = 'dm-day-pill' + (offset === 0 ? ' active' : '');
-    btn.textContent = d.toLocaleDateString('sk-SK', { weekday:'short', day:'numeric' });
-    btn.onclick = () => goToDay(d);
-    wrap.appendChild(btn);
-  });
-  // Update large day/month widget
-  const numEl = document.getElementById('dm-day-num-lbl');
-  const monthEl = document.getElementById('dm-day-month-lbl');
-  const dowEl = document.getElementById('dm-day-dow-lbl');
-  if (numEl) numEl.textContent = viewDate.getDate();
-  if (monthEl) monthEl.textContent = viewDate.toLocaleDateString('sk-SK', { month: 'long' });
-  if (dowEl) dowEl.textContent = viewDate.toLocaleDateString('sk-SK', { weekday: 'long' });
-}
-
-// ══════════════════════════════════════════
-// NEW DASHBOARD — monthly stats (main page)
-// ══════════════════════════════════════════
-function renderMainStats() {
-  const now = new Date();
-  const year = now.getFullYear(), month = now.getMonth();
-  const names = ['Január','Február','Marec','Apríl','Máj','Jún','Júl','August','September','Október','November','December'];
-  const lbl = document.getElementById('dm-month-label');
-  if (lbl) lbl.textContent = `${names[month]} ${year}`;
-  const today = now;
-  const daysElapsed = today.getDate();
-  let vitC=0,outC=0,exC=0,elkC=0,nrgC=0,xanaxSum=0,xanaxDays=0,fapTotal=0,sleepC=0,sleepSum=0,kcalC=0,kcalSum=0,protSum=0,sleepGoodC=0,dwd=0;
-  for (let d=1;d<=daysElapsed;d++) {
-    const dk=`${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const qs=STORE.days[dk]?.qs; if(!qs) continue; dwd++;
-    if(vitDoseOf(qs)>0) vitC++; if(qs.outside) outC++; if(qs.exercise) exC++; if((qs.elektrolyty||0)>0) elkC++;
-    if(qs.energetak) nrgC++;
-    if((qs.xanax||0)>0){xanaxSum+=qs.xanax;xanaxDays++;}
-    fapTotal+=(qs.fap||0);
-    if(qs.sleepH){sleepSum+=parseFloat(qs.sleepH);sleepC++;if(parseFloat(qs.sleepH)>=7)sleepGoodC++;}
-    if(qs.food?.length){const m=qsMacros(qs);kcalSum+=m.kcal;protSum+=m.prot;kcalC++;}
-  }
-  const avgSleep=sleepC?(sleepSum/sleepC).toFixed(1)+'h':'—';
-  const avgKcal=kcalC?Math.round(kcalSum/kcalC):'—';
-  const avgProt=kcalC?Math.round(protSum/kcalC)+'g':'—';
-  const base=daysElapsed||1;
-  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
-  set('dm-stat-sleep',avgSleep); set('dm-stat-kcal',avgKcal); set('dm-stat-prot',avgProt);
-  set('dm-stat-vitamin',`${vitC}/${daysElapsed}`); set('dm-stat-elektrolyty',`${elkC}/${daysElapsed}`);
-  set('dm-stat-outside',`${outC}/${daysElapsed}`); set('dm-stat-exercise',`${exC}/${daysElapsed}`);
-  set('dm-stat-xanax',xanaxDays?(xanaxSum/xanaxDays).toFixed(2)+'mg':'0mg');
-  set('dm-stat-fap',fapTotal+'x');
-  const pct=k=>daysElapsed>0?Math.round(k/daysElapsed*100):0;
-  [['vitamin',vitC],['outside',outC],['exercise',exC],['sleep',sleepGoodC]].forEach(([k,v])=>{
-    const p=pct(v);
-    const bar=document.getElementById('dm-bar-'+k);if(bar)bar.style.width=p+'%';
-    const lbl2=document.getElementById('dm-pct-'+k);if(lbl2)lbl2.textContent=p+'%';
-  });
-  // Top widget averages
-  const mo_sleep=document.getElementById('dm-mo-sleep'); if(mo_sleep)mo_sleep.textContent=avgSleep;
-  const mo_kcal=document.getElementById('dm-mo-kcal'); if(mo_kcal)mo_kcal.textContent=avgKcal;
-  const mo_exout=document.getElementById('dm-mo-exout'); if(mo_exout)mo_exout.textContent=`${outC}/${daysElapsed}`;
-}
-
-// ══════════════════════════════════════════
-// NEW DASHBOARD — work time + checkboxes
-// ══════════════════════════════════════════
-function dmSaveWorkTime(val) {
-  qsDayData().workTime = parseFloat(val) || 0;
-  saveStore();
-  renderQsWeek();
-}
-function dmRenderDailyChecks() {
-  const q = qsDayData();
-  // Work time
-  const wt = document.getElementById('qs-worktime'); if(wt) wt.value = q.workTime||'';
-  // Transcendence
-  const transEl = document.getElementById('dm-trans-yn');
-  if (transEl) {
-    transEl.innerHTML = q.transcendence
-      ? '<span class="dm-yn-y">✓</span>'
-      : '<span class="dm-yn-n dm-yn-active">✕</span>';
-  }
-  // Meditate
-  const medEl = document.getElementById('dm-med-yn');
-  if (medEl) {
-    medEl.innerHTML = q.meditate
-      ? '<span class="dm-yn-y">✓</span>'
-      : '<span class="dm-yn-n dm-yn-active">✕</span>';
-  }
-  // Transcendence item bg
-  const tItem = document.getElementById('qs-t-transcendence');
-  if (tItem) tItem.style.background = q.transcendence ? '#ECFDF5' : '';
-  tItem && (tItem.style.borderColor = q.transcendence ? '#A7F3D0' : '');
-  const mItem = document.getElementById('qs-t-meditate');
-  if (mItem) mItem.style.background = q.meditate ? '#ECFDF5' : '';
-  mItem && (mItem.style.borderColor = q.meditate ? '#A7F3D0' : '');
-  // WS1 progress widget
-  const d = dayData(viewDate);
-  const ad = AGENCY.filter(id => d.tasks[id]).length;
-  const wsEl = document.getElementById('dm-ws1-done');
-  if (wsEl) wsEl.innerHTML = `${ad}<span style="font-size:16px;font-weight:600;color:var(--muted)">/${AGENCY.length}</span>`;
-  const wsBar = document.getElementById('dm-ws1-bar');
-  if (wsBar) wsBar.style.width = (ad/AGENCY.length*100)+'%';
-}
-
-// ══════════════════════════════════════════
-// NEW DASHBOARD — food panel toggle
-// ══════════════════════════════════════════
-function dmShowFoodAdd() {
-  const stats=document.getElementById('dm-food-stats');
-  const add=document.getElementById('dm-food-add');
-  if(stats) stats.style.display='none';
-  if(add) add.style.display='block';
-  buildFoodBtns();
-}
-function dmHideFoodAdd() {
-  const stats=document.getElementById('dm-food-stats');
-  const add=document.getElementById('dm-food-add');
-  if(stats) stats.style.display='block';
-  if(add) add.style.display='none';
-}
-
 // ══════════════════════════════════════════
 // PITCHES
 // ══════════════════════════════════════════
@@ -1978,12 +1517,6 @@ function applyDayState() {
   ALL_T.forEach(id => document.getElementById(id)?.classList.toggle('done', !!d.tasks[id]));
   updateProgress();
   renderMR();
-  // sync QS day with viewDate
-  qsDay = toDateKey(viewDate);
-  renderQsDay();
-  renderQsWeek();
-  dmRenderDayPills();
-  dmRenderDailyChecks();
 }
 
 // ── MORNING ROUTINE ──
@@ -2022,11 +1555,6 @@ function updateProgress() {
   document.getElementById('ag-bar').style.width  = `${ad / AGENCY.length * 100}%`;
   document.getElementById('cl-txt').textContent = `${cd} / ${CLIENT.length}`;
   document.getElementById('cl-bar').style.width  = `${cd / CLIENT.length * 100}%`;
-  // top widget
-  const wsEl = document.getElementById('dm-ws1-done');
-  if (wsEl) wsEl.innerHTML = `${ad}<span style="font-size:16px;font-weight:600;color:var(--muted)">/${AGENCY.length}</span>`;
-  const wsBar = document.getElementById('dm-ws1-bar');
-  if (wsBar) wsBar.style.width = (ad/AGENCY.length*100)+'%';
 }
 
 // ══════════════════════════════════════════
@@ -2090,7 +1618,6 @@ function showPage(name) {
   document.getElementById('qs-toggle-btn').classList.toggle('active', name === 'qs');
   if (name === 'cal') renderCal();
   if (name === 'qs') { renderQsDay(); renderQsWeek(); renderQsStats(); }
-  if (name === 'main') { renderQsDay(); renderQsWeek(); renderMainStats(); dmRenderDayPills(); dmRenderDailyChecks(); }
 }
 function toggleQsPage() {
   const vis = document.getElementById('page-qs').style.display !== 'none';
@@ -2327,9 +1854,6 @@ function qsDayData() {
   if (d.qs.elektrolyty === false) d.qs.elektrolyty = 0;   // backwards compat
   if (d.qs.elektrolyty === undefined) d.qs.elektrolyty = 0;
   if (d.qs.fap         === undefined) d.qs.fap = 0;
-  if (d.qs.workTime    === undefined) d.qs.workTime = 0;
-  if (d.qs.transcendence === undefined) d.qs.transcendence = false;
-  if (d.qs.meditate    === undefined) d.qs.meditate = false;
   return d.qs;
 }
 function setVitDose(ml)      { qsDayData().vitDose    = ml;  renderQsDay(); saveStore(); renderQsWeek(); renderQsStats(); }
@@ -2491,7 +2015,6 @@ function renderQsDay() {
     log.appendChild(div);
   });
   renderQsVit(q);
-  dmRenderDailyChecks();
 }
 
 function buildFoodBtns() {
@@ -2830,11 +2353,6 @@ async function init() {
   renderPitches();
   renderTemps();
   buildFoodBtns();
-  renderQsStats();
-  renderMainStats();
-  dmSlideInit();
-  dmRenderDayPills();
-  dmRenderDailyChecks();
 }
 init();
 </script>
