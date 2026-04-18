@@ -160,16 +160,69 @@
     #page-cal  { display: none;  }
 
     /* ══ NEW DASHBOARD LAYOUT ══ */
-    .dm-layout { padding: 28px 28px 48px; display: flex; flex-direction: column; gap: 16px; max-width: 1600px; margin: 0 auto; }
+    .dm-layout { padding: 20px 24px 48px; display: flex; flex-direction: column; gap: 14px; max-width: 1600px; margin: 0 auto; }
 
-    /* ─ Top row: iOS widgets ─ */
-    .dm-top-row { display: grid; grid-template-columns: 150px 130px 1fr 1fr; gap: 12px; }
+    /* ─ Top strip ─ */
+    .dm-topstrip {
+      background: var(--card); border-radius: 24px;
+      box-shadow: var(--shadow-card);
+      padding: 14px 20px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .dm-strip-brand {
+      font-size: 15px; font-weight: 800; color: var(--text); letter-spacing: -.4px;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .dm-strip-date-block {
+      display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+    }
+    .dm-strip-daynum {
+      font-size: 26px; font-weight: 800; color: #F9C74F; letter-spacing: -1px; line-height: 1;
+    }
+    .dm-strip-date-sub {
+      display: flex; flex-direction: column; gap: 0;
+      font-size: 10px; font-weight: 600; color: var(--muted); line-height: 1.4;
+    }
+    .dm-strip-sep {
+      width: 1px; height: 24px; background: rgba(0,0,0,.08); flex-shrink: 0;
+    }
+    .dm-strip-nav {
+      display: flex; align-items: center; gap: 4px; flex: 1; min-width: 0;
+    }
+    .dm-strip-pills {
+      display: flex; gap: 3px; align-items: center; flex-wrap: nowrap; overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .dm-strip-pills::-webkit-scrollbar { display: none; }
+    .dm-strip-arrow {
+      background: rgba(0,0,0,.05); border: none; color: var(--mid);
+      width: 28px; height: 28px; border-radius: 9px; cursor: pointer;
+      font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+      transition: all .15s; flex-shrink: 0; font-family: inherit;
+    }
+    .dm-strip-arrow:hover { background: #F9C74F; color: #1C1C1E; box-shadow: 0 2px 8px rgba(249,199,79,.35); }
+    .dm-strip-actions {
+      display: flex; gap: 8px; flex-shrink: 0;
+    }
+    .dm-strip-btn {
+      padding: 9px 16px; background: #F9C74F; color: #1C1C1E; border: none;
+      border-radius: 13px; font-size: 12px; font-weight: 700; cursor: pointer;
+      font-family: inherit; white-space: nowrap; transition: all .2s;
+      box-shadow: 0 2px 10px rgba(249,199,79,.4); letter-spacing: -.1px;
+    }
+    .dm-strip-btn:hover { background: #F5B800; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(249,199,79,.5); }
+    .dm-strip-btn-ghost {
+      background: rgba(0,0,0,.05); color: var(--mid); box-shadow: none;
+    }
+    .dm-strip-btn-ghost:hover { background: rgba(0,0,0,.08); color: var(--text); transform: none; box-shadow: none; }
+
+    /* ─ Old top row (kept for reference, unused) ─ */
+    .dm-top-row { display: none; }
     .dm-widget {
       background: var(--card); border: 1px solid rgba(0,0,0,.04); border-radius: 24px;
       padding: 20px; box-shadow: var(--shadow-card); display: flex; flex-direction: column; gap: 6px;
       transition: box-shadow .2s, transform .2s;
     }
-    .dm-widget:hover { box-shadow: 0 8px 32px rgba(0,0,0,.1); transform: translateY(-1px); }
     .dm-w-label {
       font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px;
       color: var(--muted);
@@ -868,57 +921,32 @@
 <div id="page-main">
 <div class="dm-layout">
 
-  <!-- ─── ROW 1: iOS top widgets ─── -->
-  <div class="dm-top-row">
-
-    <!-- Widget: Dashboard -->
-    <div class="dm-widget dm-w-sm" style="justify-content:center;">
-      <div style="font-size:22px;font-weight:800;color:var(--text);letter-spacing:-.5px;">Dashboard</div>
-    </div>
-
-    <!-- Widget: Day -->
-    <div class="dm-widget dm-w-sm" style="justify-content:center;">
-      <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);" id="dm-day-month-lbl">Apríl</div>
-      <div style="font-size:28px;font-weight:800;color:var(--gold);letter-spacing:-1px;line-height:1;" id="dm-day-num-lbl">18</div>
-      <div style="font-size:10px;font-weight:600;color:var(--muted);" id="dm-day-dow-lbl">piatok</div>
-    </div>
-
-    <!-- Widget: Prepinač -->
-    <div class="dm-widget dm-w-md" style="justify-content:center;">
-      <div class="dm-w-label">Prepinač</div>
-      <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-top:4px;">
-        <button class="day-arrow" onclick="shiftView(-1)">‹</button>
-        <div style="display:flex;gap:4px;flex-wrap:wrap;flex:1;" id="dm-day-pills"></div>
-        <button class="day-arrow" onclick="shiftView(1)">›</button>
+  <!-- ─── TOP STRIP ─── -->
+  <div class="dm-topstrip">
+    <!-- Brand + date -->
+    <div class="dm-strip-brand">Dashboard</div>
+    <div class="dm-strip-date-block">
+      <span class="dm-strip-daynum" id="dm-day-num-lbl">18</span>
+      <div class="dm-strip-date-sub">
+        <span id="dm-day-month-lbl">Apríl</span>
+        <span id="dm-day-dow-lbl">piatok</span>
       </div>
     </div>
-
-    <!-- Widget: Monthly + Fashion (split) -->
-    <div class="dm-widget dm-w-lg dm-w-split">
-      <div class="dm-mf-left">
-        <div class="dm-w-label">Monthly Stats</div>
-        <button class="dm-fashion-btn" onclick="openQsMonthModal()" style="margin-top:8px;">Monthly Stats →</button>
-      </div>
-      <div class="dm-mf-divider"></div>
-      <div class="dm-mf-right">
-        <div class="dm-w-label">Fashion Daily</div>
-        <button class="dm-fashion-btn" onclick="window.open('https://janmarcekconsulting.github.io/fashion-daily/','_blank')" style="margin-top:8px;">fashion-daily →</button>
-      </div>
+    <div class="dm-strip-sep"></div>
+    <!-- Prepinač inline -->
+    <div class="dm-strip-nav">
+      <button class="dm-strip-arrow" onclick="shiftView(-1)">‹</button>
+      <div class="dm-strip-pills" id="dm-day-pills"></div>
+      <button class="dm-strip-arrow" onclick="shiftView(1)">›</button>
     </div>
-  </div>
-
-  <!-- ─── ROW 2: Vision (25%) + Monthly Stats (75%) ─── -->
-  <div class="dm-row dm-r25-75">
-    <div class="dm-col">
-      <div class="card" style="padding:0;overflow:hidden;border-radius:20px;height:100%;">
-        <img src="images/page5-vision.png" alt="Vision" style="width:100%;height:100%;object-fit:cover;display:block;min-height:180px;max-height:320px;">
-      </div>
+    <div class="dm-strip-sep"></div>
+    <!-- Action buttons -->
+    <div class="dm-strip-actions">
+      <button class="dm-strip-btn" onclick="openQsMonthModal()">Monthly Stats →</button>
+      <button class="dm-strip-btn dm-strip-btn-ghost" onclick="window.open('https://janmarcekconsulting.github.io/fashion-daily/','_blank')">Fashion Daily →</button>
     </div>
-    <div class="dm-col">
-      <div class="card" style="display:flex;align-items:center;justify-content:center;min-height:180px;">
-        <button onclick="openQsMonthModal()" style="padding:18px 36px;background:#F9C74F;color:#1C1C1E;border:none;border-radius:20px;font-size:17px;font-weight:800;cursor:pointer;font-family:inherit;letter-spacing:-.3px;box-shadow:0 6px 28px rgba(249,199,79,.5);transition:all .2s;" onmouseover="this.style.background='#F5B800';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#F9C74F';this.style.transform='translateY(0)'">Monthly Stats →</button>
-      </div>
-    </div>
+    <!-- Sync dot -->
+    <div class="sync-dot" id="sync-dot" title="GitHub sync" style="margin-left:auto;flex-shrink:0;"></div>
   </div>
 
   <!-- ─── ROW 3: Transcendence (25%) + Weekly stats (75%) ─── -->
@@ -980,6 +1008,15 @@
       </div>
     </div>
     <div class="dm-col">
+      <!-- Week score chart -->
+      <div class="card" style="padding:20px 24px;">
+        <div class="card-title" style="justify-content:space-between;margin-bottom:14px;">
+          <span>Week Score</span>
+          <span id="dm-week-chart-label" style="font-size:10px;font-weight:600;color:var(--muted);text-transform:none;letter-spacing:0;"></span>
+        </div>
+        <div id="dm-week-chart" style="border-radius:16px;overflow:hidden;background:#111827;padding:16px 14px 12px;"></div>
+      </div>
+      <!-- Weekly stats -->
       <div class="card">
         <div class="card-title" style="justify-content:space-between;">
           <span><span class="dot" style="background:#10B981"></span>Weekly Stats</span>
@@ -995,38 +1032,41 @@
     </div>
   </div>
 
-  <!-- ─── ROW 4: Sleep (full width via 3-col) ─── -->
-  <div class="card dm-sleep-card">
-    <div class="card-title"><span class="dot" style="background:#818CF8"></span>Spánok</div>
-    <div class="dm-sleep-3col">
-      <div class="dm-sleep-item">
-        <div class="dm-sleep-lbl">Hodiny spánku</div>
-        <div class="sleep-big" id="qs-sleep-display">—</div>
-        <input type="number" class="sleep-input" id="qs-sleep-h" min="0" max="16" step="0.5" placeholder="7.5"
-          oninput="qsSaveField('sleepH',this.value);document.getElementById('qs-sleep-display').textContent=this.value?this.value+'h':'—'">
-      </div>
-      <div class="dm-sleep-item">
-        <div class="dm-sleep-lbl">Zaspal</div>
-        <input type="time" class="sleep-input" id="qs-bedtime" onchange="qsSaveField('bedtime',this.value)">
-      </div>
-      <div class="dm-sleep-item">
-        <div class="dm-sleep-lbl">Zobudil sa</div>
-        <input type="time" class="sleep-input" id="qs-waketime" onchange="qsSaveField('wakeTime',this.value)">
-      </div>
-    </div>
-    <div class="qs-toggle" id="qs-t-nightAwake" onclick="qsToggle('nightAwake')" style="margin-top:12px;max-width:320px;">
-      <div class="qs-toggle-left">Zobudil som sa v noci</div>
-      <div class="qs-switch"></div>
-    </div>
-  </div>
-
-  <!-- ─── ROW 5: Daily (60%) + Food (40%) ─── -->
+  <!-- ─── ROW 4: Daily (60%) + Food (40%) ─── -->
   <div class="dm-row dm-r60-40">
 
     <!-- DAILY column -->
     <div class="dm-col">
       <div class="card">
         <div class="card-title"><span class="dot" style="background:#10B981"></span>Daily</div>
+
+        <!-- Sleep row: 4 cols -->
+        <div class="dm-daily-r4" style="margin-bottom:14px;">
+          <div class="dm-daily-item">
+            <div class="dm-daily-lbl">Hodiny spánku</div>
+            <div style="display:flex;align-items:center;gap:2px;">
+              <div class="sleep-big" id="qs-sleep-display" style="font-size:22px;margin-bottom:0;">—</div>
+            </div>
+            <input type="number" class="sleep-input" id="qs-sleep-h" min="0" max="16" step="0.5" placeholder="7.5"
+              oninput="qsSaveField('sleepH',this.value);document.getElementById('qs-sleep-display').textContent=this.value?this.value+'h':'—'"
+              style="max-width:80px;text-align:center;">
+          </div>
+          <div class="dm-daily-item">
+            <div class="dm-daily-lbl">Zaspal</div>
+            <input type="time" class="sleep-input" id="qs-bedtime" onchange="qsSaveField('bedtime',this.value)" style="max-width:100px;">
+          </div>
+          <div class="dm-daily-item">
+            <div class="dm-daily-lbl">Zobudil sa</div>
+            <input type="time" class="sleep-input" id="qs-waketime" onchange="qsSaveField('wakeTime',this.value)" style="max-width:100px;">
+          </div>
+          <div class="dm-daily-item dm-toggle-item qs-toggle" id="qs-t-nightAwake" onclick="qsToggle('nightAwake')" style="border:none;padding:12px 10px;background:rgba(0,0,0,.03);">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:8px;width:100%;">
+              <div class="dm-daily-lbl" style="text-align:center;line-height:1.3;">Zobudil v noci</div>
+              <div class="qs-switch"></div>
+            </div>
+          </div>
+        </div>
+        <div style="height:1px;background:rgba(0,0,0,.06);margin:0 0 14px;border-radius:1px;"></div>
 
         <!-- Row A: 4 cols — Work time, Transcendence, Meditate, Energeťak -->
         <div class="dm-daily-r4">
@@ -1226,11 +1266,6 @@
           <div class="qs-bar-row"><span class="qs-bar-lbl">💪 Cvičenie</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-exercise" style="width:0%;background:#F59E0B"></div></div><span class="qs-bar-pct" id="qs-pct-exercise">0%</span></div>
           <div class="qs-bar-row"><span class="qs-bar-lbl">😴 Spánok 7h+</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-sleep" style="width:0%;background:#818CF8"></div></div><span class="qs-bar-pct" id="qs-pct-sleep">0%</span></div>
           <div class="qs-bar-row"><span class="qs-bar-lbl">⚡ Energeťak</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-energetak" style="width:0%;background:#EAB308"></div></div><span class="qs-bar-pct" id="qs-pct-energetak">0%</span></div>
-        </div>
-        <!-- Score chart -->
-        <div style="margin-top:16px;">
-          <div style="font-size:11px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.7px;margin-bottom:8px;">Skóre dňa</div>
-          <div id="qs-score-chart" style="background:#0F172A;border-radius:12px;padding:14px 12px 10px;overflow:hidden;"></div>
         </div>
       </div>
     </div>
@@ -2654,6 +2689,99 @@ function renderQsWeek() {
     ['⚡', nrgC+'x','Energeťak'],
     ['🍆', fapSum+'x','Fap'],
   ].map(([e,v,l])=>`<div class="qs-stat"><div class="qs-stat-val" style="font-size:14px;">${e} ${v}</div><div class="qs-stat-lbl">${l}</div></div>`).join('');
+
+  renderWeekChart();
+}
+
+function renderWeekChart() {
+  const el = document.getElementById('dm-week-chart'); if (!el) return;
+  const dows = ['Po','Ut','St','Št','Pi','So','Ne'];
+  const pts = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(qsWeekStart); d.setDate(d.getDate() + i);
+    const dk = toDateKey(d);
+    const qs = STORE.days[dk]?.qs;
+    const sc = dayScore(qs);
+    pts.push({ label: dows[i], day: d.getDate(), score: sc, hasData: sc !== null });
+  }
+
+  // Update label
+  const lbl = document.getElementById('dm-week-chart-label');
+  const end = new Date(qsWeekStart); end.setDate(end.getDate() + 6);
+  if (lbl) lbl.textContent = `${qsWeekStart.getDate()}. – ${end.getDate()}. ${end.toLocaleDateString('sk-SK',{month:'long'})}`;
+
+  const W = 500, H = 110, PX = 30, PY = 14;
+  const scores = pts.map(p => p.score ?? 0);
+  const minS = -5, maxS = 5;
+  const toX = i => PX + i / 6 * (W - PX * 2);
+  const toY = s => PY + (1 - (s - minS) / (maxS - minS)) * (H - PY * 2);
+  const zeroY = toY(0);
+
+  function smooth(points) {
+    if (points.length < 2) return '';
+    let d = `M ${points[0].x} ${points[0].y}`;
+    for (let i = 0; i < points.length - 1; i++) {
+      const p0 = points[Math.max(0, i - 1)];
+      const p1 = points[i];
+      const p2 = points[i + 1];
+      const p3 = points[Math.min(points.length - 1, i + 2)];
+      const cp1x = p1.x + (p2.x - p0.x) / 6;
+      const cp1y = p1.y + (p2.y - p0.y) / 6;
+      const cp2x = p2.x - (p3.x - p1.x) / 6;
+      const cp2y = p2.y - (p3.y - p1.y) / 6;
+      d += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2.x} ${p2.y}`;
+    }
+    return d;
+  }
+
+  const svgPts = scores.map((s, i) => ({ x: toX(i), y: toY(s) }));
+  const linePath = smooth(svgPts);
+  const areaPath = linePath + ` L ${svgPts[6].x} ${zeroY} L ${svgPts[0].x} ${zeroY} Z`;
+
+  const dots = pts.map((p, i) => {
+    const x = toX(i), y = toY(scores[i]);
+    const color = p.hasData ? (scores[i] >= 0 ? '#F9C74F' : '#FF6B6B') : '#374151';
+    return p.hasData
+      ? `<circle cx="${x}" cy="${y}" r="4" fill="${color}" stroke="#111827" stroke-width="2"/>
+         <circle cx="${x}" cy="${y}" r="8" fill="${color}" fill-opacity="0.15"/>`
+      : `<circle cx="${x}" cy="${y}" r="3" fill="#374151"/>`;
+  }).join('');
+
+  const labels = pts.map((p, i) => {
+    const x = toX(i);
+    const isToday = toDateKey(new Date()) === toDateKey((() => { const d = new Date(qsWeekStart); d.setDate(d.getDate() + i); return d; })());
+    return `<text x="${x}" y="${H + 6}" text-anchor="middle" font-size="9" font-weight="${isToday ? '800' : '600'}"
+      fill="${isToday ? '#F9C74F' : '#6B7280'}" font-family="DM Sans, system-ui">${p.label} ${p.day}</text>`;
+  }).join('');
+
+  const yLabels = [-4, -2, 0, 2, 4].map(v => {
+    const y = toY(v);
+    return `<text x="${PX - 6}" y="${y + 3}" text-anchor="end" font-size="8" fill="#374151" font-family="DM Sans, system-ui">${v > 0 ? '+' + v : v}</text>
+            <line x1="${PX}" y1="${y}" x2="${W - PX}" y2="${y}" stroke="#1F2937" stroke-width="0.5" ${v === 0 ? 'stroke-dasharray="4,3"' : 'stroke-opacity="0.5"'}/>`;
+  }).join('');
+
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H + 18}" width="100%" style="display:block;overflow:visible;">
+    <defs>
+      <linearGradient id="wk-grad-pos" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#F9C74F" stop-opacity="0.3"/>
+        <stop offset="100%" stop-color="#F9C74F" stop-opacity="0.02"/>
+      </linearGradient>
+      <linearGradient id="wk-grad-neg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#FF6B6B" stop-opacity="0.05"/>
+        <stop offset="100%" stop-color="#FF6B6B" stop-opacity="0.2"/>
+      </linearGradient>
+      <filter id="wk-glow">
+        <feGaussianBlur stdDeviation="2.5" result="blur"/>
+        <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+      </filter>
+    </defs>
+    ${yLabels}
+    <path d="${areaPath}" fill="url(#wk-grad-pos)"/>
+    <path d="${linePath}" fill="none" stroke="#F9C74F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#wk-glow)"/>
+    <path d="${linePath}" fill="none" stroke="#F9C74F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    ${dots}
+    ${labels}
+  </svg>`;
 }
 
 // ── Monthly modal ──
@@ -2663,9 +2791,9 @@ function shiftQsMonth(delta) {
 }
 function shiftQsMonthModal(delta) {
   qsMonthDate = new Date(qsMonthDate.getFullYear(), qsMonthDate.getMonth()+delta, 1);
-  renderQsMonthModal(); renderQsStats(); renderQsScoreChart();
+  renderQsMonthModal(); renderQsStats();
 }
-function openQsMonthModal()  { document.getElementById('qs-month-modal').style.display='flex'; renderQsMonthModal(); renderQsStats(); renderQsScoreChart(); }
+function openQsMonthModal()  { document.getElementById('qs-month-modal').style.display='flex'; renderQsMonthModal(); renderQsStats(); }
 function closeQsMonthModal() { document.getElementById('qs-month-modal').style.display='none'; }
 
 function renderQsMonthModal() {
