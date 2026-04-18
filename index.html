@@ -7,26 +7,26 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg:        #FFF8EE;
+      --bg:        #F5F5F5;
       --surface:   #FFFFFF;
       --card:      #FFFFFF;
-      --card-temp: #FFFDF8;
-      --card-pitch:#FFFDF8;
-      --border:    rgba(0,0,0,.055);
-      --border-med:rgba(0,0,0,.1);
+      --card-temp: #FEFEFE;
+      --card-pitch:#FEFEFE;
+      --border:    rgba(0,0,0,.07);
+      --border-med:rgba(0,0,0,.12);
       --text:      #18181B;
       --mid:       #52525B;
       --muted:     #A1A1AA;
       --signal:    #EF4444;
       --green:     #22C55E;
-      --blue:      #F9C74F;
-      --blue-light:#FFFBEA;
-      --blue-bdr:  #F9E08A;
-      --gold:      #F9C74F;
-      --gold-bg:   #FFFBEA;
-      --gold-bdr:  #F9E08A;
+      --blue:      #F97316;
+      --blue-light:#FFF7ED;
+      --blue-bdr:  #FED7AA;
+      --gold:      #F97316;
+      --gold-bg:   #FFF7ED;
+      --gold-bdr:  #FED7AA;
       --task-bg:   #FAFAFA;
-      --task-hov:  #FFFBEA;
+      --task-hov:  #FFF7ED;
       --task-done: #F5F5F5;
       --shadow-xs: 0 1px 3px rgba(0,0,0,.05), 0 0 0 1px rgba(0,0,0,.04);
       --shadow-sm: 0 2px 10px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.04);
@@ -38,11 +38,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-      background: #FFF6E6;
-      background-image:
-        radial-gradient(ellipse 80% 50% at 10% 0%, rgba(255,222,120,.22) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 70% at 90% 100%, rgba(253,213,120,.18) 0%, transparent 55%),
-        linear-gradient(170deg, #FFFBF0 0%, #FFF5E0 50%, #FDEDC4 100%);
+      background: #F5F5F5;
       background-attachment: fixed;
       color: var(--text); min-height: 100vh;
       -webkit-font-smoothing: antialiased;
@@ -69,16 +65,16 @@
       font-size: 16px; text-align: center; letter-spacing: 4px;
       outline: none; font-family: inherit; transition: all .2s;
     }
-    .login-input:focus { border-color: #F9C74F; box-shadow: 0 0 0 4px rgba(249,199,79,.2); }
+    .login-input:focus { border-color: #F97316; box-shadow: 0 0 0 4px rgba(249,115,22,.2); }
     .login-input.error { border-color: var(--signal); animation: shake .3s ease; }
     .login-btn {
-      width: 100%; padding: 14px; background: #F9C74F; color: #1C1C1E;
+      width: 100%; padding: 14px; background: #18181B; color: #fff;
       border: none; border-radius: 16px; font-size: 15px; font-weight: 800;
       cursor: pointer; transition: all .2s; font-family: inherit;
-      box-shadow: 0 4px 20px rgba(249,199,79,.5);
+      box-shadow: 0 4px 20px rgba(0,0,0,.25);
       letter-spacing: -.1px;
     }
-    .login-btn:hover { background: #F5B800; box-shadow: 0 6px 24px rgba(249,199,79,.6); transform: translateY(-1px); }
+    .login-btn:hover { background: #27272A; box-shadow: 0 6px 28px rgba(0,0,0,.3); transform: translateY(-1px); }
     @keyframes shake {
       0%,100% { transform: translateX(0); }
       25% { transform: translateX(-8px); }
@@ -113,7 +109,7 @@
       cursor: pointer; font-size: 15px; display: flex; align-items: center; justify-content: center;
       transition: all .18s; flex-shrink: 0; font-weight: 700;
     }
-    .day-arrow:hover { background: #F9C74F; color: #1C1C1E; box-shadow: 0 2px 8px rgba(249,199,79,.35); }
+    .day-arrow:hover { background: #F97316; color: #1C1C1E; box-shadow: 0 2px 8px rgba(249,115,22,.35); }
     .day-pill {
       padding: 5px 13px; border-radius: 8px; cursor: pointer;
       font-size: 12.5px; font-weight: 600; color: var(--muted);
@@ -189,7 +185,7 @@
       display: flex; align-items: center; gap: 6px; flex-shrink: 0;
     }
     .dm-strip-daynum {
-      font-size: 26px; font-weight: 800; color: #F9C74F; letter-spacing: -1px; line-height: 1;
+      font-size: 26px; font-weight: 800; color: #18181B; letter-spacing: -1px; line-height: 1;
     }
     .dm-strip-date-sub {
       display: flex; flex-direction: column; gap: 0;
@@ -212,22 +208,22 @@
       font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center;
       transition: all .15s; flex-shrink: 0; font-family: inherit;
     }
-    .dm-strip-arrow:hover { background: #F9C74F; color: #1C1C1E; box-shadow: 0 2px 8px rgba(249,199,79,.35); }
+    .dm-strip-arrow:hover { background: #F97316; color: #1C1C1E; box-shadow: 0 2px 8px rgba(249,115,22,.35); }
     .dm-strip-actions {
       display: flex; gap: 8px; flex-shrink: 0;
     }
     .dm-strip-btn {
-      padding: 9px 18px; background: #F9C74F; color: #1C1C1E; border: none;
+      padding: 9px 18px; background: #18181B; color: #fff; border: none;
       border-radius: 13px; font-size: 12px; font-weight: 700; cursor: pointer;
       font-family: inherit; white-space: nowrap; transition: all .2s;
-      box-shadow: 0 2px 12px rgba(249,199,79,.45), inset 0 1px 0 rgba(255,255,255,.3);
+      box-shadow: 0 2px 12px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.08);
       letter-spacing: -.1px;
     }
-    .dm-strip-btn:hover { background: #FAD055; transform: translateY(-1px); box-shadow: 0 5px 18px rgba(249,199,79,.55); }
-    .dm-strip-btn:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(249,199,79,.3); }
+    .dm-strip-btn:hover { background: #27272A; transform: translateY(-1px); box-shadow: 0 5px 18px rgba(0,0,0,.25); }
+    .dm-strip-btn:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(0,0,0,.15); }
     .dm-strip-btn-ghost {
       background: rgba(0,0,0,.05); color: var(--mid); box-shadow: none;
-      border: 1px solid rgba(0,0,0,.07);
+      border: 1px solid rgba(0,0,0,.08);
     }
     .dm-strip-btn-ghost:hover { background: rgba(0,0,0,.08); color: var(--text); transform: none; box-shadow: none; }
 
@@ -256,26 +252,51 @@
     .dm-mf-val { font-size: 18px; font-weight: 800; color: var(--text); letter-spacing: -.5px; }
     .dm-mf-lbl { font-size: 9.5px; color: var(--muted); font-weight: 600; }
     .dm-fashion-btn {
-      padding: 10px 16px; background: #F9C74F; color: #1C1C1E; border: none; border-radius: 14px;
+      padding: 10px 16px; background: #F97316; color: #1C1C1E; border: none; border-radius: 14px;
       font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit;
-      transition: all .2s; box-shadow: 0 2px 12px rgba(249,199,79,.4);
+      transition: all .2s; box-shadow: 0 2px 12px rgba(249,115,22,.4);
       letter-spacing: -.1px;
     }
-    .dm-fashion-btn:hover { background: #F5B800; box-shadow: 0 4px 16px rgba(249,199,79,.5); transform: translateY(-1px); }
+    .dm-fashion-btn:hover { background: #EA6C00; box-shadow: 0 4px 16px rgba(249,115,22,.5); transform: translateY(-1px); }
     .dm-day-pills { display: flex; gap: 4px; flex-wrap: wrap; }
     .dm-day-pill {
       padding: 5px 11px; border-radius: 10px; font-size: 11px; font-weight: 600;
       background: rgba(0,0,0,.04); border: none; color: var(--muted);
       cursor: pointer; transition: all .15s; font-family: inherit;
     }
-    .dm-day-pill:hover { background: rgba(249,199,79,.2); color: var(--text); }
-    .dm-day-pill.active { background: #F9C74F; color: #1C1C1E; box-shadow: 0 2px 8px rgba(249,199,79,.4); }
+    .dm-day-pill:hover { background: rgba(249,115,22,.2); color: var(--text); }
+    .dm-day-pill.active { background: #F97316; color: #1C1C1E; box-shadow: 0 2px 8px rgba(249,115,22,.4); }
 
     /* ─ Split rows ─ */
-    .dm-row { display: grid; gap: 16px; }
+    .dm-row { display: grid; gap: 14px; }
     .dm-r25-75 { grid-template-columns: 1fr 3fr; }
-    .dm-r60-40 { grid-template-columns: 3fr 2fr; }
-    .dm-col { display: flex; flex-direction: column; gap: 16px; }
+    .dm-r60-40 { grid-template-columns: 3fr 2fr; align-items: stretch; }
+    .dm-col { display: flex; flex-direction: column; gap: 14px; }
+
+    /* ─ 4-cell subgrid for equal-height card pairs ─ */
+    .dm-subgrid {
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+      gap: 14px;
+    }
+    /* Each .dm-col inside subgrid doesn't exist anymore — cards go directly in the grid */
+    /* Items 1+2 form row 1 (equal height), items 3+4 form row 2 (equal height) */
+
+    /* Equal height for daily/food row */
+    .dm-r60-40 > .dm-col { height: 100%; }
+    .dm-r60-40 > .dm-col > .card { flex: 1; display: flex; flex-direction: column; }
+
+    /* ─ Dark week score card ─ */
+    .dm-week-card {
+      background: #18181B !important;
+      border-color: rgba(255,255,255,.07) !important;
+      box-shadow: 0 1px 3px rgba(0,0,0,.2), 0 4px 24px rgba(0,0,0,.25) !important;
+      color: #fff;
+    }
+    .dm-week-card .card-title { color: rgba(255,255,255,.5); }
+    .dm-week-card .card-title .week-score-lbl { color: #fff; font-size: 13px; letter-spacing: -.3px; text-transform: none; }
+    .dm-week-card #dm-week-chart-label { color: rgba(255,255,255,.4) !important; }
+    .dm-week-card:hover { transform: translateY(-2px) !important; box-shadow: 0 2px 6px rgba(0,0,0,.2), 0 16px 48px rgba(0,0,0,.3) !important; }
 
     /* ─ Vision ─ */
     .dm-vision-card { padding: 0; overflow: hidden; border-radius: 16px; }
@@ -298,7 +319,7 @@
     .dm-slide-scroll { max-height: 220px; overflow-y: auto; padding-right: 4px; }
     .dm-beliefs { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 3px; }
     .dm-beliefs li { font-size: 11.5px; color: var(--mid); line-height: 1.4; padding: 5px 10px; background: rgba(0,0,0,.025); border-radius: 10px; border: 1px solid rgba(0,0,0,.04); box-shadow: inset 0 1px 0 rgba(255,255,255,.5); }
-    .dm-beliefs li::before { content: counter(li) '. '; counter-increment: li; color: #F9C74F; font-weight: 800; font-size: 10px; }
+    .dm-beliefs li::before { content: counter(li) '. '; counter-increment: li; color: #F97316; font-weight: 800; font-size: 10px; }
     .dm-beliefs { counter-reset: li; }
     .dm-slide-nav { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; }
     .dm-slide-btn {
@@ -307,11 +328,11 @@
       display: flex; align-items: center; justify-content: center; transition: all .15s;
       font-family: inherit; font-weight: 700;
     }
-    .dm-slide-btn:hover:not(:disabled) { background: #F9C74F; color: #1C1C1E; box-shadow: 0 2px 8px rgba(249,199,79,.35); }
+    .dm-slide-btn:hover:not(:disabled) { background: #F97316; color: #1C1C1E; box-shadow: 0 2px 8px rgba(249,115,22,.35); }
     .dm-slide-btn:disabled { opacity: .25; cursor: default; }
     .dm-slide-dots { display: flex; gap: 5px; align-items: center; }
     .dm-slide-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(0,0,0,.15); cursor: pointer; transition: all .2s; }
-    .dm-slide-dot.active { background: #F9C74F; width: 18px; border-radius: 3px; box-shadow: 0 0 6px rgba(249,199,79,.5); }
+    .dm-slide-dot.active { background: #F97316; width: 18px; border-radius: 3px; box-shadow: 0 0 6px rgba(249,115,22,.5); }
 
     /* ─ Sleep 3-col ─ */
     .dm-sleep-card { display: flex; flex-direction: column; }
@@ -339,11 +360,11 @@
       background: rgba(0,0,0,.025); font-family: inherit; outline: none; transition: all .2s cubic-bezier(.4,0,.2,1);
       box-shadow: inset 0 2px 4px rgba(0,0,0,.03);
     }
-    .dm-num-input:focus { border-color: #F9C74F; box-shadow: 0 0 0 4px rgba(249,199,79,.18), inset 0 2px 4px rgba(0,0,0,.02); }
+    .dm-num-input:focus { border-color: #F97316; box-shadow: 0 0 0 4px rgba(249,115,22,.18), inset 0 2px 4px rgba(0,0,0,.02); }
     .dm-worktime-wrap { display: flex; align-items: center; gap: 4px; }
     .dm-unit { font-size: 13px; font-weight: 700; color: var(--muted); }
     .dm-check-item { cursor: pointer; transition: all .18s; }
-    .dm-check-item:hover { background: rgba(249,199,79,.15); }
+    .dm-check-item:hover { background: rgba(249,115,22,.15); }
     .dm-yn-check { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 10px; font-size: 16px; }
     .dm-yn-n { background: #FEF2F2; color: #EF4444; border-radius: 10px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
     .dm-yn-y { background: #ECFDF5; color: #10B981; border-radius: 10px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
@@ -351,14 +372,19 @@
     .dm-toggle-item:hover { border-color: var(--blue-bdr); background: var(--blue-light); }
 
     /* ─ Food panel ─ */
-    .dm-food-outer { position: relative; }
-    .dm-food-card { min-height: 300px; }
+    .dm-food-outer { position: relative; height: 100%; }
+    .dm-food-card { min-height: 300px; overflow: hidden; }
+    .dm-food-views { position: relative; flex: 1; overflow: hidden; }
+    .dm-food-view { position: absolute; inset: 0; overflow-y: auto; padding-bottom: 4px; }
+    .dm-food-view::-webkit-scrollbar { width: 4px; }
+    .dm-food-view::-webkit-scrollbar-track { background: transparent; }
+    .dm-food-view::-webkit-scrollbar-thumb { background: rgba(0,0,0,.1); border-radius: 4px; }
     .dm-add-kcal-btn {
-      padding: 9px 18px; background: #F9C74F; color: #1C1C1E; border: none; border-radius: 14px;
+      padding: 9px 18px; background: #18181B; color: #fff; border: none; border-radius: 14px;
       font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit;
-      transition: all .2s; box-shadow: 0 2px 12px rgba(249,199,79,.4);
+      transition: all .2s; box-shadow: 0 2px 12px rgba(0,0,0,.2);
     }
-    .dm-add-kcal-btn:hover { background: #F5B800; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(249,199,79,.5); }
+    .dm-add-kcal-btn:hover { background: #27272A; transform: translateY(-1px); box-shadow: 0 4px 18px rgba(0,0,0,.25); }
     .dm-back-btn {
       padding: 8px 16px; background: rgba(0,0,0,.05); color: var(--mid); border: none;
       border-radius: 12px; font-size: 12px; font-weight: 600; cursor: pointer;
@@ -445,7 +471,7 @@
       cursor: pointer; user-select: none; transition: all .18s cubic-bezier(.4,0,.2,1);
       box-shadow: inset 0 1px 0 rgba(255,255,255,.5);
     }
-    .task-item:hover { background: rgba(249,199,79,.14); border-color: rgba(249,199,79,.3); }
+    .task-item:hover { background: rgba(249,115,22,.14); border-color: rgba(249,115,22,.3); }
     .task-item.done { background: rgba(0,0,0,.02); opacity: .5; }
     .task-item.done .task-label { text-decoration: line-through; color: var(--muted); }
     .task-check {
@@ -482,19 +508,19 @@
     .btn { padding: 7px 14px; border-radius: 8px; border: none; cursor: pointer; font-size: 11.5px; font-weight: 700; transition: all .18s; white-space: nowrap; font-family: inherit; }
     .btn-dark { background: #fff; color: var(--mid); border: 1.5px solid var(--border-med); }
     .btn-dark:hover { background: var(--task-hov); border-color: var(--blue-bdr); color: var(--blue); }
-    .btn-gold { background: #F9C74F; color: #1C1C1E; border: none; box-shadow: 0 2px 12px rgba(249,199,79,.4); font-weight: 700; }
-    .btn-gold:hover { background: #F5B800; box-shadow: 0 4px 16px rgba(249,199,79,.5); transform: translateY(-1px); }
+    .btn-gold { background: #18181B; color: #fff; border: none; box-shadow: 0 2px 12px rgba(0,0,0,.2); font-weight: 700; }
+    .btn-gold:hover { background: #27272A; box-shadow: 0 4px 16px rgba(0,0,0,.25); transform: translateY(-1px); }
     .btn-gold.ok, .btn-gold.copied { background: var(--green); border-color: var(--green); box-shadow: none; color: #fff; }
 
     /* ── PROGRESS ── */
     .progress-row {
-      margin-top: 14px; padding: 11px 16px; background: rgba(249,199,79,.1);
+      margin-top: 14px; padding: 11px 16px; background: rgba(249,115,22,.1);
       border-radius: 14px; display: flex; align-items: center;
       gap: 10px; font-size: 11.5px; font-weight: 700; color: #B8880A;
       border: none;
     }
     .pbar-wrap { flex: 1; height: 7px; background: rgba(0,0,0,.08); border-radius: 8px; overflow: hidden; }
-    .pbar-fill { height: 100%; background: linear-gradient(90deg, #F9C74F, #FFB300); border-radius: 8px; transition: width .45s cubic-bezier(.4,0,.2,1); box-shadow: 0 0 8px rgba(249,199,79,.4); }
+    .pbar-fill { height: 100%; background: linear-gradient(90deg, #F97316, #EA6C00); border-radius: 8px; transition: width .45s cubic-bezier(.4,0,.2,1); box-shadow: 0 0 8px rgba(249,115,22,.4); }
 
     /* ── PITCHES ── */
     .pitch-list { display: flex; flex-direction: column; gap: 6px; }
@@ -541,7 +567,7 @@
     .cal-month { font-size: 17px; font-weight: 800; color: var(--text); }
     .cal-nav { display: flex; gap: 6px; }
     .cal-nav-btn { background: var(--bg); border: 1px solid var(--border); color: var(--mid); width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 15px; display: flex; align-items: center; justify-content: center; transition: all .18s; }
-    .cal-nav-btn:hover { background: rgba(249,199,79,.2); border-color: rgba(249,199,79,.4); color: #1C1C1E; }
+    .cal-nav-btn:hover { background: rgba(249,115,22,.2); border-color: rgba(249,115,22,.4); color: #1C1C1E; }
 
     .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
     .cal-dow { font-size: 10px; font-weight: 700; text-align: center; color: var(--muted); padding-bottom: 8px; text-transform: uppercase; letter-spacing: .8px; }
@@ -654,11 +680,11 @@
       transition: all .2s cubic-bezier(.4,0,.2,1);
       box-shadow: inset 0 2px 4px rgba(0,0,0,.03);
     }
-    .sleep-input:focus { border-color: #F9C74F; box-shadow: 0 0 0 4px rgba(249,199,79,.18), inset 0 2px 4px rgba(0,0,0,.02); }
+    .sleep-input:focus { border-color: #F97316; box-shadow: 0 0 0 4px rgba(249,115,22,.18), inset 0 2px 4px rgba(0,0,0,.02); }
     .sleep-big {
       font-size: 40px; font-weight: 800; color: var(--text);
       text-align: center; letter-spacing: -2px; line-height: 1;
-      background: linear-gradient(135deg, #F9C74F, #FFB300);
+      background: linear-gradient(135deg, #F97316, #EA6C00);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
 
@@ -669,7 +695,7 @@
       padding: 12px 16px; background: rgba(0,0,0,.03); border: none;
       border-radius: 16px; cursor: pointer; transition: all .18s; user-select: none;
     }
-    .qs-toggle:hover { background: rgba(249,199,79,.12); }
+    .qs-toggle:hover { background: rgba(249,115,22,.12); }
     .qs-toggle.on { background: rgba(52,199,89,.1); }
     .qs-toggle-left { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--text); }
     .qs-toggle-emoji { font-size: 16px; line-height: 1; }
@@ -704,7 +730,7 @@
       cursor: pointer; font-family: inherit; transition: all .16s cubic-bezier(.4,0,.2,1); white-space: nowrap;
     }
     .dose-btn:last-child { border-right: none; }
-    .dose-btn:hover { background: rgba(249,199,79,.3); color: #1C1C1E; }
+    .dose-btn:hover { background: rgba(249,115,22,.3); color: #1C1C1E; }
     .dose-btn.dose-on { background: #22C55E; color: #fff; border-right-color: #16A34A; box-shadow: inset 0 1px 0 rgba(255,255,255,.25); }
     .dose-btn.xanax-on { background: #8B5CF6; color: #fff; border-right-color: #7C3AED; box-shadow: inset 0 1px 0 rgba(255,255,255,.2); }
 
@@ -716,8 +742,8 @@
       border-radius: 16px; padding: 13px 4px; position: relative; overflow: hidden;
       box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
     }
-    .macro-box.kcal-box { background: rgba(249,199,79,.15); }
-    .macro-box.prot-box { background: rgba(249,199,79,.08); }
+    .macro-box.kcal-box { background: rgba(249,115,22,.15); }
+    .macro-box.prot-box { background: rgba(249,115,22,.08); }
     .macro-val { font-size: 20px; font-weight: 800; color: var(--text); letter-spacing: -.5px; line-height: 1; }
     .macro-lbl { font-size: 8.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
     .macro-goal { font-size: 9px; color: var(--muted); margin-top: 2px; }
@@ -729,7 +755,7 @@
       padding: 6px 13px; cursor: pointer; font-size: 11.5px; font-weight: 600;
       color: var(--mid); transition: all .18s; font-family: inherit;
     }
-    .food-btn:hover { background: rgba(249,199,79,.25); color: #1C1C1E; }
+    .food-btn:hover { background: rgba(249,115,22,.25); color: #1C1C1E; }
 
     /* Food log */
     .food-log-list { display: flex; flex-direction: column; gap: 5px; }
@@ -738,7 +764,7 @@
       padding: 9px 13px; background: rgba(0,0,0,.03); border: none;
       border-radius: 12px; gap: 8px; transition: background .15s;
     }
-    .food-log-item:hover { background: rgba(249,199,79,.1); }
+    .food-log-item:hover { background: rgba(249,115,22,.1); }
     .food-log-name { font-size: 12px; font-weight: 600; color: var(--text); flex: 1; }
     .food-log-right { display: flex; align-items: center; gap: 7px; flex-shrink: 0; }
     .food-log-kcal { font-size: 11px; color: var(--muted); white-space: nowrap; font-weight: 500; }
@@ -748,20 +774,20 @@
       border-radius: 10px; font-size: 12px; font-family: inherit; color: var(--text);
       background: var(--bg); outline: none; transition: all .18s;
     }
-    .food-manual-input:focus { border-color: #F9C74F; box-shadow: 0 0 0 4px rgba(249,199,79,.2); }
+    .food-manual-input:focus { border-color: #F97316; box-shadow: 0 0 0 4px rgba(249,115,22,.2); }
     .food-manual-kcal {
       width: 76px; padding: 8px 10px; border: 1px solid var(--border);
       border-radius: 10px; font-size: 12px; font-family: inherit; color: var(--text);
       background: var(--bg); outline: none; transition: all .18s;
     }
-    .food-manual-kcal:focus { border-color: #F9C74F; box-shadow: 0 0 0 4px rgba(249,199,79,.2); }
+    .food-manual-kcal:focus { border-color: #F97316; box-shadow: 0 0 0 4px rgba(249,115,22,.2); }
     .food-manual-btn {
-      padding: 8px 16px; background: #F9C74F; color: #1C1C1E; border: none;
+      padding: 8px 16px; background: #18181B; color: #fff; border: none;
       border-radius: 12px; font-size: 12px; font-weight: 700; cursor: pointer;
       font-family: inherit; white-space: nowrap; transition: all .18s;
-      box-shadow: 0 2px 10px rgba(249,199,79,.4);
+      box-shadow: 0 2px 10px rgba(0,0,0,.2);
     }
-    .food-manual-btn:hover { background: #F5B800; }
+    .food-manual-btn:hover { background: #27272A; }
     .fqty-btn {
       background: var(--border); border: none; border-radius: 5px;
       width: 21px; height: 21px; cursor: pointer; font-size: 14px;
@@ -816,9 +842,9 @@
       background: rgba(0,0,0,.025);
       box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
     }
-    .qs-wday:hover { background: rgba(249,199,79,.18); border-color: rgba(249,199,79,.35); }
-    .qs-wday.qs-wsel { background: #F9C74F; box-shadow: 0 4px 16px rgba(249,199,79,.5), inset 0 1px 0 rgba(255,255,255,.4); border-color: transparent; }
-    .qs-wday.qs-wtoday { background: rgba(249,199,79,.22); border-color: rgba(249,199,79,.3); }
+    .qs-wday:hover { background: rgba(249,115,22,.18); border-color: rgba(249,115,22,.35); }
+    .qs-wday.qs-wsel { background: #F97316; box-shadow: 0 4px 16px rgba(249,115,22,.5), inset 0 1px 0 rgba(255,255,255,.4); border-color: transparent; }
+    .qs-wday.qs-wtoday { background: rgba(249,115,22,.22); border-color: rgba(249,115,22,.3); }
     .qs-wday.qs-wsel .qs-wday-name,
     .qs-wday.qs-wsel .qs-wday-num,
     .qs-wday.qs-wsel .qs-wday-sleep { color: #1C1C1E !important; }
@@ -881,8 +907,8 @@
       border: 1.5px solid rgba(0,0,0,.06); border-radius: 16px; padding: 10px 10px;
       min-height: 110px; cursor: pointer; transition: all .18s; background: rgba(0,0,0,.02);
     }
-    .qs-mday:hover { border-color: rgba(249,199,79,.5); background: rgba(249,199,79,.07); }
-    .qs-mday.qs-msel { border-color: #F9C74F; background: rgba(249,199,79,.12); box-shadow: 0 2px 12px rgba(249,199,79,.2); }
+    .qs-mday:hover { border-color: rgba(249,115,22,.5); background: rgba(249,115,22,.07); }
+    .qs-mday.qs-msel { border-color: #F97316; background: rgba(249,115,22,.12); box-shadow: 0 2px 12px rgba(249,115,22,.2); }
     .qs-mday.qs-mempty { border-color: transparent; background: transparent; cursor: default; min-height: unset; }
     .qs-mday-num   { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
     .qs-mday-sleep { font-size: 11px; font-weight: 700; color: var(--gold); }
@@ -933,7 +959,7 @@
 
     /* ── Slide nav dots refined ── */
     .dm-slide-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(0,0,0,.12); cursor: pointer; transition: all .22s cubic-bezier(.4,0,.2,1); }
-    .dm-slide-dot.active { background: #F9C74F; width: 20px; border-radius: 3px; box-shadow: 0 0 8px rgba(249,199,79,.55); }
+    .dm-slide-dot.active { background: #F97316; width: 20px; border-radius: 3px; box-shadow: 0 0 8px rgba(249,115,22,.55); }
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { transition: none !important; animation: none !important; }
@@ -1009,13 +1035,21 @@
   </div>
 
   <!-- ─── ROW 3: Transcendence (25%) + Weekly stats (75%) ─── -->
-  <div class="dm-row dm-r25-75">
-    <div class="dm-col">
+  <div class="dm-subgrid">
       <!-- Vision image card -->
       <div class="card" style="padding:0;overflow:hidden;border-radius:24px;background:#fff;">
-        <img src="images/page5-vision.png" alt="Vision Board"
-          style="width:100%;display:block;object-fit:contain;object-position:center;max-height:260px;border-radius:24px;">
+        <img src="images/vision.png" alt="Vision Board"
+          style="width:100%;height:100%;display:block;object-fit:cover;object-position:center;min-height:200px;border-radius:24px;">
       </div>
+      <!-- Week score chart — dark card [row1, col2] -->
+      <div class="card dm-week-card" style="padding:20px 24px;">
+        <div class="card-title" style="justify-content:space-between;margin-bottom:14px;">
+          <span class="week-score-lbl">Week Score</span>
+          <span id="dm-week-chart-label" style="font-size:10px;font-weight:600;text-transform:none;letter-spacing:0;"></span>
+        </div>
+        <div id="dm-week-chart" style="border-radius:16px;overflow:hidden;background:linear-gradient(145deg,#0D1117 0%,#0A0F18 100%);padding:18px 16px 14px;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);"></div>
+      </div>
+      <!-- Self Transcendence card [row2, col1] -->
       <div class="card dm-trans-card">
         <div class="card-title"><span class="dot" style="background:var(--gold)"></span>Self Transcendence</div>
         <div class="dm-slides-wrap">
@@ -1070,17 +1104,7 @@
           <button class="dm-slide-btn" id="dm-slide-next" onclick="dmSlideNav(1)">→</button>
         </div>
       </div>
-    </div>
-    <div class="dm-col">
-      <!-- Week score chart -->
-      <div class="card" style="padding:20px 24px;">
-        <div class="card-title" style="justify-content:space-between;margin-bottom:14px;">
-          <span>Week Score</span>
-          <span id="dm-week-chart-label" style="font-size:10px;font-weight:600;color:var(--muted);text-transform:none;letter-spacing:0;"></span>
-        </div>
-        <div id="dm-week-chart" style="border-radius:16px;overflow:hidden;background:linear-gradient(145deg,#111827 0%,#0D1520 100%);padding:18px 16px 14px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05);"></div>
-      </div>
-      <!-- Weekly stats -->
+      <!-- Weekly stats [row2, col2] -->
       <div class="card">
         <div class="card-title" style="justify-content:space-between;">
           <span><span class="dot" style="background:#10B981"></span>Weekly Stats</span>
@@ -1093,7 +1117,6 @@
         <div class="qs-week-grid" id="qs-week-grid"></div>
         <div class="qs-stat-grid" id="qs-week-stats" style="grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px;"></div>
       </div>
-    </div>
   </div>
 
   <!-- ─── ROW 4: Daily (60%) + Food (40%) ─── -->
@@ -1224,37 +1247,39 @@
     <!-- FOOD column with slide-in Add KCAL -->
     <div class="dm-col dm-food-outer">
       <div class="card dm-food-card">
+        <div class="dm-food-views">
 
-        <!-- STATS VIEW -->
-        <div id="dm-food-stats">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-            <div class="card-title" style="margin-bottom:0;"><span class="dot" style="background:#F59E0B"></span>Jedlo</div>
-            <button class="dm-add-kcal-btn" onclick="dmShowFoodAdd()">+ Add KCAL</button>
+          <!-- STATS VIEW -->
+          <div id="dm-food-stats" class="dm-food-view">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+              <div class="card-title" style="margin-bottom:0;"><span class="dot" style="background:#F59E0B"></span>Jedlo</div>
+              <button class="dm-add-kcal-btn" onclick="dmShowFoodAdd()">+ Add KCAL</button>
+            </div>
+            <div class="macro-row">
+              <div class="macro-box kcal-box"><div class="macro-val" id="qs-kcal">0</div><div class="macro-lbl">kcal</div></div>
+              <div class="macro-box prot-box"><div class="macro-val" id="qs-prot">0g</div><div class="macro-lbl">Proteín</div><div class="macro-goal" id="qs-prot-goal">/ 100g</div></div>
+              <div class="macro-box"><div class="macro-val" id="qs-carbs">0g</div><div class="macro-lbl">Sacharidy</div></div>
+              <div class="macro-box"><div class="macro-val" id="qs-fat">0g</div><div class="macro-lbl">Tuky</div></div>
+            </div>
+            <div class="food-log-list" id="qs-food-log"></div>
+            <div class="vit-grid" id="qs-vit-grid"></div>
           </div>
-          <div class="macro-row">
-            <div class="macro-box kcal-box"><div class="macro-val" id="qs-kcal">0</div><div class="macro-lbl">kcal</div></div>
-            <div class="macro-box prot-box"><div class="macro-val" id="qs-prot">0g</div><div class="macro-lbl">Proteín</div><div class="macro-goal" id="qs-prot-goal">/ 100g</div></div>
-            <div class="macro-box"><div class="macro-val" id="qs-carbs">0g</div><div class="macro-lbl">Sacharidy</div></div>
-            <div class="macro-box"><div class="macro-val" id="qs-fat">0g</div><div class="macro-lbl">Tuky</div></div>
+
+          <!-- ADD KCAL VIEW -->
+          <div id="dm-food-add" class="dm-food-view" style="display:none;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+              <button class="dm-back-btn" onclick="dmHideFoodAdd()">← Späť</button>
+              <span style="font-size:13px;font-weight:700;color:var(--text);">Pridať jedlo</span>
+            </div>
+            <div class="food-btn-grid" id="food-btn-grid"></div>
+            <div class="food-manual-row">
+              <input class="food-manual-input" id="food-manual-label" type="text" placeholder="Názov (voliteľné)">
+              <input class="food-manual-kcal" id="food-manual-kcal" type="number" placeholder="kcal" min="1" onkeydown="if(event.key==='Enter')qsAddManual()">
+              <button class="food-manual-btn" onclick="qsAddManual()">+ kcal</button>
+            </div>
           </div>
-          <div class="food-log-list" id="qs-food-log"></div>
-          <div class="vit-grid" id="qs-vit-grid"></div>
+
         </div>
-
-        <!-- ADD KCAL VIEW -->
-        <div id="dm-food-add" style="display:none;">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-            <button class="dm-back-btn" onclick="dmHideFoodAdd()">← Späť</button>
-            <span style="font-size:13px;font-weight:700;color:var(--text);">Pridať jedlo</span>
-          </div>
-          <div class="food-btn-grid" id="food-btn-grid"></div>
-          <div class="food-manual-row">
-            <input class="food-manual-input" id="food-manual-label" type="text" placeholder="Názov (voliteľné)">
-            <input class="food-manual-kcal" id="food-manual-kcal" type="number" placeholder="kcal" min="1" onkeydown="if(event.key==='Enter')qsAddManual()">
-            <button class="food-manual-btn" onclick="qsAddManual()">+ kcal</button>
-          </div>
-        </div>
-
       </div>
     </div>
   </div>
@@ -2804,7 +2829,7 @@ function renderWeekChart() {
 
   const dots = pts.map((p, i) => {
     const x = toX(i), y = toY(scores[i]);
-    const color = p.hasData ? (scores[i] >= 0 ? '#F9C74F' : '#FF6B6B') : '#2D3748';
+    const color = p.hasData ? (scores[i] >= 0 ? '#F97316' : '#FF6B6B') : '#2D3748';
     return p.hasData
       ? `<circle cx="${x}" cy="${y}" r="10" fill="${color}" fill-opacity="0.12"/>
          <circle cx="${x}" cy="${y}" r="5" fill="${color}" fill-opacity="0.6"/>
@@ -2816,7 +2841,7 @@ function renderWeekChart() {
     const x = toX(i);
     const isToday = toDateKey(new Date()) === toDateKey((() => { const d = new Date(qsWeekStart); d.setDate(d.getDate() + i); return d; })());
     return `<text x="${x}" y="${H + 6}" text-anchor="middle" font-size="9" font-weight="${isToday ? '800' : '600'}"
-      fill="${isToday ? '#F9C74F' : '#6B7280'}" font-family="DM Sans, system-ui">${p.label} ${p.day}</text>`;
+      fill="${isToday ? '#F97316' : '#6B7280'}" font-family="DM Sans, system-ui">${p.label} ${p.day}</text>`;
   }).join('');
 
   const yLabels = [-4, -2, 0, 2, 4].map(v => {
@@ -2829,9 +2854,9 @@ function renderWeekChart() {
   el.innerHTML = `<svg viewBox="0 0 ${W} ${H + 20}" width="100%" style="display:block;overflow:visible;">
     <defs>
       <linearGradient id="wk-grad-pos" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#F9C74F" stop-opacity="0.4"/>
-        <stop offset="60%" stop-color="#F9C74F" stop-opacity="0.1"/>
-        <stop offset="100%" stop-color="#F9C74F" stop-opacity="0"/>
+        <stop offset="0%" stop-color="#F97316" stop-opacity="0.4"/>
+        <stop offset="60%" stop-color="#F97316" stop-opacity="0.1"/>
+        <stop offset="100%" stop-color="#F97316" stop-opacity="0"/>
       </linearGradient>
       <filter id="wk-glow" x="-20%" y="-20%" width="140%" height="140%">
         <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
@@ -2844,8 +2869,8 @@ function renderWeekChart() {
     </defs>
     ${yLabels}
     <path d="${areaPath}" fill="url(#wk-grad-pos)"/>
-    <path d="${linePath}" fill="none" stroke="#F9C74F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.35" filter="url(#wk-glow)"/>
-    <path d="${linePath}" fill="none" stroke="#F9C74F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="${linePath}" fill="none" stroke="#F97316" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.35" filter="url(#wk-glow)"/>
+    <path d="${linePath}" fill="none" stroke="#F97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     ${dots}
     ${labels}
   </svg>`;
