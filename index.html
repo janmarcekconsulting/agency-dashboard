@@ -288,8 +288,8 @@
 
     /* ─ Dark week score card ─ */
     .dm-week-card {
-      background: #18181B !important;
-      border-color: rgba(255,255,255,.07) !important;
+      background: linear-gradient(145deg,#0D1117 0%,#0A0F18 100%) !important;
+      border-color: rgba(255,255,255,.05) !important;
       box-shadow: 0 1px 3px rgba(0,0,0,.2), 0 4px 24px rgba(0,0,0,.25) !important;
       color: #fff;
     }
@@ -933,6 +933,62 @@
     .vit-track { height: 5px; background: var(--border); border-radius: 5px; overflow: hidden; }
     .vit-fill { height: 100%; border-radius: 5px; transition: width .4s cubic-bezier(.4,0,.2,1); }
 
+    /* ── Horizontal daily items ── */
+    .dm-daily-item-h {
+      flex-direction: row !important;
+      padding: 11px 12px !important;
+      align-items: center !important;
+      gap: 7px !important;
+      min-height: 48px;
+    }
+    .dm-item-icon { font-size: 14px; flex-shrink: 0; line-height: 1; display: flex; align-items: center; }
+    .dm-item-icon svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .dm-item-name { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); flex: 1; min-width: 0; }
+    .dm-item-ctrl { display: flex; align-items: center; gap: 3px; flex-shrink: 0; }
+    .dm-item-val { font-size: 13px; font-weight: 700; color: var(--text); }
+
+    /* Work time — orange accent */
+    .dm-daily-work {
+      background: rgba(249,115,22,.07) !important;
+      border-color: rgba(249,115,22,.22) !important;
+    }
+    .dm-daily-work .dm-item-name { color: #F97316 !important; }
+    .dm-daily-work .dm-item-icon svg { stroke: #F97316; }
+    .dm-daily-work .dm-unit { color: #F97316 !important; }
+
+    /* Thick black border for key items */
+    .dm-daily-thick { border: 2px solid #18181B !important; }
+    .dm-daily-thick.qs-toggle.on { border-color: #22C55E !important; background: rgba(34,197,94,.08) !important; }
+    .dm-daily-thick .dm-item-name { color: #18181B !important; }
+
+    /* Row B 1fr 1fr 2fr */
+    .dm-daily-rb { grid-template-columns: 1fr 1fr 2fr; }
+
+    /* ── Macro boxes redesign ── */
+    .macro-box {
+      background: #fff !important;
+      border: 1px solid rgba(0,0,0,.09) !important;
+      box-shadow: 0 1px 4px rgba(0,0,0,.05) !important;
+    }
+    .macro-box.kcal-box { background: #fff !important; }
+    .macro-box.prot-box { background: #fff !important; border: 2.5px solid #18181B !important; }
+    .macro-val { font-size: 18px !important; }
+
+    /* ── Work time stat — orange ── */
+    .qs-stat-work .qs-stat-val { color: #F97316 !important; font-size: 18px !important; }
+
+    /* ── Weekly day: selected = orange bg white text ── */
+    .qs-wday.qs-wsel .qs-wday-name,
+    .qs-wday.qs-wsel .qs-wday-num,
+    .qs-wday.qs-wsel .qs-wday-sleep { color: #fff !important; }
+
+    /* ── Food add log mini ── */
+    .food-add-log { margin-bottom: 12px; }
+    .food-add-log-title { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .8px; color: var(--muted); margin-bottom: 6px; }
+    .food-add-log-item { display: flex; align-items: center; justify-content: space-between; padding: 6px 10px; background: rgba(0,0,0,.025); border-radius: 9px; margin-bottom: 3px; font-size: 11.5px; }
+    .food-add-log-name { color: var(--text); font-weight: 600; flex: 1; }
+    .food-add-log-kcal { color: var(--muted); font-weight: 500; }
+
     /* ── Modal polish ── */
     .qs-modal-box {
       background: #FFFEFB; border-radius: 22px; padding: 28px;
@@ -1047,7 +1103,7 @@
           <span class="week-score-lbl">Week Score</span>
           <span id="dm-week-chart-label" style="font-size:10px;font-weight:600;text-transform:none;letter-spacing:0;"></span>
         </div>
-        <div id="dm-week-chart" style="border-radius:16px;overflow:hidden;background:linear-gradient(145deg,#0D1117 0%,#0A0F18 100%);padding:18px 16px 14px;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);"></div>
+        <div id="dm-week-chart" style="padding:4px 0 0;"></div>
       </div>
       <!-- Self Transcendence card [row2, col1] -->
       <div class="card dm-trans-card">
@@ -1155,57 +1211,61 @@
         </div>
         <div style="height:1px;background:rgba(0,0,0,.06);margin:0 0 14px;border-radius:1px;"></div>
 
-        <!-- Row A: 4 cols — Work time, Transcendence, Meditate, Energeťak -->
+        <!-- Row A: Work time | Transcendence | Meditate | Vonku -->
         <div class="dm-daily-r4">
-          <div class="dm-daily-item">
-            <div class="dm-daily-lbl">Work time</div>
-            <div class="dm-worktime-wrap">
-              <input type="number" id="qs-worktime" class="dm-num-input" min="0" max="24" step="0.5" placeholder="0"
-                oninput="dmSaveWorkTime(this.value)">
-              <span class="dm-unit">h</span>
+          <!-- Work time — orange -->
+          <div class="dm-daily-item dm-daily-item-h dm-daily-work">
+            <span class="dm-item-icon"><svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></span>
+            <span class="dm-item-name">Work time</span>
+            <div class="dm-item-ctrl">
+              <input type="number" id="qs-worktime" class="dm-num-input" min="0" max="24" step="0.5" placeholder="0" oninput="dmSaveWorkTime(this.value)" style="width:50px;font-size:15px;">
+              <span class="dm-unit" style="color:#F97316;font-weight:800">h</span>
             </div>
           </div>
-          <div class="dm-daily-item dm-check-item" id="qs-t-transcendence" onclick="qsToggle('transcendence')">
-            <div class="dm-daily-lbl">Transcendence</div>
-            <div class="dm-yn-check" id="dm-trans-yn">
-              <span class="dm-yn-n dm-yn-active">✕</span>
-            </div>
+          <!-- Transcendence — thick black border -->
+          <div class="dm-daily-item dm-daily-item-h dm-daily-thick dm-check-item" id="qs-t-transcendence" onclick="qsToggle('transcendence')">
+            <span class="dm-item-icon"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg></span>
+            <span class="dm-item-name">Trans.</span>
+            <div class="dm-item-ctrl" id="dm-trans-yn"><span class="dm-yn-n dm-yn-active">✕</span></div>
           </div>
-          <div class="dm-daily-item dm-check-item" id="qs-t-meditate" onclick="qsToggle('meditate')">
-            <div class="dm-daily-lbl">Meditate</div>
-            <div class="dm-yn-check" id="dm-med-yn">
-              <span class="dm-yn-n dm-yn-active">✕</span>
-            </div>
+          <!-- Meditate — thick black border -->
+          <div class="dm-daily-item dm-daily-item-h dm-daily-thick dm-check-item" id="qs-t-meditate" onclick="qsToggle('meditate')">
+            <span class="dm-item-icon"><svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="5" r="2"/><path d="M6 22v-3l6-3 6 3v3M5 12c0-2 3-4 7-4s7 2 7 4"/></svg></span>
+            <span class="dm-item-name">Meditate</span>
+            <div class="dm-item-ctrl" id="dm-med-yn"><span class="dm-yn-n dm-yn-active">✕</span></div>
           </div>
-          <div class="dm-daily-item dm-toggle-item qs-toggle" id="qs-t-energetak" onclick="qsToggle('energetak')" style="border:1px solid var(--border);padding:12px 10px;background:var(--bg);">
-            <div style="display:flex;flex-direction:column;align-items:center;gap:8px;width:100%;">
-              <div class="dm-daily-lbl">Energeťak</div>
-              <div class="qs-switch"></div>
-            </div>
+          <!-- Vonku — thick black border -->
+          <div class="dm-daily-item dm-daily-item-h dm-daily-thick dm-toggle-item qs-toggle" id="qs-t-outside" onclick="qsToggle('outside')">
+            <span class="dm-item-icon"><svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+            <span class="dm-item-name">Vonku</span>
+            <div class="dm-item-ctrl"><div class="qs-switch"></div></div>
           </div>
         </div>
 
-        <!-- Row B: 3 cols — Vitamín, Elektrolyty, Xanax -->
-        <div class="dm-daily-r3">
-          <div class="dm-daily-item">
-            <div class="dm-daily-lbl">Vitamín</div>
-            <div class="dose-btns" id="vit-dose-btns">
+        <!-- Row B: Vitamín (1fr) | Elektrolyty (1fr) | Xanax (2fr) -->
+        <div class="dm-daily-r3 dm-daily-rb">
+          <div class="dm-daily-item dm-daily-item-h">
+            <span class="dm-item-icon"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="3.5" y="10.5" width="9" height="5" rx="2.5" transform="rotate(-45 8 13)"/><line x1="13.5" y1="6.5" x2="6.5" y2="13.5"/></svg></span>
+            <span class="dm-item-name">Vit.</span>
+            <div class="dm-item-ctrl"><div class="dose-btns" id="vit-dose-btns">
               <button class="dose-btn" onclick="setVitDose(0)">0</button>
               <button class="dose-btn" onclick="setVitDose(10)">10</button>
               <button class="dose-btn" onclick="setVitDose(15)">15ml</button>
-            </div>
+            </div></div>
           </div>
-          <div class="dm-daily-item">
-            <div class="dm-daily-lbl">Elektrolyty</div>
-            <div class="dose-btns" id="elk-dose-btns">
+          <div class="dm-daily-item dm-daily-item-h">
+            <span class="dm-item-icon"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M12 2C8 2 5 5.6 5 10c0 5.4 7 12 7 12s7-6.6 7-12c0-4.4-3-8-7-8z"/></svg></span>
+            <span class="dm-item-name">Elk.</span>
+            <div class="dm-item-ctrl"><div class="dose-btns" id="elk-dose-btns">
               <button class="dose-btn" data-elkval="0" onclick="setElektrolyty(0)">0</button>
               <button class="dose-btn" data-elkval="0.5" onclick="setElektrolyty(0.5)">½</button>
               <button class="dose-btn" data-elkval="1" onclick="setElektrolyty(1)">1</button>
-            </div>
+            </div></div>
           </div>
-          <div class="dm-daily-item">
-            <div class="dm-daily-lbl">Xanax (mg)</div>
-            <div class="dose-btns dm-xanax-btns" id="xanax-dose-btns">
+          <div class="dm-daily-item dm-daily-item-h">
+            <span class="dm-item-icon"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="7" y="3" width="10" height="3" rx="1"/><rect x="5" y="6" width="14" height="15" rx="2"/><path d="M9 11h6M9 15h4"/></svg></span>
+            <span class="dm-item-name">Xanax</span>
+            <div class="dm-item-ctrl"><div class="dose-btns dm-xanax-btns" id="xanax-dose-btns">
               <button class="dose-btn" data-val="0" onclick="setXanax(0)">0</button>
               <button class="dose-btn" data-val="0.25" onclick="setXanax(0.25)">.25</button>
               <button class="dose-btn" data-val="0.5" onclick="setXanax(0.5)">.5</button>
@@ -1213,32 +1273,31 @@
               <button class="dose-btn" data-val="1" onclick="setXanax(1)">1</button>
               <button class="dose-btn" data-val="1.25" onclick="setXanax(1.25)">1.25</button>
               <button class="dose-btn" data-val="1.5" onclick="setXanax(1.5)">1.5</button>
-            </div>
+            </div></div>
           </div>
         </div>
 
-        <!-- Row C: 3 cols — Vonku, Cvičenie, Fap -->
+        <!-- Row C: Energetak | Cvičil som | Fap -->
         <div class="dm-daily-r3">
-          <div class="dm-daily-item dm-toggle-item qs-toggle" id="qs-t-outside" onclick="qsToggle('outside')" style="border:none;padding:0;background:none;">
-            <div>
-              <div class="dm-daily-lbl">Bol som vonku</div>
-              <div class="qs-switch" style="margin-top:8px;"></div>
-            </div>
+          <div class="dm-daily-item dm-daily-item-h dm-toggle-item qs-toggle" id="qs-t-energetak" onclick="qsToggle('energetak')">
+            <span class="dm-item-icon"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M13 2L4.5 13.5H11L10 22l9-12.5h-6.5z" fill="currentColor" stroke="none"/></svg></span>
+            <span class="dm-item-name">Energ.</span>
+            <div class="dm-item-ctrl"><div class="qs-switch"></div></div>
           </div>
-          <div class="dm-daily-item dm-toggle-item qs-toggle" id="qs-t-exercise" onclick="qsToggle('exercise')" style="border:none;padding:0;background:none;">
-            <div>
-              <div class="dm-daily-lbl">Cvičil som</div>
-              <div class="qs-switch" style="margin-top:8px;"></div>
-            </div>
+          <div class="dm-daily-item dm-daily-item-h dm-toggle-item qs-toggle" id="qs-t-exercise" onclick="qsToggle('exercise')">
+            <span class="dm-item-icon"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M6 4v5M18 4v5M3 8h4M17 8h4M9 8h6M8 8v8M16 8v8M6 15v5M18 15v5"/></svg></span>
+            <span class="dm-item-name">Cvičil</span>
+            <div class="dm-item-ctrl"><div class="qs-switch"></div></div>
           </div>
-          <div class="dm-daily-item">
-            <div class="dm-daily-lbl">Fap</div>
-            <div class="dose-btns" id="fap-dose-btns">
+          <div class="dm-daily-item dm-daily-item-h">
+            <span class="dm-item-icon"><svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="9"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></span>
+            <span class="dm-item-name">Fap</span>
+            <div class="dm-item-ctrl"><div class="dose-btns" id="fap-dose-btns">
               <button class="dose-btn" onclick="setFap(0)">0</button>
               <button class="dose-btn" onclick="setFap(1)">1x</button>
               <button class="dose-btn" onclick="setFap(2)">2x</button>
               <button class="dose-btn" onclick="setFap(3)">3x</button>
-            </div>
+            </div></div>
           </div>
         </div>
       </div>
@@ -1267,10 +1326,12 @@
 
           <!-- ADD KCAL VIEW -->
           <div id="dm-food-add" class="dm-food-view" style="display:none;">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
               <button class="dm-back-btn" onclick="dmHideFoodAdd()">← Späť</button>
               <span style="font-size:13px;font-weight:700;color:var(--text);">Pridať jedlo</span>
             </div>
+            <!-- Already eaten today -->
+            <div class="food-add-log" id="dm-food-add-log"></div>
             <div class="food-btn-grid" id="food-btn-grid"></div>
             <div class="food-manual-row">
               <input class="food-manual-input" id="food-manual-label" type="text" placeholder="Názov (voliteľné)">
@@ -1337,6 +1398,7 @@
       <div class="qs-modal-stats-area">
         <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px;">Mesačné štatistiky</div>
         <div class="qs-stat-grid" style="grid-template-columns:1fr 1fr;">
+          <div class="qs-stat qs-stat-work" style="grid-column:1/-1"><div class="qs-stat-val" id="qs-stat-worktime" style="color:#F97316;font-size:20px;">—</div><div class="qs-stat-lbl">⏱ Avg práca / deň</div></div>
           <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-sleep">—</div><div class="qs-stat-lbl">Avg spánok</div></div>
           <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-kcal">—</div><div class="qs-stat-lbl">Avg kcal</div></div>
           <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-prot">—</div><div class="qs-stat-lbl">Avg proteín</div></div>
@@ -1604,6 +1666,18 @@ function dmShowFoodAdd() {
   if(stats) stats.style.display='none';
   if(add) add.style.display='block';
   buildFoodBtns();
+  // Show what's been eaten today
+  const logEl = document.getElementById('dm-food-add-log');
+  if (logEl) {
+    const food = qsDayData().food || [];
+    if (food.length) {
+      const total = food.reduce((s,f) => s + (f.kcal||0)*(f.qty||1), 0);
+      logEl.innerHTML = `<div class="food-add-log-title">Dnes zjedené — ${total} kcal</div>` +
+        food.map(f => `<div class="food-add-log-item"><span class="food-add-log-name">${f.label||f.name||'?'}</span><span class="food-add-log-kcal">${Math.round((f.kcal||0)*(f.qty||1))} kcal</span></div>`).join('');
+    } else {
+      logEl.innerHTML = '';
+    }
+  }
 }
 function dmHideFoodAdd() {
   const stats=document.getElementById('dm-food-stats');
@@ -2685,7 +2759,7 @@ function renderQsStats() {
   } else {
     daysElapsed = 0;
   }
-  let vitC=0, outC=0, exC=0, elkC=0, nrgC=0, xanaxSum=0, xanaxDays=0, fapTotal=0, sleepC=0, sleepSum=0, kcalC=0, kcalSum=0, protSum=0, sleepGoodC=0, dwd=0;
+  let vitC=0, outC=0, exC=0, elkC=0, nrgC=0, xanaxSum=0, xanaxDays=0, fapTotal=0, sleepC=0, sleepSum=0, kcalC=0, kcalSum=0, protSum=0, sleepGoodC=0, dwd=0, wtSum=0, wtC=0;
   for (let d=1;d<=days;d++) {
     const dk = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const qs = STORE.days[dk]?.qs; if(!qs) continue; dwd++;
@@ -2695,10 +2769,13 @@ function renderQsStats() {
     fapTotal += (qs.fap||0);
     if (qs.sleepH)  { sleepSum+=parseFloat(qs.sleepH); sleepC++; if(parseFloat(qs.sleepH)>=7) sleepGoodC++; }
     if (qs.food?.length) { const m=qsMacros(qs); kcalSum+=m.kcal; protSum+=m.prot; kcalC++; }
+    if (qs.workTime) { wtSum += parseFloat(qs.workTime); wtC++; }
   }
   const avgSleep = sleepC ? (sleepSum/sleepC).toFixed(1)+'h' : '—';
   const avgKcal  = kcalC  ? Math.round(kcalSum/kcalC) : '—';
   const avgProt  = kcalC  ? Math.round(protSum/kcalC)+'g' : '—';
+  const avgWork  = wtC    ? (wtSum/wtC).toFixed(1)+'h' : '—';
+  const el_wt = document.getElementById('qs-stat-worktime'); if(el_wt) el_wt.textContent = avgWork;
   const base = daysElapsed || 1;
   document.getElementById('qs-stat-sleep').textContent   = avgSleep;
   document.getElementById('qs-stat-kcal').textContent    = avgKcal;
@@ -2758,7 +2835,7 @@ function renderQsWeek() {
   if (lbl) lbl.textContent = `${qsWeekStart.getDate()}. – ${end.getDate()}. ${end.toLocaleDateString('sk-SK',{month:'long',year:'numeric'})}`;
 
   // Weekly stats
-  let vitC=0,outC=0,exC=0,elkC=0,nrgC=0,slpSum=0,slpC=0,kcalSum=0,kcalC=0,fapSum=0,dwd=0;
+  let vitC=0,outC=0,exC=0,elkC=0,nrgC=0,slpSum=0,slpC=0,kcalSum=0,kcalC=0,fapSum=0,dwd=0,wkWtSum=0,wkWtC=0;
   for (let i=0;i<7;i++) {
     const d2=new Date(qsWeekStart); d2.setDate(d2.getDate()+i);
     const qs2=STORE.days[toDateKey(d2)]?.qs; if(!qs2) continue; dwd++;
@@ -2766,18 +2843,22 @@ function renderQsWeek() {
     if(qs2.sleepH) { slpSum+=parseFloat(qs2.sleepH); slpC++; }
     if(qs2.food?.length) { const m=qsMacros(qs2); kcalSum+=m.kcal; kcalC++; }
     fapSum += (qs2.fap||0);
+    if(qs2.workTime) { wkWtSum+=parseFloat(qs2.workTime); wkWtC++; }
   }
   const ws = document.getElementById('qs-week-stats'); if (!ws) return;
-  ws.innerHTML = [
-    ['😴', slpC?(slpSum/slpC).toFixed(1)+'h':'—','Avg spánok'],
-    ['🍽', kcalC?Math.round(kcalSum/kcalC)+'':'—','Avg kcal'],
-    ['💊', vitC+'/'+dwd,'Vitamín'],
-    ['💧', elkC+'/'+dwd,'Elektrolyty'],
-    ['🌿', outC+'/'+dwd,'Vonku'],
-    ['💪', exC+'/'+dwd,'Cvičenie'],
-    ['⚡', nrgC+'x','Energeťak'],
-    ['🍆', fapSum+'x','Fap'],
-  ].map(([e,v,l])=>`<div class="qs-stat"><div class="qs-stat-val" style="font-size:14px;">${e} ${v}</div><div class="qs-stat-lbl">${l}</div></div>`).join('');
+  const wkWtAvg = wkWtC ? (wkWtSum/wkWtC).toFixed(1)+'h' : '—';
+  ws.innerHTML =
+    `<div class="qs-stat qs-stat-work" style="grid-column:1/-1"><div class="qs-stat-val" style="font-size:18px;color:#F97316">⏱ ${wkWtAvg}</div><div class="qs-stat-lbl">Avg práca / deň</div></div>` +
+    [
+      ['😴', slpC?(slpSum/slpC).toFixed(1)+'h':'—','Avg spánok'],
+      ['🍽', kcalC?Math.round(kcalSum/kcalC)+'':'—','Avg kcal'],
+      ['💊', vitC+'/'+dwd,'Vitamín'],
+      ['💧', elkC+'/'+dwd,'Elektrolyty'],
+      ['🌿', outC+'/'+dwd,'Vonku'],
+      ['💪', exC+'/'+dwd,'Cvičenie'],
+      ['⚡', nrgC+'x','Energeťak'],
+      ['🍆', fapSum+'x','Fap'],
+    ].map(([e,v,l])=>`<div class="qs-stat"><div class="qs-stat-val" style="font-size:14px;">${e} ${v}</div><div class="qs-stat-lbl">${l}</div></div>`).join('');
 
   renderWeekChart();
 }
@@ -2827,21 +2908,35 @@ function renderWeekChart() {
   const linePath = smooth(svgPts);
   const areaPath = linePath + ` L ${svgPts[6].x} ${zeroY} L ${svgPts[0].x} ${zeroY} Z`;
 
+  // Work time line (yellow dashed)
+  const maxWT = 10;
+  const toYwt = h => PY + (1 - Math.min(h, maxWT) / maxWT) * (H - PY * 2);
+  const wtPts = [];
+  for (let i = 0; i < 7; i++) {
+    const d2 = new Date(qsWeekStart); d2.setDate(d2.getDate() + i);
+    const wt = STORE.days[toDateKey(d2)]?.qs?.workTime || 0;
+    wtPts.push({ x: toX(i), y: toYwt(wt) });
+  }
+  const wtLinePath = smooth(wtPts);
+
   const dots = pts.map((p, i) => {
     const x = toX(i), y = toY(scores[i]);
-    const color = p.hasData ? (scores[i] >= 0 ? '#F97316' : '#FF6B6B') : '#2D3748';
+    const isSelected = toDateKey((() => { const d=new Date(qsWeekStart); d.setDate(d.getDate()+i); return d; })()) === qsDay;
+    const color = p.hasData ? (scores[i] >= 0 ? '#FFFFFF' : '#FF6B6B') : '#2D3748';
     return p.hasData
-      ? `<circle cx="${x}" cy="${y}" r="10" fill="${color}" fill-opacity="0.12"/>
-         <circle cx="${x}" cy="${y}" r="5" fill="${color}" fill-opacity="0.6"/>
-         <circle cx="${x}" cy="${y}" r="3.5" fill="${color}" stroke="#0D1520" stroke-width="1.5"/>`
+      ? `<circle cx="${x}" cy="${y}" r="9" fill="${color}" fill-opacity="0.1"/>
+         <circle cx="${x}" cy="${y}" r="4.5" fill="${color}" fill-opacity="0.55"/>
+         <circle cx="${x}" cy="${y}" r="3" fill="${color}" stroke="#0D1117" stroke-width="1.5"/>`
       : `<circle cx="${x}" cy="${y}" r="2.5" fill="#2D3748"/>`;
   }).join('');
 
   const labels = pts.map((p, i) => {
+    const dk = toDateKey((() => { const d = new Date(qsWeekStart); d.setDate(d.getDate() + i); return d; })());
+    const isToday = dk === toDateKey(new Date());
+    const isSel = dk === qsDay;
     const x = toX(i);
-    const isToday = toDateKey(new Date()) === toDateKey((() => { const d = new Date(qsWeekStart); d.setDate(d.getDate() + i); return d; })());
-    return `<text x="${x}" y="${H + 6}" text-anchor="middle" font-size="9" font-weight="${isToday ? '800' : '600'}"
-      fill="${isToday ? '#F97316' : '#6B7280'}" font-family="DM Sans, system-ui">${p.label} ${p.day}</text>`;
+    return `<text x="${x}" y="${H + 6}" text-anchor="middle" font-size="9" font-weight="${(isToday||isSel) ? '800' : '600'}"
+      fill="${isSel ? '#F97316' : isToday ? '#fff' : '#6B7280'}" font-family="DM Sans, system-ui">${p.label} ${p.day}</text>`;
   }).join('');
 
   const yLabels = [-4, -2, 0, 2, 4].map(v => {
@@ -2854,23 +2949,20 @@ function renderWeekChart() {
   el.innerHTML = `<svg viewBox="0 0 ${W} ${H + 20}" width="100%" style="display:block;overflow:visible;">
     <defs>
       <linearGradient id="wk-grad-pos" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#F97316" stop-opacity="0.4"/>
-        <stop offset="60%" stop-color="#F97316" stop-opacity="0.1"/>
-        <stop offset="100%" stop-color="#F97316" stop-opacity="0"/>
+        <stop offset="0%" stop-color="#ffffff" stop-opacity="0.18"/>
+        <stop offset="60%" stop-color="#ffffff" stop-opacity="0.04"/>
+        <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
       </linearGradient>
       <filter id="wk-glow" x="-20%" y="-20%" width="140%" height="140%">
         <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
         <feComposite in="SourceGraphic" in2="blur" operator="over"/>
       </filter>
-      <filter id="dot-glow" x="-100%" y="-100%" width="300%" height="300%">
-        <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur"/>
-        <feComposite in="SourceGraphic" in2="blur" operator="over"/>
-      </filter>
     </defs>
     ${yLabels}
     <path d="${areaPath}" fill="url(#wk-grad-pos)"/>
-    <path d="${linePath}" fill="none" stroke="#F97316" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.35" filter="url(#wk-glow)"/>
-    <path d="${linePath}" fill="none" stroke="#F97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="${linePath}" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.25" filter="url(#wk-glow)"/>
+    <path d="${linePath}" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="${wtLinePath}" fill="none" stroke="#EAB308" stroke-width="1.5" stroke-dasharray="5,3" stroke-linecap="round" opacity="0.75"/>
     ${dots}
     ${labels}
   </svg>`;
