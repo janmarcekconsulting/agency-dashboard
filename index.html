@@ -7,39 +7,39 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg:        #F8FAFC;
+      --bg:        #EDE8DF;
       --surface:   #FFFFFF;
       --card:      #FFFFFF;
-      --card-temp: #F0F7FF;
-      --card-pitch:#FFFCF0;
-      --border:    #E2E8F0;
-      --border-med:#CBD5E1;
-      --text:      #0F172A;
-      --mid:       #475569;
-      --muted:     #94A3B8;
+      --card-temp: #FFFFF8;
+      --card-pitch:#FFFFF8;
+      --border:    #DDD8CF;
+      --border-med:#C8C1B6;
+      --text:      #1C1917;
+      --mid:       #57534E;
+      --muted:     #A8A29E;
       --signal:    #EF4444;
       --green:     #10B981;
-      --blue:      #3B82F6;
-      --blue-light:#EFF6FF;
-      --blue-bdr:  #BFDBFE;
-      --gold:      #F59E0B;
-      --gold-bg:   #FFFBEB;
-      --gold-bdr:  #FDE68A;
-      --task-bg:   #F8FAFC;
-      --task-hov:  #F0F4FF;
-      --task-done: #F8FAFC;
-      --shadow-sm: 0 1px 2px rgba(15,23,42,.03), 0 4px 16px rgba(15,23,42,.04);
-      --shadow-md: 0 8px 32px rgba(15,23,42,.10), 0 2px 8px rgba(15,23,42,.05);
-      --radius:    16px;
-      --radius-sm: 10px;
+      --blue:      #C9A84C;
+      --blue-light:#FEF9EC;
+      --blue-bdr:  #F0D97A;
+      --gold:      #C9A84C;
+      --gold-bg:   #FEF9EC;
+      --gold-bdr:  #F0D97A;
+      --task-bg:   #F5F1EB;
+      --task-hov:  #FEF9EC;
+      --task-done: #F5F1EB;
+      --shadow-sm: 0 1px 3px rgba(28,25,23,.06), 0 4px 20px rgba(28,25,23,.08);
+      --shadow-md: 0 8px 32px rgba(28,25,23,.12), 0 2px 8px rgba(28,25,23,.06);
+      --radius:    20px;
+      --radius-sm: 12px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; background: #FFFFFF; color: var(--text); min-height: 100vh; }
+    body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; background: #EDE8DF; color: var(--text); min-height: 100vh; }
 
     /* ── LOGIN ── */
     #login-screen {
       position: fixed; inset: 0;
-      background: linear-gradient(140deg, #0F172A 0%, #1E3A5F 50%, #0F172A 100%);
+      background: linear-gradient(140deg, #2A2215 0%, #1C1710 50%, #2A2215 100%);
       display: flex; align-items: center; justify-content: center; z-index: 9999;
     }
     .login-box {
@@ -47,23 +47,23 @@
       display: flex; flex-direction: column; align-items: center; gap: 20px;
       box-shadow: 0 32px 80px rgba(0,0,0,.3);
     }
-    .login-logo { color: var(--blue); font-size: 22px; font-weight: 800; letter-spacing: -.5px; }
+    .login-logo { color: var(--gold); font-size: 22px; font-weight: 800; letter-spacing: -.5px; }
     .login-input {
       width: 100%; padding: 13px 16px;
       border: 1.5px solid var(--border); border-radius: 12px;
-      background: var(--bg); color: var(--text);
+      background: #F5F1EB; color: var(--text);
       font-size: 16px; text-align: center; letter-spacing: 4px;
       outline: none; font-family: inherit; transition: all .2s;
     }
-    .login-input:focus { border-color: var(--blue); box-shadow: 0 0 0 4px rgba(59,130,246,.1); }
+    .login-input:focus { border-color: var(--gold); box-shadow: 0 0 0 4px rgba(201,168,76,.15); }
     .login-input.error { border-color: var(--signal); animation: shake .3s ease; }
     .login-btn {
-      width: 100%; padding: 13px; background: var(--blue); color: #fff;
+      width: 100%; padding: 13px; background: var(--gold); color: #fff;
       border: none; border-radius: 12px; font-size: 15px; font-weight: 700;
       cursor: pointer; transition: all .2s; font-family: inherit;
-      box-shadow: 0 4px 14px rgba(59,130,246,.35);
+      box-shadow: 0 4px 14px rgba(201,168,76,.35);
     }
-    .login-btn:hover { background: #2563EB; box-shadow: 0 4px 18px rgba(59,130,246,.45); }
+    .login-btn:hover { background: #B8962E; box-shadow: 0 4px 18px rgba(201,168,76,.45); }
     @keyframes shake {
       0%,100% { transform: translateX(0); }
       25% { transform: translateX(-8px); }
@@ -72,15 +72,7 @@
 
     /* ── HEADER ── */
     header {
-      background: rgba(255,255,255,.88);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 24px; height: 60px;
-      display: grid; grid-template-columns: auto 1fr auto;
-      align-items: center; gap: 16px;
-      position: sticky; top: 0; z-index: 100;
-      box-shadow: 0 1px 0 var(--border), 0 2px 12px rgba(15,23,42,.04);
+      display: none;
     }
     .logo {
       background: linear-gradient(135deg, #3B82F6, #6366F1);
@@ -106,7 +98,7 @@
       cursor: pointer; font-size: 15px; display: flex; align-items: center; justify-content: center;
       transition: all .18s; flex-shrink: 0;
     }
-    .day-arrow:hover { background: var(--blue-light); border-color: var(--blue-bdr); color: var(--blue); }
+    .day-arrow:hover { background: var(--blue-light); border-color: var(--blue-bdr); color: var(--gold); }
     .day-pill {
       padding: 5px 13px; border-radius: 8px; cursor: pointer;
       font-size: 12.5px; font-weight: 600; color: var(--muted);
@@ -114,11 +106,11 @@
       transition: all .18s; white-space: nowrap; font-family: inherit;
     }
     .day-pill:hover { color: var(--text); background: var(--bg); }
-    .day-pill.active { background: var(--blue-light); border-color: var(--blue-bdr); color: var(--blue); }
+    .day-pill.active { background: var(--blue-light); border-color: var(--blue-bdr); color: var(--gold); }
     .day-pill.today-marker { position: relative; }
     .day-pill.today-marker::after {
       content: ''; position: absolute; bottom: 3px; left: 50%; transform: translateX(-50%);
-      width: 4px; height: 4px; border-radius: 50%; background: var(--blue);
+      width: 4px; height: 4px; border-radius: 50%; background: var(--gold);
     }
 
     /* header right */
@@ -161,12 +153,12 @@
     #page-cal  { display: none;  }
 
     /* ══ NEW DASHBOARD LAYOUT ══ */
-    .dm-layout { padding: 16px 20px 32px; display: flex; flex-direction: column; gap: 14px; max-width: 1600px; margin: 0 auto; }
+    .dm-layout { padding: 20px 20px 40px; display: flex; flex-direction: column; gap: 14px; max-width: 1600px; margin: 0 auto; }
 
     /* ─ Top row: iOS widgets ─ */
     .dm-top-row { display: grid; grid-template-columns: 140px 120px 1fr 1fr; gap: 10px; }
     .dm-widget {
-      background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+      background: var(--card); border: 1px solid var(--border); border-radius: 20px;
       padding: 16px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; gap: 4px;
     }
     .dm-w-label {
@@ -176,29 +168,29 @@
     .dm-w-bignum {
       font-size: 36px; font-weight: 800; color: var(--text); letter-spacing: -2px; line-height: 1;
     }
-    .dm-w-daynum { color: var(--blue); }
+    .dm-w-daynum { color: var(--gold); }
     .dm-w-sublbl { font-size: 10.5px; color: var(--muted); font-weight: 600; }
     .dm-mini-bar-wrap { height: 4px; background: var(--border); border-radius: 4px; margin-top: 6px; overflow: hidden; }
-    .dm-mini-bar-fill { height: 100%; background: linear-gradient(90deg, #3B82F6, #6366F1); border-radius: 4px; transition: width .4s ease; width: 0%; }
+    .dm-mini-bar-fill { height: 100%; background: linear-gradient(90deg, var(--gold), #E8B84B); border-radius: 4px; transition: width .4s ease; width: 0%; }
     .dm-w-split { flex-direction: row; gap: 0; padding: 0; overflow: hidden; }
-    .dm-mf-left, .dm-mf-right { padding: 16px; flex: 1; display: flex; flex-direction: column; gap: 4px; }
+    .dm-mf-left, .dm-mf-right { padding: 16px; flex: 1; display: flex; flex-direction: column; gap: 4px; justify-content: center; }
     .dm-mf-divider { width: 1px; background: var(--border); align-self: stretch; }
     .dm-mf-stat-row { display: flex; align-items: baseline; gap: 5px; }
     .dm-mf-val { font-size: 18px; font-weight: 800; color: var(--text); letter-spacing: -.5px; }
     .dm-mf-lbl { font-size: 9.5px; color: var(--muted); font-weight: 600; }
     .dm-fashion-btn {
-      padding: 7px 12px; background: var(--blue); color: #fff; border: none; border-radius: 8px;
-      font-size: 11px; font-weight: 700; cursor: pointer; font-family: inherit;
-      transition: all .18s; margin-top: 6px;
+      padding: 9px 14px; background: var(--gold); color: #fff; border: none; border-radius: 10px;
+      font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit;
+      transition: all .18s;
     }
-    .dm-fashion-btn:hover { background: #2563EB; }
+    .dm-fashion-btn:hover { background: #B8962E; }
     .dm-day-pills { display: flex; gap: 4px; flex-wrap: wrap; }
     .dm-day-pill {
       padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600;
       background: var(--bg); border: 1px solid var(--border); color: var(--muted);
       cursor: pointer; transition: all .15s; font-family: inherit;
     }
-    .dm-day-pill.active { background: var(--blue-light); border-color: var(--blue-bdr); color: var(--blue); }
+    .dm-day-pill.active { background: var(--blue-light); border-color: var(--blue-bdr); color: var(--gold); }
 
     /* ─ Split rows ─ */
     .dm-row { display: grid; gap: 14px; }
@@ -221,13 +213,13 @@
     .dm-slide-title { font-size: 22px; font-weight: 800; color: var(--text); letter-spacing: -1px; line-height: 1.1; }
     .dm-slide-sub { font-size: 11px; color: var(--muted); font-weight: 600; margin-top: 6px; }
     .dm-slide-date { font-size: 10px; color: var(--muted); margin-top: 4px; }
-    .dm-slide-chapter { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--blue); }
+    .dm-slide-chapter { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--gold); }
     .dm-slide-h { font-size: 16px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
     .dm-slide-p { font-size: 12px; line-height: 1.6; color: var(--mid); margin-bottom: 8px; }
     .dm-slide-scroll { max-height: 220px; overflow-y: auto; padding-right: 4px; }
     .dm-beliefs { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 3px; }
     .dm-beliefs li { font-size: 11.5px; color: var(--mid); line-height: 1.4; padding: 4px 8px; background: var(--bg); border-radius: 6px; border: 1px solid var(--border); }
-    .dm-beliefs li::before { content: counter(li) '. '; counter-increment: li; color: var(--blue); font-weight: 700; font-size: 10px; }
+    .dm-beliefs li::before { content: counter(li) '. '; counter-increment: li; color: var(--gold); font-weight: 700; font-size: 10px; }
     .dm-beliefs { counter-reset: li; }
     .dm-slide-nav { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; }
     .dm-slide-btn {
@@ -236,11 +228,11 @@
       display: flex; align-items: center; justify-content: center; transition: all .15s;
       font-family: inherit;
     }
-    .dm-slide-btn:hover:not(:disabled) { background: var(--blue-light); border-color: var(--blue-bdr); color: var(--blue); }
+    .dm-slide-btn:hover:not(:disabled) { background: var(--blue-light); border-color: var(--blue-bdr); color: var(--gold); }
     .dm-slide-btn:disabled { opacity: .35; cursor: default; }
     .dm-slide-dots { display: flex; gap: 5px; align-items: center; }
     .dm-slide-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border); cursor: pointer; transition: all .2s; }
-    .dm-slide-dot.active { background: var(--blue); width: 16px; border-radius: 3px; }
+    .dm-slide-dot.active { background: var(--gold); width: 16px; border-radius: 3px; }
 
     /* ─ Sleep 3-col ─ */
     .dm-sleep-card { display: flex; flex-direction: column; }
@@ -252,7 +244,7 @@
     .dm-daily-r3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 10px; }
     .dm-daily-r4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 10px; }
     .dm-daily-item {
-      background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
+      background: var(--bg); border: 1px solid var(--border); border-radius: 14px;
       padding: 12px 10px; display: flex; flex-direction: column; align-items: center; gap: 8px;
     }
     .dm-daily-lbl { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .8px; color: var(--muted); text-align: center; }
@@ -263,7 +255,7 @@
       font-size: 18px; font-weight: 700; text-align: center; color: var(--text);
       background: var(--bg); font-family: inherit; outline: none; transition: all .18s;
     }
-    .dm-num-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,246,.09); }
+    .dm-num-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,.12); }
     .dm-worktime-wrap { display: flex; align-items: center; gap: 4px; }
     .dm-unit { font-size: 13px; font-weight: 700; color: var(--muted); }
     .dm-check-item { cursor: pointer; transition: all .18s; }
@@ -278,17 +270,17 @@
     .dm-food-outer { position: relative; }
     .dm-food-card { min-height: 300px; }
     .dm-add-kcal-btn {
-      padding: 8px 16px; background: var(--blue); color: #fff; border: none; border-radius: 10px;
+      padding: 8px 16px; background: var(--gold); color: #fff; border: none; border-radius: 10px;
       font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit;
-      transition: all .18s; box-shadow: 0 2px 8px rgba(59,130,246,.25);
+      transition: all .18s; box-shadow: 0 2px 8px rgba(201,168,76,.3);
     }
-    .dm-add-kcal-btn:hover { background: #2563EB; }
+    .dm-add-kcal-btn:hover { background: #B8962E; }
     .dm-back-btn {
       padding: 7px 14px; background: var(--bg); color: var(--mid); border: 1px solid var(--border);
       border-radius: 9px; font-size: 12px; font-weight: 700; cursor: pointer;
       font-family: inherit; transition: all .18s;
     }
-    .dm-back-btn:hover { border-color: var(--blue-bdr); color: var(--blue); background: var(--blue-light); }
+    .dm-back-btn:hover { border-color: var(--blue-bdr); color: var(--gold); background: var(--blue-light); }
 
     /* ── LAYOUT ── */
     main { padding: 16px 20px 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
@@ -343,7 +335,7 @@
 
     /* ── CARD ── */
     .card {
-      background: var(--card); border-radius: var(--radius); padding: 20px;
+      background: var(--card); border-radius: 20px; padding: 20px;
       border: 1px solid var(--border); box-shadow: var(--shadow-sm);
     }
     .card.temp-card  { background: var(--card-temp); border-color: #BFDBFE; }
@@ -356,7 +348,7 @@
       letter-spacing: 1.1px; color: var(--mid); margin-bottom: 16px;
       display: flex; align-items: center; gap: 8px;
       padding-left: 10px;
-      border-left: 3px solid var(--blue);
+      border-left: 3px solid var(--gold);
       border-radius: 1px;
     }
     .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--signal); flex-shrink: 0; }
@@ -405,19 +397,19 @@
     .btn { padding: 7px 14px; border-radius: 8px; border: none; cursor: pointer; font-size: 11.5px; font-weight: 700; transition: all .18s; white-space: nowrap; font-family: inherit; }
     .btn-dark { background: #fff; color: var(--mid); border: 1.5px solid var(--border-med); }
     .btn-dark:hover { background: var(--task-hov); border-color: var(--blue-bdr); color: var(--blue); }
-    .btn-gold { background: var(--blue); color: #fff; border: 1.5px solid var(--blue); box-shadow: 0 2px 8px rgba(59,130,246,.25); }
-    .btn-gold:hover { background: #2563EB; border-color: #2563EB; box-shadow: 0 2px 12px rgba(59,130,246,.35); }
+    .btn-gold { background: var(--gold); color: #fff; border: 1.5px solid var(--gold); box-shadow: 0 2px 8px rgba(201,168,76,.3); }
+    .btn-gold:hover { background: #B8962E; border-color: #B8962E; box-shadow: 0 2px 12px rgba(201,168,76,.4); }
     .btn-gold.ok, .btn-gold.copied { background: var(--green); border-color: var(--green); box-shadow: none; color: #fff; }
 
     /* ── PROGRESS ── */
     .progress-row {
-      margin-top: 14px; padding: 10px 14px; background: var(--blue-light);
+      margin-top: 14px; padding: 10px 14px; background: var(--gold-bg);
       border-radius: var(--radius-sm); display: flex; align-items: center;
-      gap: 10px; font-size: 11.5px; font-weight: 700; color: var(--blue);
-      border: 1px solid var(--blue-bdr);
+      gap: 10px; font-size: 11.5px; font-weight: 700; color: var(--gold);
+      border: 1px solid var(--gold-bdr);
     }
-    .pbar-wrap { flex: 1; height: 8px; background: rgba(59,130,246,.12); border-radius: 8px; overflow: hidden; }
-    .pbar-fill { height: 100%; background: linear-gradient(90deg, #3B82F6, #6366F1); border-radius: 8px; transition: width .45s cubic-bezier(.4,0,.2,1); }
+    .pbar-wrap { flex: 1; height: 8px; background: rgba(201,168,76,.12); border-radius: 8px; overflow: hidden; }
+    .pbar-fill { height: 100%; background: linear-gradient(90deg, var(--gold), #E8B84B); border-radius: 8px; transition: width .45s cubic-bezier(.4,0,.2,1); }
 
     /* ── PITCHES ── */
     .pitch-list { display: flex; flex-direction: column; gap: 6px; }
@@ -464,7 +456,7 @@
     .cal-month { font-size: 17px; font-weight: 800; color: var(--text); }
     .cal-nav { display: flex; gap: 6px; }
     .cal-nav-btn { background: var(--bg); border: 1px solid var(--border); color: var(--mid); width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 15px; display: flex; align-items: center; justify-content: center; transition: all .18s; }
-    .cal-nav-btn:hover { background: var(--blue-light); border-color: var(--blue-bdr); color: var(--blue); }
+    .cal-nav-btn:hover { background: var(--gold-bg); border-color: var(--gold-bdr); color: var(--gold); }
 
     .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
     .cal-dow { font-size: 10px; font-weight: 700; text-align: center; color: var(--muted); padding-bottom: 8px; text-transform: uppercase; letter-spacing: .8px; }
@@ -475,12 +467,12 @@
       cursor: pointer; transition: all .18s; padding: 9px 8px 8px; gap: 4px;
       background: var(--bg);
     }
-    .cal-day:hover { background: #F0F4FF; border-color: var(--blue-bdr); }
+    .cal-day:hover { background: var(--gold-bg); border-color: var(--gold-bdr); }
     .cal-day.empty { cursor: default; background: transparent; }
     .cal-day.empty:hover { background: transparent; border-color: transparent; }
     .cal-day.has-data { border-color: var(--border); background: #fff; box-shadow: var(--shadow-sm); }
-    .cal-day.is-today { border-color: var(--blue-bdr) !important; background: var(--blue-light) !important; }
-    .cal-day.is-viewing { background: var(--blue-light); border-color: var(--blue); }
+    .cal-day.is-today { border-color: var(--gold-bdr) !important; background: var(--gold-bg) !important; }
+    .cal-day.is-viewing { background: var(--gold-bg); border-color: var(--gold); }
 
     .cal-day-num { font-size: 15px; font-weight: 800; color: var(--muted); line-height: 1; }
     .cal-day.has-data .cal-day-num,
@@ -575,11 +567,11 @@
       border-radius: 10px; font-size: 14px; font-weight: 600; color: var(--text);
       background: var(--bg); font-family: inherit; outline: none; transition: all .18s;
     }
-    .sleep-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,246,.09); }
+    .sleep-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,.12); }
     .sleep-big {
       font-size: 40px; font-weight: 800; color: var(--text);
       text-align: center; letter-spacing: -2px; line-height: 1;
-      background: linear-gradient(135deg, #818CF8, #6366F1);
+      background: linear-gradient(135deg, #E8B84B, #C9A84C);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
 
@@ -590,7 +582,7 @@
       padding: 11px 14px; background: var(--bg); border: 1px solid var(--border);
       border-radius: 12px; cursor: pointer; transition: all .18s; user-select: none;
     }
-    .qs-toggle:hover { border-color: var(--blue-bdr); background: #EEF3FF; }
+    .qs-toggle:hover { border-color: var(--blue-bdr); background: var(--gold-bg); }
     .qs-toggle.on { border-color: #A7F3D0; background: #ECFDF5; }
     .qs-toggle-left { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--text); }
     .qs-toggle-emoji { font-size: 16px; line-height: 1; }
@@ -624,7 +616,7 @@
       cursor: pointer; font-family: inherit; transition: all .18s; white-space: nowrap;
     }
     .dose-btn:last-child { border-right: none; }
-    .dose-btn:hover { background: #EEF3FF; color: var(--blue); }
+    .dose-btn:hover { background: var(--gold-bg); color: var(--gold); }
     .dose-btn.dose-on { background: #10B981; color: #fff; border-right-color: #0D9E72; }
     .dose-btn.xanax-on { background: #8B5CF6; color: #fff; border-right-color: #7C3AED; }
 
@@ -635,7 +627,7 @@
       border-radius: 12px; padding: 13px 4px; position: relative; overflow: hidden;
     }
     .macro-box.kcal-box { background: #FFFBEB; border-color: #FCD34D; }
-    .macro-box.prot-box { background: #EFF6FF; border-color: var(--blue-bdr); }
+    .macro-box.prot-box { background: var(--gold-bg); border-color: var(--gold-bdr); }
     .macro-val { font-size: 20px; font-weight: 800; color: var(--text); letter-spacing: -.5px; line-height: 1; }
     .macro-lbl { font-size: 8.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
     .macro-goal { font-size: 9px; color: var(--muted); margin-top: 2px; }
@@ -647,7 +639,7 @@
       padding: 5px 11px; cursor: pointer; font-size: 11.5px; font-weight: 600;
       color: var(--mid); transition: all .18s; font-family: inherit;
     }
-    .food-btn:hover { border-color: var(--blue-bdr); background: var(--blue-light); color: var(--blue); }
+    .food-btn:hover { border-color: var(--gold-bdr); background: var(--gold-bg); color: var(--gold); }
 
     /* Food log */
     .food-log-list { display: flex; flex-direction: column; gap: 5px; }
@@ -666,20 +658,20 @@
       border-radius: 10px; font-size: 12px; font-family: inherit; color: var(--text);
       background: var(--bg); outline: none; transition: all .18s;
     }
-    .food-manual-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,246,.08); }
+    .food-manual-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,.1); }
     .food-manual-kcal {
       width: 76px; padding: 8px 10px; border: 1px solid var(--border);
       border-radius: 10px; font-size: 12px; font-family: inherit; color: var(--text);
       background: var(--bg); outline: none; transition: all .18s;
     }
-    .food-manual-kcal:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,246,.08); }
+    .food-manual-kcal:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,.1); }
     .food-manual-btn {
-      padding: 8px 14px; background: var(--blue); color: #fff; border: none;
+      padding: 8px 14px; background: var(--gold); color: #fff; border: none;
       border-radius: 10px; font-size: 12px; font-weight: 700; cursor: pointer;
       font-family: inherit; white-space: nowrap; transition: all .18s;
-      box-shadow: 0 2px 6px rgba(59,130,246,.2);
+      box-shadow: 0 2px 6px rgba(201,168,76,.25);
     }
-    .food-manual-btn:hover { background: #2563EB; }
+    .food-manual-btn:hover { background: #B8962E; }
     .fqty-btn {
       background: var(--border); border: none; border-radius: 5px;
       width: 21px; height: 21px; cursor: pointer; font-size: 14px;
@@ -732,12 +724,12 @@
       border: 1px solid var(--border); cursor: pointer; transition: all .18s;
       background: var(--bg);
     }
-    .qs-wday:hover { border-color: var(--blue-bdr); background: #EEF3FF; }
-    .qs-wday.qs-wsel { border-color: var(--blue); background: var(--blue-light); box-shadow: 0 0 0 3px rgba(59,130,246,.1); }
-    .qs-wday.qs-wtoday { border-color: var(--blue-bdr); }
+    .qs-wday:hover { border-color: var(--gold-bdr); background: var(--gold-bg); }
+    .qs-wday.qs-wsel { border-color: var(--gold); background: var(--gold-bg); box-shadow: 0 0 0 3px rgba(201,168,76,.15); }
+    .qs-wday.qs-wtoday { border-color: var(--gold-bdr); }
     .qs-wday-name { font-size: 8px; font-weight: 800; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); }
     .qs-wday-num  { font-size: 16px; font-weight: 800; color: var(--text); margin: 3px 0 2px; }
-    .qs-wday-sleep{ font-size: 9px; color: #6366F1; font-weight: 700; margin-bottom: 3px; min-height: 13px; }
+    .qs-wday-sleep{ font-size: 9px; color: var(--gold); font-weight: 700; margin-bottom: 3px; min-height: 13px; }
     .qs-wday-dots { display: flex; justify-content: center; gap: 2px; }
     .qs-wday-xanax{ font-size: 8px; color: #7C3AED; font-weight: 700; margin-top: 3px; }
     .qs-wday-tags { display: flex; flex-direction: column; gap: 2px; margin-top: 3px; align-items: center; }
@@ -760,11 +752,11 @@
     .btn-open-month {
       width: 100%; padding: 13px; background: var(--surface);
       border: 1px solid var(--border); border-radius: 13px;
-      font-size: 13px; font-weight: 700; color: var(--blue);
+      font-size: 13px; font-weight: 700; color: var(--gold);
       cursor: pointer; font-family: inherit; transition: all .18s;
       display: flex; align-items: center; justify-content: center; gap: 8px;
     }
-    .btn-open-month:hover { background: var(--blue-light); border-color: var(--blue-bdr); }
+    .btn-open-month:hover { background: var(--gold-bg); border-color: var(--gold-bdr); }
 
     /* Monthly modal */
     .qs-modal-overlay {
@@ -794,11 +786,11 @@
       border: 2px solid var(--border); border-radius: 11px; padding: 8px 9px;
       min-height: 110px; cursor: pointer; transition: all .18s; background: var(--bg);
     }
-    .qs-mday:hover { border-color: var(--blue-bdr); background: #EEF3FF; }
-    .qs-mday.qs-msel { border-color: var(--blue); background: var(--blue-light); }
+    .qs-mday:hover { border-color: var(--gold-bdr); background: var(--gold-bg); }
+    .qs-mday.qs-msel { border-color: var(--gold); background: var(--gold-bg); }
     .qs-mday.qs-mempty { border-color: transparent; background: transparent; cursor: default; min-height: unset; }
     .qs-mday-num   { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-    .qs-mday-sleep { font-size: 11px; font-weight: 700; color: #6366F1; }
+    .qs-mday-sleep { font-size: 11px; font-weight: 700; color: var(--gold); }
     .qs-mday-kcal  { font-size: 10px; color: var(--mid); margin-top: 2px; }
     .qs-mday-dots  { display: flex; gap: 3px; margin-top: 5px; }
     .qs-mday-xanax { font-size: 8.5px; color: #7C3AED; font-weight: 700; margin-top: 3px; }
@@ -865,52 +857,37 @@
   <div class="dm-top-row">
 
     <!-- Widget: Dashboard -->
-    <div class="dm-widget dm-w-sm">
-      <div class="dm-w-label">Dashboard</div>
-      <div class="dm-w-bignum" id="dm-ws1-done">0<span style="font-size:16px;font-weight:600;color:var(--muted)">/4</span></div>
-      <div class="dm-w-sublbl">WS1 hotovo</div>
-      <div class="dm-mini-bar-wrap"><div class="dm-mini-bar-fill" id="dm-ws1-bar"></div></div>
+    <div class="dm-widget dm-w-sm" style="justify-content:center;">
+      <div style="font-size:22px;font-weight:800;color:var(--text);letter-spacing:-.5px;">Dashboard</div>
     </div>
 
     <!-- Widget: Day -->
-    <div class="dm-widget dm-w-sm">
-      <div class="dm-w-label" id="dm-day-month-lbl">Apríl</div>
-      <div class="dm-w-bignum dm-w-daynum" id="dm-day-num-lbl">18</div>
-      <div class="dm-w-sublbl" id="dm-day-dow-lbl">piatok</div>
+    <div class="dm-widget dm-w-sm" style="justify-content:center;">
+      <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);" id="dm-day-month-lbl">Apríl</div>
+      <div style="font-size:28px;font-weight:800;color:var(--gold);letter-spacing:-1px;line-height:1;" id="dm-day-num-lbl">18</div>
+      <div style="font-size:10px;font-weight:600;color:var(--muted);" id="dm-day-dow-lbl">piatok</div>
     </div>
 
     <!-- Widget: Prepinač -->
-    <div class="dm-widget dm-w-md">
+    <div class="dm-widget dm-w-md" style="justify-content:center;">
       <div class="dm-w-label">Prepinač</div>
-      <div id="day-nav" class="day-nav" style="justify-content:center;">
+      <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-top:4px;">
         <button class="day-arrow" onclick="shiftView(-1)">‹</button>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;flex:1;" id="dm-day-pills"></div>
         <button class="day-arrow" onclick="shiftView(1)">›</button>
       </div>
-      <div style="display:flex;gap:4px;justify-content:center;margin-top:6px;" id="dm-day-pills"></div>
     </div>
 
     <!-- Widget: Monthly + Fashion (split) -->
     <div class="dm-widget dm-w-lg dm-w-split">
       <div class="dm-mf-left">
         <div class="dm-w-label">Monthly Stats</div>
-        <div class="dm-mf-stat-row">
-          <span class="dm-mf-val" id="dm-mo-sleep">—</span>
-          <span class="dm-mf-lbl">spánok</span>
-        </div>
-        <div class="dm-mf-stat-row">
-          <span class="dm-mf-val" id="dm-mo-kcal">—</span>
-          <span class="dm-mf-lbl">kcal avg</span>
-        </div>
-        <div class="dm-mf-stat-row">
-          <span class="dm-mf-val" id="dm-mo-exout">—</span>
-          <span class="dm-mf-lbl">vonku / cvič.</span>
-        </div>
+        <button class="dm-fashion-btn" onclick="openQsMonthModal()" style="margin-top:8px;">Monthly Stats →</button>
       </div>
       <div class="dm-mf-divider"></div>
       <div class="dm-mf-right">
         <div class="dm-w-label">Fashion Daily</div>
-        <button class="dm-fashion-btn" onclick="window.open('https://janmarcekconsulting.github.io/fashion-daily/','_blank')">fashion-daily →</button>
-        <button class="dm-fashion-btn" style="margin-top:6px;background:var(--bg);color:var(--mid);border-color:var(--border);" onclick="openQsMonthModal()">Mesačný prehľad</button>
+        <button class="dm-fashion-btn" onclick="window.open('https://janmarcekconsulting.github.io/fashion-daily/','_blank')" style="margin-top:8px;">fashion-daily →</button>
       </div>
     </div>
   </div>
@@ -918,33 +895,13 @@
   <!-- ─── ROW 2: Vision (25%) + Monthly Stats (75%) ─── -->
   <div class="dm-row dm-r25-75">
     <div class="dm-col">
-      <div class="card dm-vision-card">
-        <img src="images/page5-vision.png" alt="Vision" class="dm-vision-img">
+      <div class="card" style="padding:0;overflow:hidden;border-radius:20px;height:100%;">
+        <img src="images/page5-vision.png" alt="Vision" style="width:100%;height:100%;object-fit:cover;display:block;min-height:180px;max-height:320px;">
       </div>
     </div>
     <div class="dm-col">
-      <div class="card">
-        <div class="card-title" style="justify-content:space-between;">
-          <span><span class="dot" style="background:#6366F1"></span>Monthly Stats</span>
-          <span id="dm-month-label" style="font-size:10px;font-weight:600;color:var(--muted);text-transform:none;letter-spacing:0;"></span>
-        </div>
-        <div class="qs-stat-grid" style="grid-template-columns:repeat(3,1fr);gap:8px;">
-          <div class="qs-stat"><div class="qs-stat-val" id="dm-stat-sleep">—</div><div class="qs-stat-lbl">Avg spánok</div></div>
-          <div class="qs-stat"><div class="qs-stat-val" id="dm-stat-kcal">—</div><div class="qs-stat-lbl">Avg kcal</div></div>
-          <div class="qs-stat"><div class="qs-stat-val" id="dm-stat-prot">—</div><div class="qs-stat-lbl">Avg proteín</div></div>
-          <div class="qs-stat"><div class="qs-stat-val" id="dm-stat-vitamin">0/0</div><div class="qs-stat-lbl">Vitamín</div></div>
-          <div class="qs-stat"><div class="qs-stat-val" id="dm-stat-elektrolyty">0/0</div><div class="qs-stat-lbl">Elektrolyty</div></div>
-          <div class="qs-stat"><div class="qs-stat-val" id="dm-stat-outside">0/0</div><div class="qs-stat-lbl">Vonku</div></div>
-          <div class="qs-stat"><div class="qs-stat-val" id="dm-stat-exercise">0/0</div><div class="qs-stat-lbl">Cvičenie</div></div>
-          <div class="qs-stat"><div class="qs-stat-val" id="dm-stat-xanax">0mg</div><div class="qs-stat-lbl">Xanax avg</div></div>
-          <div class="qs-stat"><div class="qs-stat-val" id="dm-stat-fap">0x</div><div class="qs-stat-lbl">Fap total</div></div>
-        </div>
-        <div class="qs-bar-group" style="margin-top:12px;">
-          <div class="qs-bar-row"><span class="qs-bar-lbl">Vitamín</span><div class="qs-bar-track"><div class="qs-bar-fill" id="dm-bar-vitamin" style="width:0%;background:#10B981"></div></div><span class="qs-bar-pct" id="dm-pct-vitamin">0%</span></div>
-          <div class="qs-bar-row"><span class="qs-bar-lbl">Vonku</span><div class="qs-bar-track"><div class="qs-bar-fill" id="dm-bar-outside" style="width:0%;background:#3B82F6"></div></div><span class="qs-bar-pct" id="dm-pct-outside">0%</span></div>
-          <div class="qs-bar-row"><span class="qs-bar-lbl">Cvičenie</span><div class="qs-bar-track"><div class="qs-bar-fill" id="dm-bar-exercise" style="width:0%;background:#F59E0B"></div></div><span class="qs-bar-pct" id="dm-pct-exercise">0%</span></div>
-          <div class="qs-bar-row"><span class="qs-bar-lbl">Spánok 7h+</span><div class="qs-bar-track"><div class="qs-bar-fill" id="dm-bar-sleep" style="width:0%;background:#818CF8"></div></div><span class="qs-bar-pct" id="dm-pct-sleep">0%</span></div>
-        </div>
+      <div class="card" style="display:flex;align-items:center;justify-content:center;min-height:180px;">
+        <button onclick="openQsMonthModal()" style="padding:16px 32px;background:var(--gold);color:#fff;border:none;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;font-family:inherit;letter-spacing:-.3px;box-shadow:0 4px 20px rgba(201,168,76,.35);transition:all .18s;" onmouseover="this.style.background='#B8962E'" onmouseout="this.style.background='var(--gold)'">Monthly Stats →</button>
       </div>
     </div>
   </div>
@@ -953,38 +910,45 @@
   <div class="dm-row dm-r25-75">
     <div class="dm-col">
       <div class="card dm-trans-card">
-        <div class="card-title"><span class="dot" style="background:#6366F1"></span>Self Transcendence</div>
+        <div class="card-title"><span class="dot" style="background:var(--gold)"></span>Self Transcendence</div>
         <div class="dm-slides-wrap">
-          <!-- Slide 0 -->
+          <!-- Slide 0: Title -->
           <div class="dm-slide dm-slide-active">
-            <img src="images/page1-cover.png" alt="Cover" class="dm-slide-img">
-          </div>
-          <!-- Slide 1 -->
-          <div class="dm-slide">
             <div class="dm-slide-cover">
               <div class="dm-slide-label">Ján Marček</div>
               <div class="dm-slide-title">Self<br>Transcendence</div>
-              <div class="dm-slide-sub">Workbook v1.1</div>
-              <div class="dm-slide-date">19th March 2026</div>
+              <div class="dm-slide-sub">Workbook 1.2</div>
+              <div class="dm-slide-date">28 April 2026</div>
             </div>
           </div>
-          <!-- Slide 2: Beliefs -->
+          <!-- Slide 1: Beliefs -->
           <div class="dm-slide dm-slide-scroll">
             <div class="dm-slide-chapter">Chapter I</div>
             <div class="dm-slide-h">My Beliefs</div>
             <ol class="dm-beliefs">
-              <li>I am disciplined.</li><li>I am worthy of earning bigger money.</li><li>I am very intelligent.</li><li>I am young and I can change.</li><li>I have a lot of energy to change.</li><li>I deserve a better life.</li><li>I am a winner.</li><li>I have good luck.</li><li>My willpower is strong.</li><li>I am beautiful.</li><li>I am strong.</li><li>I am strong-minded.</li><li>I love myself.</li><li>I can achieve anything.</li><li>Cold calling is easy.</li><li>Having a business is chill.</li><li>People trust service offers.</li><li>Businesses need my help.</li>
+              <li>I am disciplined.</li><li>I am worthy of earning bigger money.</li><li>I am very intelligent.</li><li>I am young and I can change.</li><li>I have a lot of energy to change.</li><li>I deserve a better life.</li><li>I am a winner.</li><li>I have good luck.</li><li>My willpower is strong.</li><li>I am beautiful.</li><li>I am strong.</li><li>I am strong-minded.</li><li>I love myself.</li><li>I can achieve anything.</li><li>Having a business is chill.</li><li>People trust service offers.</li><li>Businesses need my help.</li>
             </ol>
           </div>
-          <!-- Slide 3: Vision -->
-          <div class="dm-slide">
-            <img src="images/page5-vision.png" alt="Vision" class="dm-slide-img">
+          <!-- Slide 2: Next Chapters -->
+          <div class="dm-slide dm-slide-scroll">
+            <div class="dm-slide-chapter">Next Chapters</div>
+            <div class="dm-slide-h">The Journey</div>
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <div style="display:flex;align-items:center;gap:6px;padding:5px 8px;background:var(--bg);border-radius:8px;border:1px solid var(--border);font-size:11px;color:var(--mid);font-weight:600;">↓ Became healthy and confident</div>
+              <div style="display:flex;align-items:center;gap:6px;padding:5px 8px;background:var(--bg);border-radius:8px;border:1px solid var(--border);font-size:11px;color:var(--mid);font-weight:600;">↓ Got shredded body</div>
+              <div style="display:flex;align-items:center;gap:6px;padding:5px 8px;background:var(--bg);border-radius:8px;border:1px solid var(--border);font-size:11px;color:var(--mid);font-weight:600;">↓ Built agency to 5K/month</div>
+              <div style="display:flex;align-items:center;gap:6px;padding:5px 8px;background:var(--bg);border-radius:8px;border:1px solid var(--border);font-size:11px;color:var(--mid);font-weight:600;">↓ Fixed teeth</div>
+              <div style="display:flex;align-items:center;gap:6px;padding:5px 8px;background:var(--bg);border-radius:8px;border:1px solid var(--border);font-size:11px;color:var(--mid);font-weight:600;">↓ Built agency to 10K/month</div>
+              <div style="display:flex;align-items:center;gap:6px;padding:5px 8px;background:var(--bg);border-radius:8px;border:1px solid var(--border);font-size:11px;color:var(--mid);font-weight:600;">↓ Got driving licence</div>
+              <div style="display:flex;align-items:center;gap:6px;padding:5px 8px;background:var(--bg);border-radius:8px;border:1px solid var(--border);font-size:11px;color:var(--mid);font-weight:600;">↓ Bought first car</div>
+              <div style="display:flex;align-items:center;gap:6px;padding:5px 8px;background:var(--bg);border-radius:8px;border:1px solid var(--border);font-size:11px;color:var(--mid);font-weight:600;">↓ Went on a trip with car</div>
+              <div style="display:flex;align-items:center;gap:6px;padding:5px 8px;background:var(--bg);border-radius:8px;border:1px solid var(--border);font-size:11px;color:var(--mid);font-weight:600;">↓ Moved to better rent</div>
+              <div style="display:flex;align-items:center;gap:6px;padding:5px 8px;background:var(--bg);border-radius:8px;border:1px solid var(--border);font-size:11px;color:var(--mid);font-weight:600;">↓ Built agency to 25K/month</div>
+              <div style="display:flex;align-items:center;gap:6px;padding:5px 8px;background:var(--bg);border-radius:8px;border:1px solid var(--border);font-size:11px;color:var(--mid);font-weight:600;">↓ Bought flat in Zelené Vlčince</div>
+              <div style="display:flex;align-items:center;gap:6px;padding:5px 8px;background:var(--gold-bg);border-radius:8px;border:1px solid var(--gold-bdr);font-size:11px;color:var(--gold);font-weight:700;">↓ ?</div>
+            </div>
           </div>
-          <!-- Slide 4: Chapters -->
-          <div class="dm-slide">
-            <img src="images/page6-chapters.png" alt="Chapters" class="dm-slide-img">
-          </div>
-          <!-- Slide 5: Story -->
+          <!-- Slide 3: Story -->
           <div class="dm-slide dm-slide-scroll">
             <div class="dm-slide-chapter">Chapter II</div>
             <div class="dm-slide-h">The Story of Hnxty</div>
@@ -1016,89 +980,28 @@
     </div>
   </div>
 
-  <!-- ─── ROW 4: Todo (60%) + Sleep (40%) ─── -->
-  <div class="dm-row dm-r60-40">
-    <div class="dm-col" style="display:flex;flex-direction:column;gap:14px;">
-
-      <!-- WS1 -->
-      <div class="card">
-        <div class="card-title"><span class="dot"></span>Work Sheet 1</div>
-        <div class="task-item" id="t-email" onclick="toggle('t-email')"><div class="task-check"></div><span class="task-label">Email send</span><span class="count-pill">400</span></div>
-        <div class="task-item" id="t-email-fu" onclick="toggle('t-email-fu')"><div class="task-check"></div><span class="task-label">Email followup</span></div>
-        <div class="task-item" id="t-jmc-fu" onclick="toggle('t-jmc-fu')"><div class="task-check"></div><span class="task-label">Ján Marček Consulting followups</span></div>
-        <div class="task-item" id="t-contact" onclick="toggle('t-contact')"><div class="task-check"></div><span class="task-label">Contact finding</span><span class="count-pill">30 min</span></div>
-        <div class="progress-row">
-          <span id="ag-txt">0 / 4</span>
-          <div class="pbar-wrap"><div class="pbar-fill" id="ag-bar" style="width:0%"></div></div>
-        </div>
+  <!-- ─── ROW 4: Sleep (full width via 3-col) ─── -->
+  <div class="card dm-sleep-card">
+    <div class="card-title"><span class="dot" style="background:#818CF8"></span>Spánok</div>
+    <div class="dm-sleep-3col">
+      <div class="dm-sleep-item">
+        <div class="dm-sleep-lbl">Hodiny spánku</div>
+        <div class="sleep-big" id="qs-sleep-display">—</div>
+        <input type="number" class="sleep-input" id="qs-sleep-h" min="0" max="16" step="0.5" placeholder="7.5"
+          oninput="qsSaveField('sleepH',this.value);document.getElementById('qs-sleep-display').textContent=this.value?this.value+'h':'—'">
       </div>
-
-      <!-- WS2 -->
-      <div class="card">
-        <div class="card-title"><span class="dot" style="background:#3b82f6"></span>Work Sheet 2</div>
-        <div class="task-item" id="t-read" onclick="toggle('t-read')"><div class="task-check"></div><span class="task-label">Read Transcendence</span></div>
-        <div class="task-item" id="t-ceo" onclick="toggle('t-ceo')"><div class="task-check"></div><span class="task-label">LinkedIn CEO connects</span><span class="count-pill">15</span></div>
-        <div class="sub-row" style="flex-wrap:wrap;gap:6px;">
-          <input class="page-input" type="text" id="ceo-url-input" placeholder="Vlož LinkedIn URL…" style="flex:1;min-width:180px;font-size:11px;" oninput="saveCeoUrl(this.value)">
-          <button class="btn btn-dark" onclick="openCeoUrl()">Otvoriť</button>
-          <button class="btn btn-gold" onclick="copyCeoUrl()">Kopírovať URL</button>
-          <button class="btn btn-gold" id="cp-ceo" onclick="doCopy('ceo-connect','cp-ceo')">Kopírovať pitch</button>
-        </div>
-        <div class="progress-row">
-          <span id="cl-txt">0 / 2</span>
-          <div class="pbar-wrap"><div class="pbar-fill" id="cl-bar" style="width:0%"></div></div>
-        </div>
-        <div style="height:1px;background:var(--border);margin:12px 0 10px;"></div>
-        <div style="font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;padding:4px 0 6px;opacity:.7;">Voliteľné</div>
-        <div class="task-item" id="t-tiktok" onclick="toggle('t-tiktok')"><div class="task-check"></div><span class="task-label" style="color:var(--mid)">TikTok Clothing Brand — video</span></div>
-        <div class="sub-row"><button class="btn btn-gold" onclick="window.open('https://janmarcekconsulting.github.io/fashion-daily/','_blank')">Otvoriť fashion-daily</button></div>
-        <div class="task-item" id="t-li-post" onclick="toggle('t-li-post')"><div class="task-check"></div><span class="task-label" style="color:var(--mid)">LinkedIn Post — vytvoriť</span></div>
-        <div class="sub-row"><button class="btn btn-gold" id="cp-li" onclick="doCopy('linkedin-prompt','cp-li')">Kopírovať prompt pre Claude</button></div>
-        <div class="task-item" id="t-blog" onclick="toggle('t-blog')"><div class="task-check"></div><span class="task-label" style="color:var(--mid)">Blog post Získaj Dopyt</span></div>
+      <div class="dm-sleep-item">
+        <div class="dm-sleep-lbl">Zaspal</div>
+        <input type="time" class="sleep-input" id="qs-bedtime" onchange="qsSaveField('bedtime',this.value)">
       </div>
-
-      <!-- Dočasné úlohy -->
-      <div class="card temp-card">
-        <div class="card-title"><span class="dot" style="background:#3b82f6"></span>Dočasné úlohy</div>
-        <div class="temp-add-row">
-          <input class="temp-input" id="temp-input" type="text" placeholder="Pridať úlohu..." onkeydown="if(event.key==='Enter')addTemp()">
-          <button class="btn-add" onclick="addTemp()">+</button>
-        </div>
-        <div class="temp-list" id="temp-list"></div>
-      </div>
-
-      <!-- Pitches -->
-      <div class="card pitch-card">
-        <div class="card-title"><span class="dot" style="background:var(--gold)"></span>Pitche &amp; Prompty</div>
-        <div class="pitch-list" id="pitch-list"></div>
+      <div class="dm-sleep-item">
+        <div class="dm-sleep-lbl">Zobudil sa</div>
+        <input type="time" class="sleep-input" id="qs-waketime" onchange="qsSaveField('wakeTime',this.value)">
       </div>
     </div>
-
-    <!-- SLEEP column -->
-    <div class="dm-col">
-      <div class="card dm-sleep-card">
-        <div class="card-title"><span class="dot" style="background:#818CF8"></span>Spánok</div>
-        <div class="dm-sleep-3col">
-          <div class="dm-sleep-item">
-            <div class="dm-sleep-lbl">Hodiny spánku</div>
-            <div class="sleep-big" id="qs-sleep-display">—</div>
-            <input type="number" class="sleep-input" id="qs-sleep-h" min="0" max="16" step="0.5" placeholder="7.5"
-              oninput="qsSaveField('sleepH',this.value);document.getElementById('qs-sleep-display').textContent=this.value?this.value+'h':'—'">
-          </div>
-          <div class="dm-sleep-item">
-            <div class="dm-sleep-lbl">Zaspal</div>
-            <input type="time" class="sleep-input" id="qs-bedtime" onchange="qsSaveField('bedtime',this.value)">
-          </div>
-          <div class="dm-sleep-item">
-            <div class="dm-sleep-lbl">Zobudil sa</div>
-            <input type="time" class="sleep-input" id="qs-waketime" onchange="qsSaveField('wakeTime',this.value)">
-          </div>
-        </div>
-        <div class="qs-toggle" id="qs-t-nightAwake" onclick="qsToggle('nightAwake')" style="margin-top:12px;">
-          <div class="qs-toggle-left">Zobudil som sa v noci</div>
-          <div class="qs-switch"></div>
-        </div>
-      </div>
+    <div class="qs-toggle" id="qs-t-nightAwake" onclick="qsToggle('nightAwake')" style="margin-top:12px;max-width:320px;">
+      <div class="qs-toggle-left">Zobudil som sa v noci</div>
+      <div class="qs-switch"></div>
     </div>
   </div>
 
@@ -1110,8 +1013,8 @@
       <div class="card">
         <div class="card-title"><span class="dot" style="background:#10B981"></span>Daily</div>
 
-        <!-- Row A: 3 cols — Work time, Transcendence, Meditate -->
-        <div class="dm-daily-r3">
+        <!-- Row A: 4 cols — Work time, Transcendence, Meditate, Energeťak -->
+        <div class="dm-daily-r4">
           <div class="dm-daily-item">
             <div class="dm-daily-lbl">Work time</div>
             <div class="dm-worktime-wrap">
@@ -1132,10 +1035,16 @@
               <span class="dm-yn-n dm-yn-active">✕</span>
             </div>
           </div>
+          <div class="dm-daily-item dm-toggle-item qs-toggle" id="qs-t-energetak" onclick="qsToggle('energetak')" style="border:1px solid var(--border);padding:12px 10px;background:var(--bg);">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:8px;width:100%;">
+              <div class="dm-daily-lbl">Energeťak</div>
+              <div class="qs-switch"></div>
+            </div>
+          </div>
         </div>
 
-        <!-- Row B: 4 cols — Vitamín, Elektrolyty, Xanax, Energeťak -->
-        <div class="dm-daily-r4">
+        <!-- Row B: 3 cols — Vitamín, Elektrolyty, Xanax -->
+        <div class="dm-daily-r3">
           <div class="dm-daily-item">
             <div class="dm-daily-lbl">Vitamín</div>
             <div class="dose-btns" id="vit-dose-btns">
@@ -1162,12 +1071,6 @@
               <button class="dose-btn" data-val="1" onclick="setXanax(1)">1</button>
               <button class="dose-btn" data-val="1.25" onclick="setXanax(1.25)">1.25</button>
               <button class="dose-btn" data-val="1.5" onclick="setXanax(1.5)">1.5</button>
-            </div>
-          </div>
-          <div class="dm-daily-item dm-toggle-item qs-toggle" id="qs-t-energetak" onclick="qsToggle('energetak')" style="border:none;padding:0;background:none;">
-            <div>
-              <div class="dm-daily-lbl">Energeťak</div>
-              <div class="qs-switch" style="margin-top:8px;"></div>
             </div>
           </div>
         </div>
@@ -1304,7 +1207,7 @@
         <div class="qs-bar-group" style="margin-top:16px;">
           <div class="qs-bar-row"><span class="qs-bar-lbl">💊 Vitamín</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-vitamin" style="width:0%;background:#10B981"></div></div><span class="qs-bar-pct" id="qs-pct-vitamin">0%</span></div>
           <div class="qs-bar-row"><span class="qs-bar-lbl">💧 Elektrolyty</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-elektrolyty" style="width:0%;background:#06B6D4"></div></div><span class="qs-bar-pct" id="qs-pct-elektrolyty">0%</span></div>
-          <div class="qs-bar-row"><span class="qs-bar-lbl">🌿 Vonku</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-outside" style="width:0%;background:#3B82F6"></div></div><span class="qs-bar-pct" id="qs-pct-outside">0%</span></div>
+          <div class="qs-bar-row"><span class="qs-bar-lbl">🌿 Vonku</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-outside" style="width:0%;background:#3B82F6"></div></div><span class="qs-bar-pct" id="qs-pct-outside">0%</span></div><!-- bar color intentionally blue for contrast -->
           <div class="qs-bar-row"><span class="qs-bar-lbl">💪 Cvičenie</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-exercise" style="width:0%;background:#F59E0B"></div></div><span class="qs-bar-pct" id="qs-pct-exercise">0%</span></div>
           <div class="qs-bar-row"><span class="qs-bar-lbl">😴 Spánok 7h+</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-sleep" style="width:0%;background:#818CF8"></div></div><span class="qs-bar-pct" id="qs-pct-sleep">0%</span></div>
           <div class="qs-bar-row"><span class="qs-bar-lbl">⚡ Energeťak</span><div class="qs-bar-track"><div class="qs-bar-fill" id="qs-bar-energetak" style="width:0%;background:#EAB308"></div></div><span class="qs-bar-pct" id="qs-pct-energetak">0%</span></div>
@@ -2018,10 +1921,10 @@ function updateProgress() {
   const d  = dayData(viewDate);
   const ad = AGENCY.filter(id => d.tasks[id]).length;
   const cd = CLIENT.filter(id => d.tasks[id]).length;
-  document.getElementById('ag-txt').textContent = `${ad} / ${AGENCY.length}`;
-  document.getElementById('ag-bar').style.width  = `${ad / AGENCY.length * 100}%`;
-  document.getElementById('cl-txt').textContent = `${cd} / ${CLIENT.length}`;
-  document.getElementById('cl-bar').style.width  = `${cd / CLIENT.length * 100}%`;
+  const agTxt=document.getElementById('ag-txt'); if(agTxt)agTxt.textContent=`${ad} / ${AGENCY.length}`;
+  const agBar=document.getElementById('ag-bar'); if(agBar)agBar.style.width=`${ad/AGENCY.length*100}%`;
+  const clTxt=document.getElementById('cl-txt'); if(clTxt)clTxt.textContent=`${cd} / ${CLIENT.length}`;
+  const clBar=document.getElementById('cl-bar'); if(clBar)clBar.style.width=`${cd/CLIENT.length*100}%`;
   // top widget
   const wsEl = document.getElementById('dm-ws1-done');
   if (wsEl) wsEl.innerHTML = `${ad}<span style="font-size:16px;font-weight:600;color:var(--muted)">/${AGENCY.length}</span>`;
