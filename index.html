@@ -844,10 +844,13 @@
     }
     .qs-wday:hover { background: rgba(249,115,22,.18); border-color: rgba(249,115,22,.35); }
     .qs-wday.qs-wsel { background: #F97316; box-shadow: 0 4px 16px rgba(249,115,22,.5), inset 0 1px 0 rgba(255,255,255,.4); border-color: transparent; }
-    .qs-wday.qs-wtoday { background: rgba(249,115,22,.22); border-color: rgba(249,115,22,.3); }
+    .qs-wday.qs-wtoday { background: #F97316; box-shadow: 0 4px 16px rgba(249,115,22,.5); border-color: transparent; }
+    .qs-wday.qs-wtoday .qs-wday-name,
+    .qs-wday.qs-wtoday .qs-wday-num,
+    .qs-wday.qs-wtoday .qs-wday-sleep { color: #fff !important; }
     .qs-wday.qs-wsel .qs-wday-name,
     .qs-wday.qs-wsel .qs-wday-num,
-    .qs-wday.qs-wsel .qs-wday-sleep { color: #1C1C1E !important; }
+    .qs-wday.qs-wsel .qs-wday-sleep { color: #fff !important; }
     .qs-wday-name { font-size: 8px; font-weight: 800; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); }
     .qs-wday-num  { font-size: 16px; font-weight: 800; color: var(--text); margin: 3px 0 2px; }
     .qs-wday-sleep{ font-size: 9px; color: var(--gold); font-weight: 700; margin-bottom: 3px; min-height: 13px; }
@@ -1218,7 +1221,7 @@
             <span class="dm-item-icon"><svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></span>
             <span class="dm-item-name">Work time</span>
             <div class="dm-item-ctrl">
-              <input type="number" id="qs-worktime" class="dm-num-input" min="0" max="24" step="0.5" placeholder="0" oninput="dmSaveWorkTime(this.value)" style="width:50px;font-size:15px;">
+              <input type="number" id="qs-worktime" class="dm-num-input" min="0" max="24" step="0.5" placeholder="0" oninput="dmSaveWorkTime(this.value)" style="width:72px;font-size:15px;">
               <span class="dm-unit" style="color:#F97316;font-weight:800">h</span>
             </div>
           </div>
@@ -2759,7 +2762,7 @@ function renderQsStats() {
   } else {
     daysElapsed = 0;
   }
-  let vitC=0, outC=0, exC=0, elkC=0, nrgC=0, xanaxSum=0, xanaxDays=0, fapTotal=0, sleepC=0, sleepSum=0, kcalC=0, kcalSum=0, protSum=0, sleepGoodC=0, dwd=0, wtSum=0, wtC=0;
+  let vitC=0, outC=0, exC=0, elkC=0, nrgC=0, xanaxSum=0, xanaxDays=0, fapTotal=0, sleepC=0, sleepSum=0, kcalC=0, kcalSum=0, protSum=0, sleepGoodC=0, dwd=0, wtSum=0;
   for (let d=1;d<=days;d++) {
     const dk = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const qs = STORE.days[dk]?.qs; if(!qs) continue; dwd++;
@@ -2769,12 +2772,12 @@ function renderQsStats() {
     fapTotal += (qs.fap||0);
     if (qs.sleepH)  { sleepSum+=parseFloat(qs.sleepH); sleepC++; if(parseFloat(qs.sleepH)>=7) sleepGoodC++; }
     if (qs.food?.length) { const m=qsMacros(qs); kcalSum+=m.kcal; protSum+=m.prot; kcalC++; }
-    if (qs.workTime) { wtSum += parseFloat(qs.workTime); wtC++; }
+    if (qs.workTime) { wtSum += parseFloat(qs.workTime); }
   }
   const avgSleep = sleepC ? (sleepSum/sleepC).toFixed(1)+'h' : '—';
   const avgKcal  = kcalC  ? Math.round(kcalSum/kcalC) : '—';
   const avgProt  = kcalC  ? Math.round(protSum/kcalC)+'g' : '—';
-  const avgWork  = wtC    ? (wtSum/wtC).toFixed(1)+'h' : '—';
+  const avgWork  = daysElapsed > 0 ? (wtSum/daysElapsed).toFixed(1)+'h' : '—';
   const el_wt = document.getElementById('qs-stat-worktime'); if(el_wt) el_wt.textContent = avgWork;
   const base = daysElapsed || 1;
   document.getElementById('qs-stat-sleep').textContent   = avgSleep;
@@ -2835,7 +2838,7 @@ function renderQsWeek() {
   if (lbl) lbl.textContent = `${qsWeekStart.getDate()}. – ${end.getDate()}. ${end.toLocaleDateString('sk-SK',{month:'long',year:'numeric'})}`;
 
   // Weekly stats
-  let vitC=0,outC=0,exC=0,elkC=0,nrgC=0,slpSum=0,slpC=0,kcalSum=0,kcalC=0,fapSum=0,dwd=0,wkWtSum=0,wkWtC=0;
+  let vitC=0,outC=0,exC=0,elkC=0,nrgC=0,slpSum=0,slpC=0,kcalSum=0,kcalC=0,fapSum=0,dwd=0,wkWtSum=0;
   for (let i=0;i<7;i++) {
     const d2=new Date(qsWeekStart); d2.setDate(d2.getDate()+i);
     const qs2=STORE.days[toDateKey(d2)]?.qs; if(!qs2) continue; dwd++;
@@ -2843,10 +2846,10 @@ function renderQsWeek() {
     if(qs2.sleepH) { slpSum+=parseFloat(qs2.sleepH); slpC++; }
     if(qs2.food?.length) { const m=qsMacros(qs2); kcalSum+=m.kcal; kcalC++; }
     fapSum += (qs2.fap||0);
-    if(qs2.workTime) { wkWtSum+=parseFloat(qs2.workTime); wkWtC++; }
+    if(qs2.workTime) { wkWtSum+=parseFloat(qs2.workTime); }
   }
   const ws = document.getElementById('qs-week-stats'); if (!ws) return;
-  const wkWtAvg = wkWtC ? (wkWtSum/wkWtC).toFixed(1)+'h' : '—';
+  const wkWtAvg = (wkWtSum/7).toFixed(1)+'h';
   ws.innerHTML =
     `<div class="qs-stat qs-stat-work" style="grid-column:1/-1"><div class="qs-stat-val" style="font-size:18px;color:#F97316">⏱ ${wkWtAvg}</div><div class="qs-stat-lbl">Avg práca / deň</div></div>` +
     [
