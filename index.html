@@ -304,7 +304,7 @@
 
     /* ─ Transcendence slides ─ */
     .dm-trans-card { display: flex; flex-direction: column; }
-    .dm-slides-wrap { flex: 1; position: relative; min-height: 220px; overflow: hidden; }
+    .dm-slides-wrap { flex: 1; position: relative; min-height: 280px; overflow: visible; }
     .dm-slide { display: none; flex-direction: column; gap: 8px; }
     .dm-slide-active { display: flex; }
     .dm-slide-img { width: 100%; border-radius: 10px; object-fit: cover; max-height: 200px; }
@@ -316,7 +316,7 @@
     .dm-slide-chapter { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--gold); }
     .dm-slide-h { font-size: 16px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
     .dm-slide-p { font-size: 12px; line-height: 1.6; color: var(--mid); margin-bottom: 8px; }
-    .dm-slide-scroll { max-height: 220px; overflow-y: auto; padding-right: 4px; }
+    .dm-slide-scroll { max-height: 340px; overflow-y: auto; padding-right: 4px; }
     .dm-beliefs { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 3px; }
     .dm-beliefs li { font-size: 11.5px; color: var(--mid); line-height: 1.4; padding: 5px 10px; background: rgba(0,0,0,.025); border-radius: 10px; border: 1px solid rgba(0,0,0,.04); box-shadow: inset 0 1px 0 rgba(255,255,255,.5); }
     .dm-beliefs li::before { content: counter(li) '. '; counter-increment: li; color: #F97316; font-weight: 800; font-size: 10px; }
@@ -373,7 +373,7 @@
 
     /* ─ Food panel ─ */
     .dm-food-outer { position: relative; height: 100%; }
-    .dm-food-card { min-height: 300px; overflow: hidden; }
+    .dm-food-card { min-height: 380px; overflow: hidden; }
     .dm-food-views { position: relative; flex: 1; overflow: hidden; }
     .dm-food-view { position: absolute; inset: 0; overflow-y: auto; padding-bottom: 4px; }
     .dm-food-view::-webkit-scrollbar { width: 4px; }
@@ -1321,10 +1321,9 @@
               <div class="macro-box kcal-box"><div class="macro-val" id="qs-kcal">0</div><div class="macro-lbl">kcal</div></div>
               <div class="macro-box prot-box"><div class="macro-val" id="qs-prot">0g</div><div class="macro-lbl">Proteín</div><div class="macro-goal" id="qs-prot-goal">/ 100g</div></div>
               <div class="macro-box"><div class="macro-val" id="qs-carbs">0g</div><div class="macro-lbl">Sacharidy</div></div>
-              <div class="macro-box"><div class="macro-val" id="qs-fat">0g</div><div class="macro-lbl">Tuky</div></div>
             </div>
-            <div class="food-log-list" id="qs-food-log"></div>
             <div class="vit-grid" id="qs-vit-grid"></div>
+            <div id="qs-fat" style="display:none">0g</div>
           </div>
 
           <!-- ADD KCAL VIEW -->
@@ -1334,7 +1333,7 @@
               <span style="font-size:13px;font-weight:700;color:var(--text);">Pridať jedlo</span>
             </div>
             <!-- Already eaten today -->
-            <div class="food-add-log" id="dm-food-add-log"></div>
+            <div class="food-log-list" id="qs-food-log-add"></div>
             <div class="food-btn-grid" id="food-btn-grid"></div>
             <div class="food-manual-row">
               <input class="food-manual-input" id="food-manual-label" type="text" placeholder="Názov (voliteľné)">
@@ -1669,18 +1668,6 @@ function dmShowFoodAdd() {
   if(stats) stats.style.display='none';
   if(add) add.style.display='block';
   buildFoodBtns();
-  // Show what's been eaten today
-  const logEl = document.getElementById('dm-food-add-log');
-  if (logEl) {
-    const food = qsDayData().food || [];
-    if (food.length) {
-      const total = food.reduce((s,f) => s + (f.kcal||0)*(f.qty||1), 0);
-      logEl.innerHTML = `<div class="food-add-log-title">Dnes zjedené — ${total} kcal</div>` +
-        food.map(f => `<div class="food-add-log-item"><span class="food-add-log-name">${f.label||f.name||'?'}</span><span class="food-add-log-kcal">${Math.round((f.kcal||0)*(f.qty||1))} kcal</span></div>`).join('');
-    } else {
-      logEl.innerHTML = '';
-    }
-  }
 }
 function dmHideFoodAdd() {
   const stats=document.getElementById('dm-food-stats');
@@ -2584,7 +2571,8 @@ function renderQsDay() {
   const pg = document.getElementById('qs-prot-goal');
   if (pg) { pg.textContent = `/ 100g`; pg.style.color = m.prot>=100?'#10B981':m.prot>=60?'#F59E0B':'var(--muted)'; }
 
-  const log = document.getElementById('qs-food-log'); log.innerHTML = '';
+  const log = document.getElementById('qs-food-log-add');
+  if (log) { log.innerHTML = '';
   (q.food||[]).forEach((item,i) => {
     const div = document.createElement('div'); div.className = 'food-log-item';
     if (item.id === '__manual__') {
@@ -2608,7 +2596,7 @@ function renderQsDay() {
         </div>`;
     }
     log.appendChild(div);
-  });
+  }); }
   renderQsVit(q);
   dmRenderDailyChecks();
 }
@@ -2964,8 +2952,8 @@ function renderWeekChart() {
     ${yLabels}
     <path d="${areaPath}" fill="url(#wk-grad-pos)"/>
     <path d="${linePath}" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.25" filter="url(#wk-glow)"/>
-    <path d="${linePath}" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="${wtLinePath}" fill="none" stroke="#EAB308" stroke-width="1.5" stroke-dasharray="5,3" stroke-linecap="round" opacity="0.75"/>
+    <path d="${linePath}" fill="none" stroke="#ffffff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="${wtLinePath}" fill="none" stroke="#F97316" stroke-width="1.5" stroke-dasharray="5,3" stroke-linecap="round" opacity="0.85"/>
     ${dots}
     ${labels}
   </svg>`;
