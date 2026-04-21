@@ -373,7 +373,7 @@
 
     /* ─ Food panel ─ */
     .dm-food-outer { position: relative; height: 100%; }
-    .dm-food-card { min-height: 380px; overflow: hidden; }
+    .dm-food-card { min-height: 400px; overflow: hidden; }
     .dm-food-views { position: relative; flex: 1; overflow: hidden; }
     .dm-food-view { position: absolute; inset: 0; overflow-y: auto; padding-bottom: 4px; }
     .dm-food-view::-webkit-scrollbar { width: 4px; }
@@ -1332,9 +1332,9 @@
               <button class="dm-back-btn" onclick="dmHideFoodAdd()">← Späť</button>
               <span style="font-size:13px;font-weight:700;color:var(--text);">Pridať jedlo</span>
             </div>
-            <!-- Already eaten today -->
-            <div class="food-log-list" id="qs-food-log-add"></div>
             <div class="food-btn-grid" id="food-btn-grid"></div>
+            <!-- Already eaten today -->
+            <div class="food-log-list" id="qs-food-log-add" style="margin-top:10px;"></div>
             <div class="food-manual-row">
               <input class="food-manual-input" id="food-manual-label" type="text" placeholder="Názov (voliteľné)">
               <input class="food-manual-kcal" id="food-manual-kcal" type="number" placeholder="kcal" min="1" onkeydown="if(event.key==='Enter')qsAddManual()">
