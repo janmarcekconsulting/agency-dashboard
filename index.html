@@ -304,7 +304,7 @@
 
     /* ─ Transcendence slides ─ */
     .dm-trans-card { display: flex; flex-direction: column; }
-    .dm-slides-wrap { flex: 1; position: relative; min-height: 280px; overflow: visible; }
+    .dm-slides-wrap { flex: 1; position: relative; min-height: 300px; height: 300px; overflow: hidden; }
     .dm-slide { display: none; flex-direction: column; gap: 8px; }
     .dm-slide-active { display: flex; }
     .dm-slide-img { width: 100%; border-radius: 10px; object-fit: cover; max-height: 200px; }
@@ -373,7 +373,7 @@
 
     /* ─ Food panel ─ */
     .dm-food-outer { position: relative; height: 100%; }
-    .dm-food-card { min-height: 475px; overflow: hidden; }
+    .dm-food-card { min-height: 425px; overflow: hidden; }
     .dm-food-views { position: relative; flex: 1; overflow: hidden; }
     .dm-food-view { position: absolute; inset: 0; overflow-y: auto; padding-bottom: 4px; }
     .dm-food-view::-webkit-scrollbar { width: 4px; }
@@ -2650,13 +2650,16 @@ function dayScore(qs) {
   if (qs.outside)                                    s++; // vonku
   if (qs.exercise)                                   s++; // cvičenie
   if (qs.sleepH && parseFloat(qs.sleepH) >= 7)      s++; // spánok 7h+
-  if (qs.food?.length && qsMacros(qs).kcal <= 2500) s++; // kcal do 2500
+  if (qs.food?.length && qsMacros(qs).kcal <= 2700) s++; // kcal do 2700
+  if (qs.workTime && parseFloat(qs.workTime) >= 4)  s++; // práca 4h+
+  if (!qs.energetak)                                 s++; // bez energeťaka
+  if (qs.transcendence)                              s++; // transcendencia
+  if (qs.meditate)                                   s++; // meditácia
   if (qs.sleepH && parseFloat(qs.sleepH) < 7)       s--; // spánok pod 7h
   if ((qs.xanax || 0) > 0.5)                        s--; // xanax > 0.5mg
   if (!qs.outside)                                   s--; // nebol vonku
   if (!qs.exercise)                                  s--; // necvičil
-  if ((qs.fap || 0) > 1)                            s--; // fap > 1x
-  if (qs.energetak)                                  s--; // energetak
+  if ((qs.fap || 0) > 2)                            s--; // fap > 2x
   return s;
 }
 
@@ -2837,7 +2840,10 @@ function renderQsWeek() {
     if(qs2.workTime) { wkWtSum+=parseFloat(qs2.workTime); }
   }
   const ws = document.getElementById('qs-week-stats'); if (!ws) return;
-  const wkWtAvg = (wkWtSum/7).toFixed(1)+'h';
+  const _tod = new Date(); const _wEnd = new Date(qsWeekStart); _wEnd.setDate(_wEnd.getDate()+6);
+  const _isThisWk = _tod >= qsWeekStart && _tod <= _wEnd;
+  const _isoDay = _isThisWk ? ((_tod.getDay()+6)%7 + 1) : 7;
+  const wkWtAvg = (wkWtSum/_isoDay).toFixed(1)+'h';
   ws.innerHTML =
     `<div class="qs-stat qs-stat-work" style="grid-column:1/-1"><div class="qs-stat-val" style="font-size:18px;color:#F97316">⏱ ${wkWtAvg}</div><div class="qs-stat-lbl">Avg práca / deň</div></div>` +
     [
