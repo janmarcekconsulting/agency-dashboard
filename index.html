@@ -2964,6 +2964,8 @@ function renderWeekChart() {
     <path d="${wtLinePath}" fill="none" stroke="#F97316" stroke-width="1.5" stroke-dasharray="5,3" stroke-linecap="round" opacity="0.85"/>
     ${dots}
     ${labels}
+    <path d="${wtLinePath}" fill="none" stroke="transparent" stroke-width="14" stroke-linecap="round" onmouseenter="showChartTip(event,'Work')" onmouseleave="hideChartTip()" style="cursor:default"/>
+    <path d="${linePath}" fill="none" stroke="transparent" stroke-width="14" stroke-linecap="round" onmouseenter="showChartTip(event,'Ranking')" onmouseleave="hideChartTip()" style="cursor:default"/>
   </svg>`;
 }
 
@@ -3066,6 +3068,29 @@ async function init() {
   dmRenderDailyChecks();
 }
 init();
+
+function showChartTip(e, label) {
+  let tip = document.getElementById('chart-tip');
+  if (!tip) {
+    tip = document.createElement('div'); tip.id = 'chart-tip';
+    tip.style.cssText = 'position:fixed;pointer-events:none;background:rgba(15,20,30,.92);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:8px;white-space:nowrap;z-index:9999;transition:opacity .1s;letter-spacing:.3px;border:1px solid rgba(255,255,255,.12);';
+    document.body.appendChild(tip);
+  }
+  tip.textContent = label;
+  tip.style.opacity = '1';
+  tip.style.left = (e.clientX + 12) + 'px';
+  tip.style.top  = (e.clientY - 28) + 'px';
+  document.addEventListener('mousemove', _moveChartTip);
+}
+function _moveChartTip(e) {
+  const tip = document.getElementById('chart-tip'); if (!tip) return;
+  tip.style.left = (e.clientX + 12) + 'px';
+  tip.style.top  = (e.clientY - 28) + 'px';
+}
+function hideChartTip() {
+  const tip = document.getElementById('chart-tip'); if (tip) tip.style.opacity = '0';
+  document.removeEventListener('mousemove', _moveChartTip);
+}
 </script>
 </body>
 </html>
