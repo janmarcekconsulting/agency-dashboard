@@ -373,7 +373,7 @@
 
     /* ─ Food panel ─ */
     .dm-food-outer { position: relative; height: 100%; }
-    .dm-food-card { min-height: 400px; overflow: hidden; }
+    .dm-food-card { min-height: 475px; overflow: hidden; }
     .dm-food-views { position: relative; flex: 1; overflow: hidden; }
     .dm-food-view { position: absolute; inset: 0; overflow-y: auto; padding-bottom: 4px; }
     .dm-food-view::-webkit-scrollbar { width: 4px; }
@@ -1321,9 +1321,9 @@
               <div class="macro-box kcal-box"><div class="macro-val" id="qs-kcal">0</div><div class="macro-lbl">kcal</div></div>
               <div class="macro-box prot-box"><div class="macro-val" id="qs-prot">0g</div><div class="macro-lbl">Proteín</div><div class="macro-goal" id="qs-prot-goal">/ 100g</div></div>
               <div class="macro-box"><div class="macro-val" id="qs-carbs">0g</div><div class="macro-lbl">Sacharidy</div></div>
+              <div class="macro-box"><div class="macro-val" id="qs-fat">0g</div><div class="macro-lbl">Tuky</div></div>
             </div>
             <div class="vit-grid" id="qs-vit-grid"></div>
-            <div id="qs-fat" style="display:none">0g</div>
           </div>
 
           <!-- ADD KCAL VIEW -->
@@ -2913,7 +2913,9 @@ function renderWeekChart() {
   const dots = pts.map((p, i) => {
     const x = toX(i), y = toY(scores[i]);
     const isSelected = toDateKey((() => { const d=new Date(qsWeekStart); d.setDate(d.getDate()+i); return d; })()) === qsDay;
-    const color = p.hasData ? (scores[i] >= 0 ? '#FFFFFF' : '#FF6B6B') : '#2D3748';
+    const dk2 = toDateKey((() => { const d=new Date(qsWeekStart); d.setDate(d.getDate()+i); return d; })());
+    const isToday2 = dk2 === toDateKey(new Date());
+    const color = p.hasData ? (isToday2 ? '#F97316' : '#FFFFFF') : '#2D3748';
     return p.hasData
       ? `<circle cx="${x}" cy="${y}" r="9" fill="${color}" fill-opacity="0.1"/>
          <circle cx="${x}" cy="${y}" r="4.5" fill="${color}" fill-opacity="0.55"/>
