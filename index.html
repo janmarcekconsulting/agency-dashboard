@@ -1403,7 +1403,8 @@
       <div class="qs-modal-stats-area">
         <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px;">Mesačné štatistiky</div>
         <div class="qs-stat-grid" style="grid-template-columns:1fr 1fr;">
-          <div class="qs-stat qs-stat-work" style="grid-column:1/-1"><div class="qs-stat-val" id="qs-stat-worktime" style="color:#F97316;font-size:20px;">—</div><div class="qs-stat-lbl">⏱ Avg práca / deň</div></div>
+          <div class="qs-stat qs-stat-work"><div class="qs-stat-val" id="qs-stat-worktime" style="color:#F97316;font-size:20px;">—</div><div class="qs-stat-lbl">⏱ Avg práca / deň</div></div>
+          <div class="qs-stat qs-stat-work"><div class="qs-stat-val" id="qs-stat-worktotal" style="color:#F97316;font-size:20px;">—</div><div class="qs-stat-lbl">⏱ Celkom hodín</div></div>
           <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-sleep">—</div><div class="qs-stat-lbl">Avg spánok</div></div>
           <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-kcal">—</div><div class="qs-stat-lbl">Avg kcal</div></div>
           <div class="qs-stat"><div class="qs-stat-val" id="qs-stat-prot">—</div><div class="qs-stat-lbl">Avg proteín</div></div>
@@ -2773,6 +2774,7 @@ function renderQsStats() {
   const avgProt  = kcalC  ? Math.round(protSum/kcalC)+'g' : '—';
   const avgWork  = daysElapsed > 0 ? (wtSum/daysElapsed).toFixed(1)+'h' : '—';
   const el_wt = document.getElementById('qs-stat-worktime'); if(el_wt) el_wt.textContent = avgWork;
+  const el_wtt = document.getElementById('qs-stat-worktotal'); if(el_wtt) el_wtt.textContent = wtSum > 0 ? wtSum.toFixed(1)+'h' : '—';
   const base = daysElapsed || 1;
   document.getElementById('qs-stat-sleep').textContent   = avgSleep;
   document.getElementById('qs-stat-kcal').textContent    = avgKcal;
